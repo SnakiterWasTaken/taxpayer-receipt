@@ -4,6 +4,10 @@ See [ROADMAP.md](ROADMAP.md) for national accounting transparency, validated tax
 
 An open-source, privacy-respecting, source-verifiable **public spending explorer**. The default view highlights the three largest spending functions; each official category has keyboard-, mouse- and touch-accessible plain-language examples. Country-specific decisions and agencies are reserved for evidence-linked national explanations. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **source-audited 2024–2026 employee estimator with optional full-year household tax reliefs**; other countries remain manual-only.
 
+## New: Czech 2024 state-budget chapter actuals
+
+When Czechia and spending year **2024** are selected, the **What's different in this country?** card now shows the actual expenditure of **all 48 Czech state-budget chapters**, checked against the official 2024 Ministry of Finance final-account total. This is a separate, cash-based institutional state-budget ledger. It is **not** a one-to-one Eurostat COFOG function mapping or evidence that a named ministry controls the majority of spending in any category. See [source and validation](docs/countries/cz-budget-chapters-2024.md).
+
 ## Government responsibility: what can actually be verified
 
 Each country/category now distinguishes *officially recorded sector expenditure* (Eurostat's national/central/state/local/social-security accounting sectors) from *proven legal responsibilities* and *institution-level budget control*. The first is sourced annually across all 27 EU countries and must never be mistaken for the last. Where we have not verified a responsible budget manager, the page explicitly says so.

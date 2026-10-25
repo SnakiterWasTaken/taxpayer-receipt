@@ -90,6 +90,10 @@ The budget-document sources below are individually checked official publications
 
 **Status distinction:** 'Not yet reviewed' means **no national official budget portal was added to the source register after individual inspection**. 'Not verified' means no reliable full COFOG-to-institution reconciliation has been completed. Neither status implies official documents do not exist or the public cannot access them.
 
+## Czech 2024 state-budget institution pilot
+
+The [Czech actual-spending chapter ledger](countries/cz-budget-chapters-2024.md) now contains **48 source-verified state-budget chapter totals** for 2024, with an exact sum matching the official Czech Ministry of Finance final-account total. It is an **institutional cash-budget list**, not a mapping of 48 organisations to 10 COFOG purposes and not a decision-authority allocation. Other EU national chapter ledgers and the function-level/legal crosswalk remain outstanding.
+
 ## Per-country investigations required before naming a main budget manager
 
 For **every** one of the 27 countries and each of the 10 functions:
