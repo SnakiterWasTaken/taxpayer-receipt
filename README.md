@@ -57,7 +57,7 @@ The independent [EUROMOD integration toolkit](docs/euromod-integration.md) provi
 
 ### Pensions transparency (COFOG second level)
 
-Where Eurostat provides both `GF1002` (Old age) and `GF1003` (Survivors), their combined share appears as a non-additive drill-down within `GF10` (Social protection). The result is derived from the same official Eurostat S13 dataset as the top-level chart, without approximations for unavailable entries. For France, the separate `docs/pension-transparency.html` explains the CAS Pensions ministry-budget accounting controversy and distinctions from ESA and DREES scopes.
+Where Eurostat provides both `GF1002` (Old age) and `GF1003` (Survivors), their combined share appears as a non-additive drill-down within `GF10` (Social protection). The result is derived from the same official Eurostat S13 dataset as the top-level chart, without approximations for unavailable entries. National accounting notes appear on the main page when that country is selected. The EU-wide `docs/pension-transparency.html` describes the harmonised statistical definitions, while `docs/countries/fr-pensions.html` contains the France-specific CAS Pensions discussion.
 
 
 ## Historical economic context

@@ -2,6 +2,7 @@ import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 import {pensionTransparency} from './pensions.js';
+import {countryNotesFor,notePeriodDescription} from './country-notes.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -140,6 +141,7 @@ function refreshCountry(){
   updateContributionControls();
   const entry=year?snapshot.entries[`${activeCountry}-${year}`]:null;
   el('result-title').firstChild.textContent=`${countryFlag(activeCountry)} ${name} `;
+  renderCountryNotes(activeCountry,year);
   el('result-year').textContent=year||'';
   if(!entry){toggle('results',false);toggle('error',true);el('error').textContent=`No complete, reconcilable spending data is available for ${name}. Try another country or year.`;renderCompare();return;}
   toggle('error',false);toggle('results',true);
@@ -163,12 +165,38 @@ function refreshCountry(){
   renderCompare();
   renderEconomicContext();
 }
+
+/** Reviewed national accounting context, scoped to selected jurisdiction. */
+function renderCountryNotes(code,spendingYear){
+  const notes=countryNotesFor(code);
+  toggle('country-context',notes.length>0);
+  const list=el('country-context-list');list.replaceChildren();
+  if(notes.length===0)return;
+  el('country-context-country').textContent=label(code);
+  for(const note of notes){
+    const article=document.createElement('article');article.className='country-note';
+    article.dataset.noteId=note.id;
+    const meta=document.createElement('div');meta.className='country-note-meta';meta.textContent=note.status;
+    const heading=document.createElement('h3');heading.textContent=note.title;
+    const body=document.createElement('p');body.textContent=note.summary;
+    const period=document.createElement('p');period.className='country-note-period';period.textContent=notePeriodDescription(note,spendingYear);
+    const caveat=document.createElement('p');caveat.className='country-note-caveat';caveat.textContent=note.caveat;
+    const sources=document.createElement('div');sources.className='country-note-links';
+    const detail=document.createElement('a');detail.href=note.detailPage;detail.textContent='Read the detailed accounting explanation ↗';sources.append(detail);
+    for(const src of note.sources){
+      const a=document.createElement('a');a.href=src.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=src.label+' ↗';
+      sources.append(a);
+    }
+    article.append(meta,heading,body,period,caveat,sources);
+    list.append(article);
+  }
+}
+
 function renderPensions(entry, amount, curr) {
   const result=pensionTransparency(entry,amount);
   toggle('pension-unavailable',!result);
   toggle('pension-metrics',!!result);
   el('pension-year').textContent=String(entry.year);
-  toggle('france-pension-note',entry.country==='FR');
   if(!result)return;
   el('pension-total').textContent='€'+formatNumber(result.combinedEurMillion,1)+' million';
   el('pension-share-total').textContent=formatPct(result.publicShare);
