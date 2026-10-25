@@ -15,4 +15,5 @@ jobs:
       - run: npm test
       - name: Run EUROMOD integration unit tests (no external model required)
         run: python3 -m unittest discover -s tests -p 'test_euromod*.py'
+      - run: npm run context:refresh
       - run: npm run build
