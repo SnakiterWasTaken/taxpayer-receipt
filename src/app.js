@@ -2,6 +2,7 @@ import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 import {pensionTransparency} from './pensions.js';
+import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
 const countryEl=el('country'),yearEl=el('year'),amountEl=el('amount'),compareEl=el('compare');
@@ -10,6 +11,8 @@ const childrenEl=el('household-children'),childZtpEl=el('child-ztp-fields'),spou
 const disabilityEl=el('household-disability'),ownZtpEl=el('household-ztp');
 let childZtpSelection=[];
 let snapshot=null;
+let economicSnapshot=null;
+let economicError=null;
 let activeCountry='CZ';
 let year=null;
 let compare='';
@@ -158,6 +161,7 @@ function refreshCountry(){
   el('result-subtitle').textContent=`Consolidated general government (S13) · ${year} · 10 COFOG functions`;
   renderPensions(entry,withAmount?amount:null,curr);
   renderCompare();
+  renderEconomicContext();
 }
 function renderPensions(entry, amount, curr) {
   const result=pensionTransparency(entry,amount);
@@ -175,6 +179,57 @@ function renderPensions(entry, amount, curr) {
   if(result.totalAllocated!==null)
     el('pension-allocation').textContent='Of your illustrative contribution: '+formatMoney(result.totalAllocated,curr)+' corresponds proportionally to these two categories.';
 }
+
+function renderEconomicContext(){
+ const y=Number(year),geo=activeCountry;
+ el('economic-country').textContent=label(geo);
+ el('economic-year').textContent=year||'—';
+ const entry=economicForYear(economicSnapshot,geo,y);
+ const prior=economicForYear(economicSnapshot,geo,y-1);
+ const noFloor=NO_NATIONAL_MINIMUM_WAGE.includes(geo);
+ const pct=n=>Number.isFinite(n)?(n>0?'+':'')+n.toFixed(1)+'%':'Not available';
+ const val=n=>Number.isFinite(n)?formatNumber(n,1):'Not available';
+ el('econ-inflation').textContent=pct(entry?.inflation);
+ el('econ-wage').textContent=noFloor?'No national statutory minimum':Number.isFinite(entry?.minimumWage)?formatMoney(entry.minimumWage,currency(geo)):'Not available';
+ const wageChange=economicGrowth(entry?.minimumWage,prior?.minimumWage);
+ el('econ-wage-change').textContent=noFloor?'Collective agreements set sector wages':Number.isFinite(wageChange)?pct(wageChange)+' vs 1 January '+(y-1):'Previous January comparison unavailable';
+ const incomeChange=economicGrowth(entry?.disposableIncomeIndex,prior?.disposableIncomeIndex);
+ el('econ-real-income').textContent=pct(incomeChange);
+ el('econ-income-index').textContent='Real household income index (2008=100): '+val(entry?.disposableIncomeIndex);
+ const history=el('economic-history');
+ history.replaceChildren();
+ const years=Array.from({length:Math.min(5,Math.max(0,y-2020))},(_,i)=>y-Math.min(4,y-2021)+i);
+ for(const yr of years){
+   const data=economicForYear(economicSnapshot,geo,yr);
+   const prev=economicForYear(economicSnapshot,geo,yr-1);
+   const tr=document.createElement('tr');
+   for(const value of [
+     String(yr),
+     pct(data?.inflation),
+     noFloor?'No national rate':Number.isFinite(data?.minimumWage)?formatMoney(data.minimumWage,currency(geo)):'—',
+     noFloor?'—':pct(economicGrowth(data?.minimumWage,prev?.minimumWage)),
+     Number.isFinite(data?.disposableIncomeIndex)?val(data.disposableIncomeIndex):'—',
+   ]){
+     const td=document.createElement('td');td.textContent=value;tr.append(td);
+   }
+   history.append(tr);
+ }
+ el('economic-status').textContent=economicError
+   ?'Official economic data unavailable: '+economicError
+   :!economicSnapshot?'Loading independently sourced context data…'
+   :!entry?'No matching economic observations for the selected country/year.'
+   :'Independent Eurostat statistical series. The displayed year is not substituted.';
+}
+async function loadEconomicContext(){
+ try{
+   const res=await fetch('./data/economic-context.json',{cache:'no-cache'});
+   if(!res.ok)throw Error('historical snapshot not published');
+   economicSnapshot=validateEconomicContext(await res.json());
+   economicError=null;
+ }catch(err){economicError=err.message;economicSnapshot=null;}
+ renderEconomicContext();
+}
+
 function renderCompare(){
   const other=compare&&year?snapshot?.entries[`${compare}-${year}`]:null;
   const current=year?snapshot?.entries[`${activeCountry}-${year}`]:null;
@@ -244,6 +299,7 @@ function init(){
   });
   updateContributionControls();
   loadData(Number(q.get('year'))||2024);
+  loadEconomicContext();
 }
 async function loadData(preferredYear){
   toggle('loading',true);toggle('error',false);

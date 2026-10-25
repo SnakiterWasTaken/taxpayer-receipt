@@ -108,6 +108,25 @@
             </section>
           </div>
         </div>
+        <section class="panel economic-panel" aria-labelledby="economic-title">
+          <div class="kicker">HISTORICAL ECONOMIC CONTEXT</div>
+          <h2 id="economic-title">Living standards in <span id="economic-country">Czechia</span></h2>
+          <p class="economic-lead">A country's expenditure priorities should be considered alongside prices, wage floors, and household purchasing-power trends. These indicators do not, by themselves, prove which policies caused the changes.</p>
+          <p class="economic-period">Selected spending year: <strong id="economic-year">—</strong> · economic series may be published later than expenditure figures</p>
+          <div class="economic-cards">
+            <div><span>Annual-average consumer inflation</span><strong id="econ-inflation">—</strong><small>HICP, year-on-year annual average</small></div>
+            <div><span>Monthly gross statutory minimum wage</span><strong id="econ-wage">—</strong><small id="econ-wage-change">1 January observation</small></div>
+            <div><span>Real disposable household income per person</span><strong id="econ-real-income">—</strong><small id="econ-income-index">Change from preceding year</small></div>
+          </div>
+          <h3>Historical observations</h3>
+          <div class="economic-table-wrap"><table class="economic-table">
+            <thead><tr><th>Year</th><th>Inflation</th><th>Min. wage (Jan)</th><th>Nominal wage change</th><th>Real household index</th></tr></thead>
+            <tbody id="economic-history"></tbody>
+          </table></div>
+          <p id="economic-status" class="economic-status" role="status">Loading independently sourced context data…</p>
+          <p class="economic-caveat">Inflation refers to calendar-year average consumer prices; wages to 1 January. The real household income index (2008=100) supports trends <em>within</em> a country, not international comparisons of income levels. Some countries have no national statutory minimum wage.</p>
+          <p class="economic-sources">Original sources: <a href="https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_ainr/default/table?lang=en" target="_blank" rel="noopener noreferrer">Eurostat inflation ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/earn_mw_cur/default/table?lang=en" target="_blank" rel="noopener noreferrer">Minimum wages ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/tepsr_wc310/default/table?lang=en" target="_blank" rel="noopener noreferrer">Real household income ↗</a> · <a href="./docs/economic-context.md">Definitions &amp; limitations ↗</a></p>
+        </section>
         <section class="panel comparison-panel hidden" id="comparison-panel" aria-labelledby="comparison-title"><div class="comparison-header"><div><div class="kicker">CROSS-COUNTRY VIEW</div><h2 id="comparison-title">How priorities compare</h2><p>Share of government expenditure; same calendar year, same COFOG definitions.</p></div><div id="compare-key" class="compare-key"></div></div><div id="comparison-rows"></div></section>
       </div>
     </section>

@@ -54,3 +54,23 @@
 .pension-france-note{border-left:3px solid var(--orange);padding:10px 13px;background:#f7ba800c}
 .pension-france-note a{color:#b4e0e1}
 @media(max-width:640px){.pension-stats{grid-template-columns:1fr}.pension-stats div{padding:11px 14px}}
+
+/* Annual economic statistics: each source retains its reporting period and units. */
+.economic-panel{padding:26px 29px}
+.economic-panel h2{margin:9px 0 7px;font-size:22px}
+.economic-lead,.economic-caveat{color:#a4bacb;font-size:12px;line-height:1.6}
+.economic-period{color:#b1c4d2;font-size:11px;margin:12px 0}
+.economic-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:21px 0}
+.economic-cards>div{border:1px solid #354d5e;background:#182a3e;border-radius:11px;padding:14px}
+.economic-cards span,.economic-cards small{display:block;color:#9fb3c5;font-size:11px;line-height:1.5}
+.economic-cards strong{display:block;margin:8px 0;font-size:19px;color:#e6f5f5;line-height:1.25;overflow-wrap:anywhere}
+.economic-panel h3{font-size:15px;margin:24px 0 12px}
+.economic-table-wrap{width:100%;overflow-x:auto}
+.economic-table{width:100%;border-collapse:collapse;min-width:520px;text-align:right;font-size:11px}
+.economic-table th{font-weight:600;color:#adc5d0;border-bottom:1px solid #476176;padding:11px 9px}
+.economic-table td{color:#d5e5ea;border-bottom:1px solid #2c4355;padding:10px 9px}
+.economic-table td:first-child,.economic-table th:first-child{text-align:left;font-weight:700}
+.economic-status{color:#a8b9c9;font-size:11px;margin-top:13px}
+.economic-sources{font-size:11px;line-height:1.75}
+.economic-sources a{color:#9fd3d7;text-decoration:none}
+@media(max-width:850px){.economic-cards{grid-template-columns:1fr}.economic-panel{padding:20px}}
