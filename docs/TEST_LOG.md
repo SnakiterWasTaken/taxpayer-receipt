@@ -121,6 +121,17 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Unverified:** A physical mobile-browser tap and screenshot check has **not** been performed.
 - **Next:** Run PR CI, document pass/fail and any adjustment here; merge on success; verify the Pages deployment; invite a mobile check of the single-expansion interaction.
 
+### 2026-10-25 — Official responsibility examples and income-index information bubble (PR pending)
+
+- **Goal:** Put the household-income-index explanation beside its column instead of an extra explanatory paragraph; introduce sourced institutional responsibility examples for the selected country and category, without guessing missing authorities.
+- **Sources reviewed directly:** Czech official Road Act (e-Sbírka §9), Education Act (e-Sbírka §178), Public Administration Portal municipal waste rules, Ministry of the Interior’s documented municipal council powers. See [source-by-source audit](authority-sources.md). Each contains a specific legal responsibility, not national COFOG spending allocation.
+- **Attempt 1 — source review (PASS for limited topics):** identified official municipal, regional or state duties for road ownership and upkeep (GF04 subset); local waste-system duties (GF05 subset); municipal school provision (GF09 subset). Not enough evidence to assign all ten COFOG divisions or quantify their decision-makers. **No official amounts, control percentages or inferred ministers were added.**
+- **Attempt 2 — country/year integrity (implementation prepared):** every function can open a sourced **Who is responsible?** explanation. If no record exists, it explicitly says **No verified official public data available here**. Verified duties are labelled as reviewed in **2026** and accompanied by a warning when viewing 2024 or 2025 government spending: past years have **not** been independently checked. Legal ownership, budget approval and service delivery are not conflated.
+- **Attempt 3 — accessibility (implementation prepared):** the household index column gets a real (i) button with a short 2008=100 worked example. Clicking, hovering, focusing or tapping shows the definition using the existing category-help behavior. The standalone details paragraph was removed; the glossary remains available.
+- **Tests planned:** new no-invention/coverage/period tests, browser markup and semantics checks, CI JavaScript/Python suites, official data refresh and static build. **NOT RUN** at time this entry was first written.
+- **Limitations:** A currently verified local public duty does not tell who controls **most** money in that category; comprehensive governmental-sector spending shares and historic competence are unfinished. Real touch/mobile browser checks are outstanding.
+- **Next:** run CI, diagnose and document any failed tests, retest; merge only after the full workflow passes and verify Pages deployment.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
