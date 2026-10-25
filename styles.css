@@ -99,3 +99,33 @@
 .country-note-rules dt{font-size:11px;color:#bfd5df}
 .country-note-rules dd{margin:0;font-size:12px;font-weight:700;color:#e6f6ee;text-align:right;font-variant-numeric:tabular-nums}
 @media(max-width:520px){.country-note-rules{grid-template-columns:1fr;gap:4px}.country-note-rules dd{text-align:left;margin-bottom:10px}}
+
+/* Simple by default; expanded statistical detail remains available. */
+.sidebar-details,.nested-details,.detail-toggle{margin:12px 0}
+.sidebar-details{border:1px solid #41586b;border-radius:10px;padding:12px;background:#16293b}
+.sidebar-details>summary,.nested-details>summary,.detail-toggle>summary,.disclosure-panel>summary{cursor:pointer;font-weight:700;color:#cce8e9}
+.sidebar-details summary small{display:block;font-size:11px;font-weight:400;color:#a1b8c7}
+.sidebar-details .personalize-content{padding-top:15px}
+.nested-details{border:1px solid #435565;padding:12px;border-radius:9px;margin-bottom:17px}
+.nested-details .household-fields{margin-top:14px}
+.detail-toggle{border-top:1px solid #34485e;padding:12px 0}
+.deep-dive .pension-panel{margin:0}
+.disclosure-panel>summary{padding:20px 24px;font-size:15px}
+.disclosure-panel .economic-panel{padding-top:0}
+.glance-panel{padding:20px 0;border-bottom:1px solid #344b5c}
+.glance-panel h3{font-size:18px;margin:8px 0}
+.glance-lead,.glance-caveat{font-size:11px;color:#9db6c6}
+.glance-leaders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.glance-leader{border:1px solid #39566a;background:#1a2e42;border-radius:10px;padding:13px}
+.glance-figure{font-size:24px;color:#d8f3f2;font-weight:760}
+.glance-leader small{display:block;font-size:11px;color:#b6cbd8}
+.glance-signal-heading{font-size:14px!important;margin-top:22px!important}
+.glance-observations{display:grid;gap:10px}
+.glance-observation{border-left:3px solid #73afb9;background:#183042;padding:11px;border-radius:0 8px 8px 0}
+.glance-observation[data-type="question"]{border-left-color:#dfa96d}
+.glance-observation h4{font-size:12px;margin:0 0 4px}
+.glance-observation p{font-size:12px;color:#d1e1e9;margin:4px 0}
+.glance-observation small{font-size:10px;color:#a1bac8}
+.country-note details{margin:14px 0}
+.country-note details>summary{cursor:pointer;color:#a4dcdb;font-size:12px;font-weight:700}
+@media(max-width:700px){.glance-leaders{grid-template-columns:1fr}.disclosure-panel>summary{padding:16px}}
