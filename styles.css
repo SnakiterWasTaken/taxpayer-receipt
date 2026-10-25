@@ -165,3 +165,84 @@
 .glossary p{font-size:13px;color:#c4d4df;line-height:1.75}
 .glossary-source{color:#9aafbe!important;font-size:11px!important}
 .glossary a{color:#a2d8dd}
+
+
+/* Mobile expansion containment: a <details> panel must never resize the page.
+ * The economic history table is intentionally wider than a narrow phone; scroll
+ * the table alone, not the explorer, its card, or the entire document. */
+.output{
+  grid-template-columns:minmax(0,1fr);
+  min-width:0;
+}
+.output > *,
+.results-panel,
+#results,
+.glance-panel,
+.pension-disclosure,
+.pension-panel,
+.country-context,
+.country-note,
+.country-note-more,
+.economic-disclosure,
+.economic-panel,
+.comparison-panel,
+.compare-tracks,
+.payroll-report{
+  min-width:0;
+  max-width:100%;
+}
+.economic-table-wrap{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.economic-table{
+  width:100%;
+  min-width:520px;
+}
+/* Long numbers and official descriptions wrap inside the selected country's card. */
+.country-context,
+.country-note,
+.country-note-links a,
+.country-note-details,
+.economic-panel,
+.economic-sources,
+.economic-caveat,
+.glance-panel,
+.glance-leader,
+.payroll-report,
+.payroll-grid strong,
+.payroll-hero strong,
+.summary-number{
+  overflow-wrap:anywhere;
+}
+@media (max-width:700px){
+  .explorer{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .output{
+    width:100%;
+    grid-template-columns:minmax(0,1fr);
+  }
+  .output > .panel,
+  .output > details.panel{
+    display:block;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+  }
+  .payroll-head{
+    flex-wrap:wrap;
+  }
+  .breakdown-label small{
+    white-space:normal;
+  }
+  .economic-panel{
+    width:100%;
+    min-width:0;
+  }
+}
