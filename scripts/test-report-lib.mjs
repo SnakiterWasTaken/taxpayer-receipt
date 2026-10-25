@@ -45,7 +45,7 @@ export function testReportMarkdown({createdAt,commit,runUrl,node,python,nodeSucc
  '- **Python tests:** '+python.records.length+' captured (runner said '+python.reportedCount+'); process '+(pythonSuccess?'passed':'failed'),
  '- **Individual results:** '+passed+' passed; '+failed+' failed; '+skipped+' skipped',
  '',
- 'A PASS means **only** that the named test's assertions succeeded in this environment. It is not a legal audit, browser accessibility review, or a real EUROMOD simulation. The test title explains what was checked; its implementation is in the repository’s \`tests/\` directory. Raw standard output and diagnostics accompany this file.',
+ 'A PASS means **only** that the named test assertions succeeded in this environment. It is not a legal audit, browser accessibility review, or a real EUROMOD simulation. The test title explains what was checked; its implementation is in the repository’s \`tests/\` directory. Raw standard output and diagnostics accompany this file.',
  '',
  '| Result | What the test checks (name from source) | Test suite |',
  '| --- | --- | --- |'
