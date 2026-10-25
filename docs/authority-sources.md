@@ -49,3 +49,8 @@ GF01 General public services, GF02 Defence, GF03 Public order and safety, GF06 H
 5. Keep citations and responsibility labels translatable without modifying the official-language legal links.
 
 No local-government monetary allocation or percentage is asserted in the first release.
+
+
+## 27-country reporting supplement (October 2026)
+
+The new `src/sector-spending.js` snapshot uses official Eurostat Table 11 subsector values to show **where expenditure is recorded**; see the [EU27 sweep and national budget-source audit](eu27-authority-sweep.md). The categorisation identifies `S1311` central government, `S1312` regional/state government, `S1313` local government and `S1314` social-security funds. It is **not an institution-level management hierarchy**, and subsection TE values are non-additive to national consolidated S13 TE. Actual controlling institutions remain unknown until separate official law, approval records, public accounts and transfers reconcile.

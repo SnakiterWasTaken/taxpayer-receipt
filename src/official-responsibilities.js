@@ -59,7 +59,7 @@ export function responsibilityFor(country,code){
 export function responsibilityStatus(country,code,selectedSpendingYear){
  const entry=responsibilityFor(country,code);
  if(!entry)return {
-   available:false,reason:'No verified official public data available here for this country and spending category yet.'
+   available:false,reason:'No category-wide decision-maker verified by this project yet. Official public records may exist but have not been audited here.'
  };
  return {
    available:true,entry,

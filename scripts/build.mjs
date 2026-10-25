@@ -17,4 +17,9 @@ try {
  await mkdir(join(dest,'data'),{recursive:true});
  await cp(join(root,'data','economic-context.json'),join(dest,'data','economic-context.json'));
 } catch {console.warn('Economic context snapshot unavailable; historical context will display as unavailable.');}
+try {
+ await access(join(root,'data','institutional-spending.json'));
+ await mkdir(join(dest,'data'),{recursive:true});
+ await cp(join(root,'data','institutional-spending.json'),join(dest,'data','institutional-spending.json'));
+} catch {console.warn('Official sector-expenditure snapshot unavailable: do not infer a dominant authority.');}
 console.log(`Static site built at ${dest}`);
