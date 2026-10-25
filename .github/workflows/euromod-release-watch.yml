@@ -1,6 +1,11 @@
 name: Watch official EUROMOD releases
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/euromod-release-watch.yml'
+      - 'scripts/euromod/release_watch.py'
+      - 'data/euromod/release-baseline.json'
   schedule:
     - cron: '41 7 * * 2'
 permissions:
