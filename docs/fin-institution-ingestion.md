@@ -40,7 +40,18 @@ Two further independently checked official December 2024 source distributions ar
 - [FIN 1-12 OSS — state budget chapters and state organisational units](https://data.gov.cz/datov%C3%A1-sada?iri=https://data.gov.cz/zdroj/datov%C3%A9-sady/00006947/f6ed0509c52610c3c5658712a4671b13), original `FinOSS/2024_12_Data_CSUIS_MISRIS.zip`.
 - [FIN 1-12 SF — state funds](https://data.gov.cz/datov%C3%A1-sada?iri=https://data.gov.cz/zdroj/datov%C3%A9-sady/00006947/bdbd188371eb3b7417a1312d4062506e), original `FinSF/2024_12_Data_CSUIS_FINSF.zip`.
 
-Status when added: **official source identity verified; download, member counts, source checksum and any state-budget reconciliation NOT RUN**. No amounts are inferred from institution names or the URL.
+**Real source intake verified — [GitHub Actions #40244957559](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40244957559): PASS.** Both state ZIPs and both municipal ZIPs downloaded with HTTP 200 and were fully profiled.
+
+| Original state dataset | Downloaded size | SHA-256 of actual downloaded ZIP | Main CSV rows / reporting organisation IDs |
+|---|---:|---|---|
+| FIN 1-12 OSS state chapters | **11,985,553 bytes** | `2b49b71cde353aad26c423642335eab5c866e67cf9c6537ed1ed7e549a82c697` | `MIS-RIS_2024012.csv`: **1,697,495 / 283** |
+| FIN 1-12 SF state funds | **33,296 bytes** | `7b2e1e8428a85a8006c289df4f53ef97b3ac5ae1f4909be1cd070a63b35ab114` | `FINSF01_2024012.csv`: **1,457 / 7** |
+
+Additional state-organisational extract sections: `ZU-MIS-RIS` **186,471 rows**, `PU3241_05` **17,487**, `ZU01` **11,299**. State-fund sections 02 **133**, 03 **7**, 04 **1,125**. All eight state/fund CSV files were fully streamed and had **zero malformed column-count rows**.
+
+**Vital accounting hazard:** The file `MIS-RIS_2024012.csv` contains **multiple 2024 reporting periods** (`2024001` onward, plus a `0000000` special row), despite being distributed as December 2024. These look like cumulative monthly snapshots, but that interpretation and the source's year-to-date actual column must be **verified against the official 2024 manual before calculating anything**. Simply summing 1,697,495 data rows would almost certainly overstate expenditure by counting multiple months' snapshots. State-budget rows must be filtered and independently reconciled to the Ministry's final accounts.
+
+The 2024 state fund `FINSF01` contains budget type codes `2` (196 rows), `3` (1,260 rows), and `0` (one row), along with function paragraphs and `ZU_ROZKZ` amounts. Their 2024 meanings need official codebook validation. Again, **download/profiling is not a verified COFOG attribution or discretionary budget authority**. No amounts or managers have been inferred from names.
 
 ## Decision authority: what remains unresolved
 

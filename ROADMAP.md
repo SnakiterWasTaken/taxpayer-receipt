@@ -52,7 +52,8 @@ Source review and known gaps: [official responsibilities audit](docs/authority-s
 - [ ] Validate original year-2024 budget type, paragraph and item classification, rule out summary and duplicate rows, verify Prague ID overlap, then reconcile monetary values to the official Ministry's Table 5.
 - [ ] Verify Prague magistrate / borough overlap before combining original institution records with other local-government data.
 - [x] Identify exact official 2024 FIN 1-12 OSS state chapter and FIN 1-12 SF state-fund downloadable ZIP sources in the Ministry's national open-data catalogue.
-- [ ] Download and fully profile both state/fund archives, record checksums and completeness, and reconcile chapter-level amounts without adding incompatible ESA numbers.
+- [x] Download and fully profile original December 2024 FIN 1-12 OSS (state chapters, 283 reporting IDs) and FIN 1-12 SF (seven state-fund IDs); record hashes, member row counts, fiscal periods and complete CSV structural integrity.
+- [ ] Verify **December-only** budget records and official year-to-date codes in the state CSVs, then reconcile actual expenditure by chapter to the 48 official year-end totals without summing multiple monthly snapshots or incompatible ESA numbers.
 - [ ] Reconcile funding flows, identify which legal institution truly approved and controlled the expenditure, and only then publish a COFOG category's largest budget manager.
 
 Official source, run failures and next steps: [FIN ingestion log](docs/TEST_LOG.md).
