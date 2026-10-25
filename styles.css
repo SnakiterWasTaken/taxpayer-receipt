@@ -74,3 +74,18 @@
 .economic-sources{font-size:11px;line-height:1.75}
 .economic-sources a{color:#9fd3d7;text-decoration:none}
 @media(max-width:850px){.economic-cards{grid-template-columns:1fr}.economic-panel{padding:20px}}
+
+/* Curated country-only methodological notes; no note is shown for other countries. */
+.country-context{padding:26px 29px}
+.country-context h2{font-size:21px;letter-spacing:-.4px;margin:8px 0}
+.country-context h2 span{color:var(--teal)}
+.country-context-intro,.country-note p{font-size:12px;color:#aabfd0;line-height:1.65}
+.country-note{border-top:1px solid #3c5268;margin-top:18px;padding-top:17px}
+.country-note-meta{color:var(--orange);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.country-note h3{font-size:16px;margin:8px 0}
+.country-note-period{color:#e0c6a4!important;font-weight:600}
+.country-note-caveat{border-left:3px solid #d5ac7b;background:#d5ac7b0c;padding:8px 11px}
+.country-note-links{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:11px;margin:15px 0 2px}
+.country-note-links a{color:var(--teal);text-decoration:none}
+.country-note-links a:hover{text-decoration:underline}
+@media(max-width:600px){.country-context{padding:19px}}

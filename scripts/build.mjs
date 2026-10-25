@@ -5,7 +5,7 @@ const root=join(dirname(fileURLToPath(import.meta.url)),'..');
 const dest=join(root,'dist');
 await rm(dest,{recursive:true,force:true});
 await mkdir(join(dest,'src'),{recursive:true});
-for(const name of ['index.html','styles.css','assets','src','docs','README.md','LICENSE']) await cp(join(root,name),join(dest,name),{recursive:true});
+for(const name of ['index.html','styles.css','assets','src','docs','README.md','ROADMAP.md','LICENSE']) await cp(join(root,name),join(dest,name),{recursive:true});
 try {
   await access(join(root,'data','eu-spending.json'));
   await mkdir(join(dest,'data'),{recursive:true});
