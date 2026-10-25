@@ -175,6 +175,10 @@
   min-width:0;
 }
 .output > *,
+.controls,
+.sidebar-details,
+.personalize-content,
+.household-fields,
 .results-panel,
 #results,
 .glance-panel,
@@ -237,6 +241,10 @@
   }
   .payroll-head{
     flex-wrap:wrap;
+  }
+  .compare-key{
+    flex-wrap:wrap;
+    white-space:normal;
   }
   .breakdown-label small{
     white-space:normal;
