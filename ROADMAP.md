@@ -48,7 +48,8 @@ Source review and known gaps: [official responsibilities audit](docs/authority-s
 
 - [x] Find direct official Ministry of Finance CSV/ZIP distributions and original Czech open-data catalogue identities for **2024 FIN 2-12 M** municipalities/regions and a **separate Prague** dataset; record them without guessing download URLs.
 - [x] Build a read-only GitHub Actions original-source probe: bounded download, archive SHA-256, safe ZIP member validation and first-row CSV schema, with an explicit **BLOCKED** status when the original source cannot be fetched.
-- [ ] Download and validate the complete FIN 2-12 M 2024 original data, with exact row counts, organisation IDs, units and transfer classifications. Separate ZIP-schema inspection is **not** this acceptance criterion.
+- [x] Download and profile all original December 2024 FIN 2-12 M local-government and Prague ZIP CSV members: source hash, row counts, period/code structure and organisation-ID coverage documented. **This is schema/row validation only, not a reconciled financial total.**
+- [ ] Validate original year-2024 budget type, paragraph and item classification, rule out summary and duplicate rows, verify Prague ID overlap, then reconcile monetary values to the official Ministry's Table 5.
 - [ ] Verify Prague magistrate / borough overlap before combining original institution records with other local-government data.
 - [ ] Verify official 2024 FIN 1-12 OSS state chapters and FIN 1-12 SF funds original distributions; reconcile state-chapter totals without adding incompatible ESA numbers.
 - [ ] Reconcile funding flows, identify which legal institution truly approved and controlled the expenditure, and only then publish a COFOG category's largest budget manager.

@@ -4,6 +4,10 @@ See [ROADMAP.md](ROADMAP.md) for national accounting transparency, validated tax
 
 An open-source, privacy-respecting, source-verifiable **public spending explorer**. The default view highlights the three largest spending functions; each official category has keyboard-, mouse- and touch-accessible plain-language examples. Country-specific decisions and agencies are reserved for evidence-linked national explanations. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **source-audited 2024–2026 employee estimator with optional full-year household tax reliefs**; other countries remain manual-only.
 
+## Czech 2024 original local-government FIN statement research
+
+Verified actual original Ministry of Finance **December 2024 FIN 2-12 M** data downloads for both municipalities/regions and separate Prague accounts. All nine CSV sections in each source have been structurally profiled, with ZIP checksums and full row counts preserved. The principal local statement includes over **1.36 million** budget lines and **6,966** organisation IDs. These records have **not** been treated as COFOG manager authority, and no new budget manager ranking has been published. See [original-source audit and EU26 verification standard](docs/fin-institution-ingestion.md).
+
 ## New: Czech 2024 public-budget cash flow, by spending function
 
 The **Who decides?** section now shows a second, explicitly independent Czech 2024 official source: the Ministry of Finance's ten COFOG **cash-budget** functions with central/local expenditures and adjustments that remove internally transferred funds. A source-backed 2024 statute also explains who approves and manages municipal budgets. Neither is a named institution's share of **discretionary** spending. See [full source and reconciliation](docs/cz-2024-cash-reconciliation.md).
