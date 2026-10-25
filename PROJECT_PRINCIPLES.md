@@ -42,7 +42,14 @@ The default view must not require personal salary, tax knowledge, glossary use o
 - Plain language is the primary voice; source terminology can appear in an expandable definition or methodology.
 - Maintain consistent source links, effective years, original-language citations, accessible chart text and understandable legends.
 
-## 6. Implementation and review requirements
+## 6. Explain jargon and preserve the history of testing
+
+- **Every technical term that a visitor encounters** must have a short, clear explanation where it appears and a fuller glossary explanation with an example. The term's statistical scope, units, base year and limits must not disappear when simplifying it.
+- **Every technical change** requires a dated and durable handover entry: what was attempted, exact tests, PASS/FAIL/BLOCKED/NOT RUN, failures, diagnostics, adjustments, reruns, remaining limitations and next action. See `docs/TEST_LOG.md` and `docs/TESTING.md`.
+- An automated pass is **only evidence about its specific assertion**. Never report an external-model simulation, browser review, Eurostat fetch or production deployment as tested unless the relevant action actually ran and has a result.
+- All individual CI test statuses and names should be surfaced in a human-readable per-run report. Preserve significant findings in git because Actions artifacts may expire.
+
+## 7. Implementation and review requirements
 
 - The main page defaults to an understandable overview without opening detailed disclosures.
 - Each country note is filtered by the selected country and includes its own source year(s). No global page embeds national tax rules.

@@ -16,6 +16,17 @@ Definition of done for **Who decides?**: each published claim has a named instit
 
 See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classification](https://unstats.un.org/unsd/classifications/cofog/revision), and the [OECD COFOG detail table](https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html).
 
+## Priority 0.1 — Test evidence and plain language everywhere
+
+- [x] **Durable handover process:** keep a chronological test and decision journal with each trial, what failed, corrections, retests, open limitations, and next action; add a mandatory PR checklist.
+- [x] **Per-test automated reports:** GitHub Actions displays and uploads individual JavaScript/Python test names, outcomes and diagnostics (reports are temporary artifacts; permanently meaningful context belongs in git).
+- [x] **Plain-language glossary:** explain terms like real household income index, COFOG, HICP, real vs nominal, current-year comparison and consolidated government, with practical examples and statistical limits.
+- [ ] **Audit all technical labels** across country calculators, data warnings, pensions, other pages and future 24-language catalogs; require a nearby short explanation (not just a glossary link).
+- [ ] **Validate comprehension** with users who lack financial training; improve any explanations that lead readers to confuse indices with money amounts, reported expenditure with policy control, or national trends with international living-standard rankings.
+- [ ] **Keep long-term test outcomes** in committed history, and explicitly record manual browser, legal-source, national-model and external-data testing as distinct from automatic unit tests.
+
+Documentation: [testing guide](docs/TESTING.md), [handover log](docs/TEST_LOG.md), [user-facing glossary](docs/glossary.html).
+
 ## Delivered foundations
 
 - [x] EU-27 government spending explorer using Eurostat S13 COFOG data; official source provenance, strict reconciliation, historical years and comparison.

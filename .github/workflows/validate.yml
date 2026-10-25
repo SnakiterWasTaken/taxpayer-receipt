@@ -9,11 +9,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Ensure a durable handover entry accompanies code changes
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --name-only "origin/$GITHUB_BASE_REF...HEAD" > /tmp/changed-files.txt
+          if grep -Eq '^(src/|scripts/|tests/|\.github/workflows/|index\.html$|styles\.css$)' /tmp/changed-files.txt; then
+            if ! grep -Fxq 'docs/TEST_LOG.md' /tmp/changed-files.txt; then
+              echo "Changes to code, tests or workflows require a dated explanation in docs/TEST_LOG.md."
+              exit 1
+            fi
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm test
-      - name: Run EUROMOD integration unit tests (no external model required)
-        run: python3 -m unittest discover -s tests -p 'test_euromod*.py'
+      - name: Run JavaScript and Python tests with individual evidence
+        run: npm run test:report
+      - name: Show every test result in GitHub Actions summary
+        if: always()
+        run: |
+          if [ -f test-results/test-report.md ]; then
+            cat test-results/test-report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "TEST REPORT NOT PRODUCED — check earlier setup or runner failure." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve per-test report and raw diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: explained-test-results
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 90
       - run: npm run context:refresh
       - run: npm run build

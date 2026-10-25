@@ -6,6 +6,7 @@
   "description": "Official EU government expenditure explorer with a Czech 2024–2026 employee and household salary-to-tax estimator.",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
+    "test:report": "node scripts/test-report.mjs",
     "data:refresh": "node scripts/refresh-data.mjs",
     "context:refresh": "node scripts/refresh-economic-context.mjs",
     "build": "node scripts/build.mjs",
