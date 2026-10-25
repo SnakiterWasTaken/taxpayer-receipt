@@ -1,6 +1,7 @@
 import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.js';
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
+import {pensionTransparency} from './pensions.js';
 
 const el=id=>document.getElementById(id);
 const countryEl=el('country'),yearEl=el('year'),amountEl=el('amount'),compareEl=el('compare');
@@ -155,7 +156,24 @@ function refreshCountry(){
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
   el('result-subtitle').textContent=`Consolidated general government (S13) · ${year} · 10 COFOG functions`;
+  renderPensions(entry,withAmount?amount:null,curr);
   renderCompare();
+}
+function renderPensions(entry, amount, curr) {
+  const result=pensionTransparency(entry,amount);
+  toggle('pension-unavailable',!result);
+  toggle('pension-metrics',!!result);
+  el('pension-year').textContent=String(entry.year);
+  toggle('france-pension-note',entry.country==='FR');
+  if(!result)return;
+  el('pension-total').textContent='€'+formatNumber(result.combinedEurMillion,1)+' million';
+  el('pension-share-total').textContent=formatPct(result.publicShare);
+  el('pension-share-social').textContent=formatPct(result.socialShare);
+  el('pension-old-age').textContent='€'+formatNumber(result.oldAgeEurMillion,1)+' million';
+  el('pension-survivors').textContent='€'+formatNumber(result.survivorsEurMillion,1)+' million';
+  toggle('pension-allocation',result.totalAllocated!==null);
+  if(result.totalAllocated!==null)
+    el('pension-allocation').textContent='Of your illustrative contribution: '+formatMoney(result.totalAllocated,curr)+' corresponds proportionally to these two categories.';
 }
 function renderCompare(){
   const other=compare&&year?snapshot?.entries[`${compare}-${year}`]:null;

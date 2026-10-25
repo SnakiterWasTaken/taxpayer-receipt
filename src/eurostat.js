@@ -54,7 +54,7 @@ export function normalizeEurostat(raw, fetchedAt=new Date().toISOString()) {
     const year=Number(row.time);
     if(!validCountries.has(code) || !Number.isInteger(year) || year<2021 ||
        row.freq!=='A' || row.unit!=='MIO_EUR' || row.sector!=='S13' || row.na_item!=='TE' ||
-       !(validFunctions.has(cofog)||cofog==='TOTAL') || !Number.isFinite(row.value) || row.value<0) continue;
+       !(validFunctions.has(cofog)||cofog==='TOTAL'||cofog==='GF1002'||cofog==='GF1003') || !Number.isFinite(row.value) || row.value<0) continue;
     const key=`${code}|${year}`;
     if(!grouped.has(key)) grouped.set(key,{country:code,year,records:{}});
     const rec=grouped.get(key).records;
@@ -76,10 +76,29 @@ export function normalizeEurostat(raw, fetchedAt=new Date().toISOString()) {
       continue;
     }
     const categories=FUNCTIONS.map(f=>({code:f.code,eurMillion:group.records[f.code].value,share:group.records[f.code].value/sum,flags:group.records[f.code].flags}));
+    // Optional second-level COFOG groups: GF1002 Old age; GF1003 Survivors.
+    // These are SUBSETS of GF10, not additional spending to add to TOTAL.
+    // Include only when both observations exist and reconcile with their parent.
+    const oldAge=group.records.GF1002;
+    const survivors=group.records.GF1003;
+    const social=group.records.GF10.value;
+    const pensionCombined=(oldAge?.value||0)+(survivors?.value||0);
+    const pensionDetail=oldAge&&survivors&&
+      pensionCombined<=social+Math.max(0.01,social*0.005)
+      ? {
+        oldAgeEurMillion:oldAge.value,
+        survivorsEurMillion:survivors.value,
+        combinedEurMillion:pensionCombined,
+        publicShare:pensionCombined/sum,
+        socialShare:social>0?pensionCombined/social:0,
+        flags:[...new Set([oldAge.flags,survivors.flags].join(' ').split(' ').filter(Boolean))],
+      }
+      :null;
     const allFlags=[...Object.values(group.records).map(r=>r.flags)].filter(Boolean);
     entries[`${group.country}-${group.year}`]={
       country:group.country,year:group.year,eurMillion:reported,categories,
       flags:[...new Set(allFlags.flatMap(s=>s.split(' ').filter(Boolean)))],
+      ...(pensionDetail?{pensionDetail}:{}),
       reconciledShare:sum/reported,
     };
   }
@@ -104,6 +123,19 @@ export function validateSnapshot(data) {
        entry.categories.some((c,i)=>c.code!==FUNCTIONS[i].code || c.share<0 || c.share>1) ||
        !Number.isFinite(sum) || Math.abs(sum-1)>0.00001 || !Number.isFinite(entry.eurMillion) || entry.eurMillion<=0) {
       throw new Error(`Invalid spending data: ${key}`);
+    }
+    if(entry.pensionDetail!==undefined){
+      const p=entry.pensionDetail;
+      const social=entry.categories[9].eurMillion;
+      const totalCategories=entry.categories.reduce((acc,c)=>acc+c.eurMillion,0);
+      const close=(a,b)=>Number.isFinite(a)&&Math.abs(a-b)<=Math.max(0.02,Math.abs(b)*1e-8);
+      if(!p||[p.oldAgeEurMillion,p.survivorsEurMillion,p.combinedEurMillion,p.publicShare,p.socialShare].some(x=>!Number.isFinite(x)||x<0)||
+        !close(p.oldAgeEurMillion+p.survivorsEurMillion,p.combinedEurMillion)||
+        p.combinedEurMillion>social+Math.max(.01,social*.005)||
+        !close(p.publicShare,p.combinedEurMillion/totalCategories)||
+        !close(p.socialShare,social>0?p.combinedEurMillion/social:0)){
+        throw new Error(`Invalid pension subcategories: ${key}`);
+      }
     }
   }
   return data;

@@ -88,3 +88,22 @@ Czechia is the first country with an **estimated personal salary-to-payroll calc
 5. VZP health insurer, [employee/employer premiums](https://www.vzp.cz/platci/informace/povinnosti-platcu-metodika/2-4-platce-pojistneho-zamestnavatel), [calculation and rounding](https://www.vzp.cz/platci/informace/zamestnavatel/vymerovaci-zaklad-a-vypocet-pojistneho), and [historical minimum wage/minimum health-insurance base](https://www.vzp.cz/platci/informace/obzp/minimalni-mzda).
 
 **Test reference:** automated tests cover statutory thresholds, ordinary salaries, annual contribution caps, employer separation, monthly/annual rounding and the official 2024 worked example. Tests ensure internal consistency and known cases; they are not a substitute for certifying every payslip or tax return.
+
+
+## Pension-related expenditure — group-level COFOG (2024 onward)
+
+The public interface shows **Old age (GF1002)** and **Survivors (GF1003)** as a breakdown of **Social protection (GF10)** whenever both official observations exist and their sum does not exceed the parent's value by over 0.5%. The groups are not added to national spending a second time. Eurostat [COFOG methodology](https://webgate.ec.europa.eu/eurostat/cache/metadata/en/gov_10a_exp_esms.htm) reports both function and group levels.
+
+Definitions matter: **GF1002 is not exclusively cash retirement pensions**. It may include in-kind old-age services and scheme administration. **GF1003** covers survivors' benefits. Some national mandatory supplementary pension arrangements may be outside the general-government sector, and national all-schemes totals may be larger. The displayed portion is the sum of the two reported COFOG groups divided by the sum of ten top-level general-government expenditure groups. It is not a direct tracing of an individual's tax or social-insurance payments.
+
+If either subgroup is missing or fails parent reconciliation, we disclose unavailable detail; we never infer a zero. Figures are refreshed by the existing Eurostat workflow. The pension functions are available for both France and other EU countries when Eurostat reports them, using the same definitions.
+
+### France: pension-accounting conventions are a separate analytical lens
+
+The French government's [PLF 2027 *Pensions de retraite de la fonction publique* annex, pp. 10–11 and 24](https://www.budget.gouv.fr/documentation/file-download/34465) reports that **€28.5 billion or 32% of the Education Ministry's planned 2027 budget credits** flow to the CAS Pensions scheme: **€25.1 billion employer contributions** and **€3.4 billion employee contributions**. This is a **planned ministry-budget financing view**. It is neither an official reallocation of Eurostat COFOG expenditure nor 32% of France's government spending. The government report expressly notes that changing the *budgetary* employer contribution rate does **not directly affect** international ESA national-account comparisons; imputed employer contributions are calculated using a separate convention.
+
+The [Institut des politiques publiques, June 2025 study](https://www.ipp.eu/publication/retraites-des-fonctionnaires-detat-faut-il-changer-la-convention-comptable/) argues for identifying an implicit subsidy separately rather than assigning the entire balancing transfer to ministries as an ordinary employer contribution. Its illustrative adjusted rate of 34.7% refers to **2020**, and its alternative education budget calculation refers to **2023**. These are not current-year input parameters that can safely be copied into the 2024–2026 Eurostat charts.
+
+The [DREES 2024 national social-protection accounts](https://drees.solidarites-sante.gouv.fr/) report **€426.7 billion** of old-age and survivors' benefits across public and some private social-protection arrangements. Their denominator differs from consolidated ESA S13 government expenditures. Do not add this number to the Eurostat total or substitute it without a scope bridge.
+
+**Future scope:** a separate, versioned *Ministry budget vs pension-financing adjustment* view, built from official CAS Pensions annex line items, explicitly identifying employer/employee flows, imputed social contributions, and an independently sourced alternative classification. The transformation must preserve totals, record methodology, expose disagreement and never imply that a contested reclassification is official fact.

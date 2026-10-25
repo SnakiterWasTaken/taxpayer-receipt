@@ -88,6 +88,24 @@
             <div class="breakdown-head"><div><h3>Where the money goes</h3><p id="breakdown-caption">Share of public expenditure, by COFOG function</p></div><span class="breakdown-sort">LARGEST FIRST ↓</span></div>
             <div id="breakdown" class="breakdown" aria-live="polite"></div>
             <p id="allocation-note" class="allocation-note">Figures represent public spending shares, not actual earmarked individual tax payments.</p>
+            <section class="pension-panel" id="pension-panel" aria-labelledby="pension-title">
+              <div class="kicker">BEYOND THE HEADLINE CATEGORIES</div>
+              <h3 id="pension-title">Pensions &amp; old-age spending <span id="pension-year"></span></h3>
+              <p class="pension-intro">Eurostat's <strong>Old age (GF1002)</strong> and <strong>Survivors (GF1003)</strong> functions are already included in Social protection above. They are shown separately here to expose their scale, not added a second time.</p>
+              <div id="pension-metrics" class="hidden">
+                <div class="pension-stats">
+                  <div><span>Combined old-age &amp; survivors</span><strong id="pension-total">—</strong></div>
+                  <div><span>Share of all public spending</span><strong id="pension-share-total">—</strong></div>
+                  <div><span>Share of social protection</span><strong id="pension-share-social">—</strong></div>
+                </div>
+                <p class="pension-detail">Old age: <b id="pension-old-age">—</b> · Survivors: <b id="pension-survivors">—</b></p>
+                <p id="pension-allocation" class="pension-detail hidden"></p>
+              </div>
+              <p id="pension-unavailable" class="pension-detail hidden">Both detailed COFOG observations are not available or do not reconcile for this country-year; no pension estimate is inferred.</p>
+              <p class="pension-footnote">These are <em>pension-related public functions</em>, not a count of cash pension payments alone. Old-age includes other assistance and administration. The general-government scope differs from some national all-schemes pension statistics.</p>
+              <p id="france-pension-note" class="pension-france-note">France also has a separate public-sector pension financing issue: contributions to the CAS Pensions account appear in ministries' personnel budgets. That 2027 budget presentation cannot be added directly to these Eurostat figures. <a href="./docs/pension-transparency.html">See the original government report and the independent accounting analysis ↗</a></p>
+              <a class="plain-link" href="./docs/pension-transparency.html">Definitions, competing accounting perspectives and sources ↗</a>
+            </section>
           </div>
         </div>
         <section class="panel comparison-panel hidden" id="comparison-panel" aria-labelledby="comparison-title"><div class="comparison-header"><div><div class="kicker">CROSS-COUNTRY VIEW</div><h2 id="comparison-title">How priorities compare</h2><p>Share of government expenditure; same calendar year, same COFOG definitions.</p></div><div id="compare-key" class="compare-key"></div></div><div id="comparison-rows"></div></section>
