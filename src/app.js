@@ -5,6 +5,7 @@ import {pensionTransparency} from './pensions.js';
 import {countryNotesFor,notePeriodDescription} from './country-notes.js';
 import {helpForCategory} from './category-help.js';
 import {spendingLeaders,observationsForCountry} from './glance.js';
+import {explainIncomeIndex} from './plain-language.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -222,7 +223,7 @@ function refreshCountry(){
   el('breakdown-extra').replaceChildren(...allocations.slice(3).map(makeRow));
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
-  el('result-subtitle').textContent=`Consolidated general government (S13) · ${year} · 10 COFOG functions`;
+  el('result-subtitle').textContent=`All government levels and social-security funds · ${year} · ten spending categories`;
   renderPensions(entry,withAmount?amount:null,curr);
   renderCompare();
   renderEconomicContext();
@@ -315,7 +316,9 @@ function renderEconomicContext(){
  el('econ-wage-change').textContent=noFloor?'Collective agreements set sector wages':Number.isFinite(wageChange)?pct(wageChange)+' vs 1 January '+(y-1):'Previous January comparison unavailable';
  const incomeChange=economicGrowth(entry?.disposableIncomeIndex,prior?.disposableIncomeIndex);
  el('econ-real-income').textContent=pct(incomeChange);
- el('econ-income-index').textContent='Real household income index (2008=100): '+val(entry?.disposableIncomeIndex);
+ el('econ-income-index').textContent=Number.isFinite(entry?.disposableIncomeIndex)
+   ?'Index: '+val(entry.disposableIncomeIndex)+' (2008 = 100). '+explainIncomeIndex(entry.disposableIncomeIndex)
+   :'No inflation-adjusted household income index reported for this year.';
  const history=el('economic-history');
  history.replaceChildren();
  const years=Array.from({length:Math.min(5,Math.max(0,y-2020))},(_,i)=>y-Math.min(4,y-2021)+i);
