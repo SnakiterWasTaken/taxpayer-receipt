@@ -52,3 +52,9 @@ test('No official sector value automatically makes an institution its category b
  assert.match(app,/not yet verified by this project/);
  assert.match(app,/Largest budget manager: Not yet verified/);
 });
+
+test('Every sector label carries a plain-language explanation rather than unexplained codes',()=>{
+ assert.match(app,/explainer\.textContent=sector\.help/);
+ assert.match(app,/dt\.append\(explainer\)/);
+ assert.match(css,/\.institutional-sector-list dt small\{/);
+});
