@@ -59,6 +59,8 @@ The national open-data catalogue identifies the 2024 December local-government F
 
 The raw FIN source's ZIP/CSV headers are **not** automatically a map from budget paragraph to COFOG and do not prove spending decision-making authority.
 
+**Actual first ZIP retrieval (GitHub Actions 40243913532):** successful for the December 2024 local-government FINM archive, **24,347,830 bytes** and SHA-256 `634be377587abb45e61d2b2a7e2a12fad4a80cf531a5effa2815fe18c06a3ae6`. Nine CSV members contain **229,383,145 uncompressed bytes**. The primary `FINM201_2024012.csv` member has official source fields IČO (`ZC_ICO`), year/period (`0FISCPER`), paragraph (`FUNC_AREA`), item (`ZCMMT_ITM`) and actual (`ZU_ROZKZ`). **Full-record counts, official category crosswalk, transfer reconciliation and largest decision-maker verification were NOT yet established by this first inspection.** The GitHub Actions ZIP is discarded after header/schema sampling; only metadata is retained.
+
 ## What must happen before naming a 'largest budget manager'
 
 1. Download original **2024 FIN 1-12 OSS** chapter/paragraph and **2024 FIN 2-12 M** local government institution/paragraph datasets from official public distributions, keeping checksums and provider metadata.

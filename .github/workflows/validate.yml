@@ -45,7 +45,7 @@ jobs:
       - name: Probe original Czech December 2024 FIN source ZIP (metadata only)
         id: fin_probe
         continue-on-error: true
-        run: python3 scripts/probe-fin-2024.py --only municipal
+        run: python3 scripts/probe-fin-2024.py --only all
       - name: Preserve official-source probe and unresolved errors
         if: always()
         uses: actions/upload-artifact@v4

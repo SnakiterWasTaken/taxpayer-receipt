@@ -42,6 +42,10 @@ class FinProbeTests(unittest.TestCase):
             parts=probe.inspect_zip(path)
             self.assertEqual(len(parts),1)
             self.assertEqual(parts[0]["header"][0],"ICO")
+            self.assertEqual(parts[0]["profile"]["countedRows"],1)
+            self.assertTrue(parts[0]["profile"]["rowCountComplete"])
+            self.assertEqual(parts[0]["profile"]["uniqueOrganisationIds"],1)
+            self.assertEqual(parts[0]["profile"]["periods"],[])
             self.assertNotIn("00000001",str(parts))
 
 if __name__=="__main__":
