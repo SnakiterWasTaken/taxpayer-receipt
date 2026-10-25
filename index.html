@@ -33,7 +33,9 @@
         <div class="panel-head"><span class="step">01</span><div><h2>Set your view</h2><p>Choose a country and year</p></div></div>
         <div class="field"><label for="country">Country</label><select id="country" aria-label="Country"><option>Loading countries…</option></select></div>
         <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
-        <div class="control-separator"></div>
+        <details class="sidebar-details" id="personalize-details">
+          <summary>Estimate my personal share <small>Optional — no personal data required</small></summary>
+          <div class="personalize-content">
         <div class="panel-head secondary-head"><span class="step">02</span><div><h2>Make it personal</h2><p>Optional illustrative allocation</p></div></div>
         <div class="field"><label for="contribution-mode">How would you like to estimate your contribution?</label><select id="contribution-mode"><option value="salary">Calculate from annual gross salary — Czechia</option><option value="manual">Enter an amount I already know</option></select></div>
         <div id="salary-fields">
@@ -56,8 +58,11 @@
           <div class="field"><label for="amount">Your annual tax amount <span id="currency-label">(CZK)</span></label><input type="number" min="0" step="100" inputmode="decimal" id="amount" placeholder="e.g. 100000" autocomplete="off" /><p class="field-hint">Enter <strong>taxes paid</strong>, not your gross salary. This amount stays in your browser.</p></div>
         </div>
         <div id="other-countries-note" class="upcoming hidden" role="note"><span class="coming-mark">◇</span><div><strong>Salary calculation for other countries</strong><br /><span>Currently available for Czechia only. You can still enter a known annual tax amount.</span></div></div>
+          </div>
+        </details>
         <div class="control-separator"></div>
-        <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div>
+        <details class="sidebar-details" id="compare-details"><summary>Compare countries</summary>
+        <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div></details>
         <button id="reset" class="reset-btn" type="button">↺ Reset view</button>
       </aside>
       <div class="output">
@@ -84,10 +89,26 @@
               <p class="payroll-caveat" id="payroll-caveat">Full-year single-employer estimate; selected household eligibility is self-declared. See methodology for exclusions.</p>
               <a class="plain-link" href="#country-note-cz-employee-tax-2024-2026">Tax rules, assumptions and official sources ↓</a>
             </div>
+<section class="glance-panel" aria-labelledby="glance-heading">
+              <div class="kicker">AT A GLANCE · <span id="glance-country-year"></span></div>
+              <h3 id="glance-heading">The three biggest spending areas</h3>
+              <p class="glance-lead">Of every 100 spent by the government, these are the largest shares. This is not a literal trace of your taxes.</p>
+              <div id="glance-leaders" class="glance-leaders" aria-live="polite"></div>
+              <h3>Worth a closer look</h3>
+              <div id="glance-observations" class="glance-observations" aria-live="polite"></div>
+              <p class="glance-caveat" id="glance-observations-caption">These are factual observations, not political verdicts.</p>
+            </section>
             <div class="visual-row"><div class="donut-wrap"><svg id="donut" role="img" aria-label="Government spending distribution by function" viewBox="0 0 240 240"></svg><div class="donut-center"><span id="donut-eyebrow">TOTAL SPENDING</span><strong id="donut-number">—</strong><span id="donut-unit">billion EUR</span></div></div><div class="visual-details"><div class="summary-kicker" id="summary-kicker">Reported total expenditure</div><strong class="summary-number" id="summary-number">—</strong><p id="summary-explainer">Across all levels of government, including relevant social security funds.</p><div class="summary-divider"></div><div id="flags" class="flags"></div><a id="data-link" href="https://ec.europa.eu/eurostat/databrowser/view/gov_10a_exp/default/table?lang=en" target="_blank" rel="noopener noreferrer" class="plain-link">View original Eurostat dataset ↗</a></div></div>
             <div class="breakdown-head"><div><h3>Where the money goes</h3><p id="breakdown-caption">Share of public expenditure, by COFOG function</p></div><span class="breakdown-sort">LARGEST FIRST ↓</span></div>
             <div id="breakdown" class="breakdown" aria-live="polite"></div>
+            <details id="spending-more" class="detail-toggle">
+              <summary>Show the other seven spending categories</summary>
+              <div id="breakdown-extra" class="breakdown"></div>
+            </details>
+            <p class="category-help-source">The <strong>(i)</strong> beside each category explains what it includes. <a href="https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html" target="_blank" rel="noopener noreferrer">Common OECD / UN spending definitions ↗</a></p>
             <p id="allocation-note" class="allocation-note">Figures represent public spending shares, not actual earmarked individual tax payments.</p>
+            <details class="detail-toggle pension-disclosure" id="pension-details">
+              <summary>Explore old-age and pension spending</summary>
             <section class="pension-panel" id="pension-panel" aria-labelledby="pension-title">
               <div class="kicker">BEYOND THE HEADLINE CATEGORIES</div>
               <h3 id="pension-title">Pensions &amp; old-age spending <span id="pension-year"></span></h3>
@@ -107,6 +128,7 @@
 
               <a class="plain-link" href="./docs/pension-transparency.html">Definitions, competing accounting perspectives and sources ↗</a>
             </section>
+            </details>
           </div>
         </div>
         <section class="panel country-context hidden" id="country-context" aria-labelledby="country-context-title">
@@ -115,7 +137,8 @@
           <p class="country-context-intro">National tax-calculator rules and reviewed accounting issues, shown for the selected country with their source years. These notes do not modify Eurostat's harmonised expenditure totals.</p>
           <div id="country-context-list"></div>
         </section>
-        <section class="panel economic-panel" aria-labelledby="economic-title">
+        <details class="panel economic-disclosure" id="economic-details"><summary>Explore inflation, wages and living standards</summary>
+        <section class="economic-panel" aria-labelledby="economic-title">
           <div class="kicker">HISTORICAL ECONOMIC CONTEXT</div>
           <h2 id="economic-title">Living standards in <span id="economic-country">Czechia</span></h2>
           <p class="economic-lead">A country's expenditure priorities should be considered alongside prices, wage floors, and household purchasing-power trends. These indicators do not, by themselves, prove which policies caused the changes.</p>
@@ -133,7 +156,7 @@
           <p id="economic-status" class="economic-status" role="status">Loading independently sourced context data…</p>
           <p class="economic-caveat">Inflation refers to calendar-year average consumer prices; wages to 1 January. The real household income index (2008=100) supports trends <em>within</em> a country, not international comparisons of income levels. Some countries have no national statutory minimum wage.</p>
           <p class="economic-sources">Original sources: <a href="https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_ainr/default/table?lang=en" target="_blank" rel="noopener noreferrer">Eurostat inflation ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/earn_mw_cur/default/table?lang=en" target="_blank" rel="noopener noreferrer">Minimum wages ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/tepsr_wc310/default/table?lang=en" target="_blank" rel="noopener noreferrer">Real household income ↗</a> · <a href="./docs/economic-context.md">Definitions &amp; limitations ↗</a></p>
-        </section>
+        </section></details>
         <section class="panel comparison-panel hidden" id="comparison-panel" aria-labelledby="comparison-title"><div class="comparison-header"><div><div class="kicker">CROSS-COUNTRY VIEW</div><h2 id="comparison-title">How priorities compare</h2><p>Share of government expenditure; same calendar year, same COFOG definitions.</p></div><div id="compare-key" class="compare-key"></div></div><div id="comparison-rows"></div></section>
       </div>
     </section>

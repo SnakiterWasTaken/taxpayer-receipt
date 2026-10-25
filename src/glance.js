@@ -23,8 +23,8 @@ export function observationsForCountry(entry,economic,previousEconomic,notes=[])
   if(pension&&Number.isFinite(pension.publicShare)&&pension.publicShare>=0&&pension.publicShare<=1){
     observations.push({
       id:'old-age-share',type:'context',title:'Old age and survivors',
-      text:'For every €100 of public spending, €'+(100*pension.publicShare).toFixed(1)+
-           ' is recorded under old-age and survivors’ services and benefits.',
+      text:'Old age and survivors’ services and benefits represent '+(100*pension.publicShare).toFixed(1)+
+           '% of total public spending.',
       qualifier:'These functions are already inside Social protection. They include more than cash retirement pensions.',
       year:entry.year,source:'Eurostat COFOG · GF1002 + GF1003',
     });

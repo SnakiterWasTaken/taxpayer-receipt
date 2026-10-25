@@ -2,6 +2,20 @@
 
 The project aims to make official government spending, tax contributions and economic outcomes understandable, reproducible and internationally comparable. **No ranking or individual accounting claim may override source evidence, denominators, years or caveats.**
 
+## Priority 0 — Understand spending, then investigate responsibility
+
+- [x] **Understand at a glance:** identify the largest three spending categories, with a percentage of all public spending and up to two source-backed observations. No individual tax calculation is required. Tax inputs and more detailed tables are optional (issue #8).
+- [x] **Explain every category:** show an accessible **(i)** bubble beside all ten COFOG categories, containing examples of included services and common misconceptions. Use universal COFOG definitions, the same for every country, ready for translation.
+- [ ] **Who decides?** Provide a verified country-and-year-specific explanation of who sets rules, who approves/controls the budget, and who actually delivers or records spending for each COFOG category (issue #10). Shared authority must remain visible; don't invent a dominant ministry.
+- [ ] **Where expenditure is recorded:** investigate Eurostat sector-level `gov_10a_exp` (`S1311` central, `S1312` regional, `S1313` local, `S1314` social security) and validate institutional transfers and S13 reconciliation before publishing any percentages. These are **accounting sectors, not proof of spending autonomy**.
+- [ ] **Country-specific policy and budget authority:** source national rules, financing, budget approval and executing institutions separately, with effective dates, references and review metadata. Display these only for the selected country and never mix national specifics into the common methodology.
+- [ ] **Evidence, not political scores:** only report verifiable facts, reference periods and denominators; a high share does not by itself demonstrate waste, efficiency or causality.
+- [ ] **Multilingual explanations:** translate short category help and deeper institutional notes into the 24 EU official languages, while keeping original source URLs and unchanged calculations.
+
+Definition of done for **Who decides?**: each published claim has a named institution, distinct responsibility (policy, allocation, execution), source and effective year; missing/contested responsibilities are explicitly identified. Display as optional detail, not a wall of text.
+
+See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classification](https://unstats.un.org/unsd/classifications/cofog/revision), and the [OECD COFOG detail table](https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html).
+
 ## Delivered foundations
 
 - [x] EU-27 government spending explorer using Eurostat S13 COFOG data; official source provenance, strict reconciliation, historical years and comparison.
