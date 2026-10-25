@@ -44,6 +44,18 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 
 Source review and known gaps: [official responsibilities audit](docs/authority-sources.md).
 
+## Priority 0.4 — Actual named institutions and reconciled budget authority
+
+- [x] **2024 Czech government-state budget:** transcribe **all 48 state-budget chapter cash-expenditure outturns** from the Ministry of Finance 2024 final accounts (Book G, Table 7). Require the sum to reconcile **exactly** with the official state-budget total. Show the audited chapter list only when Czechia and spending year 2024 are selected.
+- [x] **Clarity:** distinguish budget chapter accounts and their administrators from final legal decision authority or the entire consolidated COFOG amount; label the different accounting bases and transfers, with no invented percentage of category control.
+- [ ] Map **Czech 2024 state-budget chapter + functional budget paragraph** to the international COFOG purpose, with an **officially sourced** crosswalk, no inferred ministry-by-category mapping.
+- [ ] Obtain and verify **2024 municipal, regional and extra-budgetary institutional accounts** from the Finance Ministry's MONITOR service; reconcile government grants and intergovernmental transfers before attributing amounts.
+- [ ] Independently source *who proposes, approves, allocates and independently executes* each mapped expense. Publish a **largest budget manager** only where comparable, complete 2024 observations and legal decision powers support the claim.
+- [ ] Apply the same verified actual-expenditure ledger approach to the remaining **26 EU Member States**; an EU-wide sector extraction is not completion of named-manager verification.
+- [ ] Verify actual browser and mobile interaction with full 48-row ledger; add regression screenshots with environment and failed attempts to the journal.
+
+Audit and limitations: [Czech 2024 state-budget institution ledger](docs/countries/cz-budget-chapters-2024.md).
+
 ## Priority 0.3 — All 27 countries: official sector expenditure and national budget responsibility
 
 - [x] Build and test one reproducible annual **EU27 × 10 COFOG** sector-data sweep from Eurostat, including country-by-country availability, source-year attribution and the four general-government subsectors.
