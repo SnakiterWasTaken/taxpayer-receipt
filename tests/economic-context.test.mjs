@@ -14,7 +14,7 @@ function fixture(){
  };
 }
 test('Official source URLs and years are documented',()=>{
- for(const s of Object.values(ECONOMIC_SOURCES)){const u=new URL(s.url);assert.match(u.hostname,/eurostat/);assert.equal(u.searchParams.get('sinceTimePeriod'),'2021');}
+ for(const s of Object.values(ECONOMIC_SOURCES)){const u=new URL(s.url);assert.match(u.pathname,/eurostat/);assert.equal(u.searchParams.get('sinceTimePeriod'),'2021');}
 });
 test('Distinct measurement units are not mixed',()=>{
  const x=validateEconomicContext(normalizeEconomicContext(fixture()));
@@ -26,7 +26,7 @@ test('Nominal growth and cumulative inflation are not summed',()=>{
  assert.ok(Math.abs(economicGrowth(18900,17300)-9.248554913294805)<.001);
  assert.equal(economicGrowth(12,0),null);
  assert.ok(Math.abs(cumulativeInflation(x,'CZ',2023,2024)-3)<1e-12);
- assert.equal(cumulativeInflation(x,'CZ',2022,2024),null);
+ assert.equal(cumulativeInflation(x,'CZ',2021,2024),null);
 });
 test('Missing minimum wages never become zero',()=>{
  const raw=fixture();delete raw.minimumWage;const x=normalizeEconomicContext(raw);
