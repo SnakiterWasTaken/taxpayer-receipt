@@ -9,6 +9,7 @@ import {explainIncomeIndex} from './plain-language.js';
 import {responsibilityStatus} from './official-responsibilities.js';
 import {SECTORS,validateSectorSpending,sectorSpendingFor,SECTOR_SOURCE,SECTOR_METHOD} from './sector-spending.js';
 import {budgetPortalFor} from './national-budget-portals.js';
+import {CZ_2024_STATE_ACCOUNT_SOURCE,CZ_2024_CHAPTER_TOTAL_THOUSAND_CZK,czechChapterData,czechChaptersSorted} from './cz-2024-budget-chapters.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -334,13 +335,51 @@ function refreshCountry(){
 }
 
 /** Reviewed national accounting context, scoped to selected jurisdiction. */
+/** One-level country detail: official state-budget chapters (not COFOG authorities). */
+function renderCzechStateBudgetLedger(container){
+ const section=document.createElement('section');section.className='cz-chapter-section';
+ section.id='cz-2024-state-budget-chapters';
+ const heading=document.createElement('h3');heading.textContent='Where did the 2024 Czech state budget go?';
+ const description=document.createElement('p');description.textContent=
+   '48 official state-budget chapters · actual expenditure · CZK '+formatNumber(CZ_2024_CHAPTER_TOTAL_THOUSAND_CZK/1e6,1)+
+   ' billion. The chapter administrator reports these expenses; that is not proof they independently decided every payment.';
+ const warning=document.createElement('p');warning.className='cz-chapter-warning';
+ warning.textContent='This is the STATE budget (cash accounting), not Eurostat’s whole-government COFOG total. Chapter spending can include transfers to municipalities or other bodies. Do not add it to the Eurostat figures or assign a whole chapter to one spending category.';
+ const wrap=document.createElement('div');wrap.className='cz-chapters-scroll';
+ const table=document.createElement('table');table.className='cz-chapters-table';
+ const caption=document.createElement('caption');caption.textContent='Czech state budget chapter actual spending in 2024, largest first; rounded to 0.1 billion CZK';
+ const thead=document.createElement('thead'),tr=document.createElement('tr');
+ for(const name of ['Budget chapter / administrator','Actual spending (CZK bn)']){
+   const th=document.createElement('th');th.scope='col';th.textContent=name;tr.append(th);
+ }
+ thead.append(tr);
+ const tbody=document.createElement('tbody');
+ for(const chapter of czechChaptersSorted()){
+   const row=document.createElement('tr');
+   const name=document.createElement('th');name.scope='row';name.textContent=chapter.id+' · '+chapter.name;
+   const amount=document.createElement('td');amount.textContent=formatNumber(chapter.actualThousandCzk/1e6,1);
+   row.append(name,amount);tbody.append(row);
+ }
+ table.append(caption,thead,tbody);wrap.append(table);
+ const source=document.createElement('a');source.href=CZ_2024_STATE_ACCOUNT_SOURCE.url;
+ source.rel='noopener noreferrer';source.target='_blank';source.textContent='Original Ministry of Finance final accounts — Book G, Table 7, page 32 ↗';
+ const detail=document.createElement('a');detail.href='./docs/countries/cz-budget-chapters-2024.md';
+ detail.textContent='What these chapters prove, and what remains unverified ↗';
+ section.append(heading,description,warning,wrap,source,detail);
+ container.append(section);
+}
+
 function renderCountryNotes(code,spendingYear){
   const notes=countryNotesFor(code);
-  toggle('country-context',notes.length>0);
+  const chapters=czechChapterData(code,spendingYear);
+  toggle('country-context',notes.length>0||!!chapters);
   const list=el('country-context-list');list.replaceChildren();
-  if(notes.length===0)return;
+  if(notes.length===0&&!chapters)return;
   el('country-context-country').textContent=label(code);
-  el('country-context-teaser').textContent=notes.length===1?'1 country-specific note · Tap for context':notes.length+' country-specific notes · Tap for context';
+  el('country-context-teaser').textContent=chapters
+    ?'48 verified 2024 state-budget chapters · '+notes.length+' national note'+(notes.length===1?'':'s')
+    :notes.length===1?'1 country-specific note · Tap for context':notes.length+' country-specific notes · Tap for context';
+  if(chapters)renderCzechStateBudgetLedger(list);
   for(const note of notes){
     const article=document.createElement('article');article.className='country-note';
     article.dataset.noteId=note.id;article.id='country-note-'+note.id;
