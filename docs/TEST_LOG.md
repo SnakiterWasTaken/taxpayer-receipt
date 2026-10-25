@@ -109,6 +109,16 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Still NOT RUN:** physical-device touch/keyboard walkthrough, visual regression screenshots of the complete deployed app, translations or user-comprehension testing. These limitations remain on the roadmap.
 - **Next:** run full JavaScript/Python CI plus real data refresh/build; inspect failing tests and log any adjustments; merge only if successful; verify published Pages, then arrange real mobile and keyboard browsing checks. Translation work is still pending.
 
+### 2026-10-25 — One expansion should reveal all ten spending categories (PR pending)
+
+- **Goal:** Remove redundant taps on mobile. The initial page still shows the three largest spending areas; opening **Explore all spending categories** must reveal the **entire ten-category breakdown immediately**.
+- **Cause:** The previous interface placed another `<details id="spending-more">` inside the already expandable category card. It initially rendered only three rows and hid seven more behind a second disclosure. The extra step was unnecessary and contradicted the card's name.
+- **Attempt 1 (code change prepared; CI not yet run):** Remove the nested disclosure and its separate `breakdown-extra` container; populate the existing `breakdown` with `allocations.map(makeRow)` rather than separate slices. Keep the first-screen three-leader summary, all ten COFOG classifications, hover/tap/keyboard information bubbles, spending percentages and optional personal estimates.
+- **Test changes:** Update prior structural tests that intentionally expected the old nested control; add regression tests that confirm the outer card has no nested `<details>`, the ten registered COFOG functions remain, and the full calculated allocation array renders in the one list. **Initial result: NOT RUN** pending PR validation.
+- **Scope:** UI presentation only; no Eurostat calculations, economic data, tax parameters, accounting rules or country-specific notes altered.
+- **Unverified:** A physical mobile-browser tap and screenshot check has **not** been performed.
+- **Next:** Run PR CI, document pass/fail and any adjustment here; merge on success; verify the Pages deployment; invite a mobile check of the single-expansion interaction.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).

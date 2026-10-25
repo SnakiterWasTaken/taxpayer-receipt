@@ -225,8 +225,9 @@ function refreshCountry(){
   el('allocation-note').textContent=withAmount?(contribution.kind==='salary'?`Illustration only: ${formatMoney(amount,curr)} is estimated for Czech tax year ${taxYearEl.value} (${basisEl.value==='income'?'income tax after applicable household credits (child bonus excluded)':'income tax plus employee social and health contributions (refundable child bonus excluded)'}). Spending shares use ${year}. Social and health contributions have their own financing arrangements; this is not an actual flow of your payments.`:`Illustration only: ${formatMoney(amount,curr)} is the amount you entered. Shares are pro-rata estimates, not traced payments.`):'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
   renderGlance(entry);
   const makeRow=x=>breakdownRow(x,withAmount?amount:null,curr);
-  el('breakdown').replaceChildren(...allocations.slice(0,3).map(makeRow));
-  el('breakdown-extra').replaceChildren(...allocations.slice(3).map(makeRow));
+  // The outer "Explore all spending categories" disclosure is the only gate:
+  // render every reconciled COFOG category when the card opens, without a second click.
+  el('breakdown').replaceChildren(...allocations.map(makeRow));
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
   el('result-subtitle').textContent=`All government levels and social-security funds · ${year} · ten spending categories`;
