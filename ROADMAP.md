@@ -16,6 +16,13 @@ Definition of done for **Who decides?**: each published claim has a named instit
 
 See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classification](https://unstats.un.org/unsd/classifications/cofog/revision), and the [OECD COFOG detail table](https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html).
 
+### Responsive layout reliability
+
+- [ ] Verify that expanding any economic, pension, national note or payroll panel does not change the width of the main explorer on narrow phones.
+- [ ] Keep wide statistics tables horizontally scrollable **within their own section**; support long links and translated descriptions without page-level horizontal overflow.
+- [ ] Add real mobile-browser smoke testing at 320–430 px viewport widths, plus desktop, to complement static CSS tests and representative fixtures.
+- [ ] Document device/browser, failed viewport, expected/actual widths, corrections, test output and any remaining limitations in the [handover journal](docs/TEST_LOG.md).
+
 ## Priority 0.1 — Test evidence and plain language everywhere
 
 - [x] **Durable handover process:** keep a chronological test and decision journal with each trial, what failed, corrections, retests, open limitations, and next action; add a mandatory PR checklist.
