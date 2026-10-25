@@ -6,7 +6,7 @@ The project aims to make official government spending, tax contributions and eco
 
 - [x] **Understand at a glance:** identify the largest three spending categories, with a percentage of all public spending and up to two source-backed observations. No individual tax calculation is required. Tax inputs and more detailed tables are optional (issue #8).
 - [x] **Explain every category:** show an accessible **(i)** bubble beside all ten COFOG categories, containing examples of included services and common misconceptions. Use universal COFOG definitions, the same for every country, ready for translation.
-- [ ] **Who decides?** Provide a verified country-and-year-specific explanation of who sets rules, who approves/controls the budget, and who actually delivers or records spending for each COFOG category (issue #10). Shared authority must remain visible; don't invent a dominant ministry.
+- [ ] **Who decides?** First official-source Czech pilot shipped for roads, municipal waste and primary-school provision, with other categories and countries explicitly unavailable; complete country/year/service authority mappings still pending. Provide a verified country-and-year-specific explanation of who sets rules, who approves/controls the budget, and who actually delivers or records spending for each COFOG category (issue #10). Shared authority must remain visible; don't invent a dominant ministry.
 - [ ] **Where expenditure is recorded:** investigate Eurostat sector-level `gov_10a_exp` (`S1311` central, `S1312` regional, `S1313` local, `S1314` social security) and validate institutional transfers and S13 reconciliation before publishing any percentages. These are **accounting sectors, not proof of spending autonomy**.
 - [ ] **Country-specific policy and budget authority:** source national rules, financing, budget approval and executing institutions separately, with effective dates, references and review metadata. Display these only for the selected country and never mix national specifics into the common methodology.
 - [ ] **Evidence, not political scores:** only report verifiable facts, reference periods and denominators; a high share does not by itself demonstrate waste, efficiency or causality.
@@ -34,10 +34,21 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 
 **Principle:** each closed card explains *why the visitor might open it*. Never hide all useful information behind generic "learn more" text.
 
+### Source-backed government responsibility pilot
+
+- [x] Add **Who is responsible?** disclosures beside each of the 10 spending categories for the selected country, including an explicit **no verified official public data available** state.
+- [x] Ground Czech examples for road maintenance (GF04), municipal household waste (GF05) and preschool/primary provision (GF09) in official public law and Czech government pages. Scope each example narrowly; **not** a claim about the whole spending category.
+- [x] Display a prominent **2026 responsibility review date**, distinguished from any selected historical Eurostat expenditure year.
+- [ ] Verify official historic authorities in each expenditure year and complete all 10 Czech categories, then extend to other EU countries using official sources only.
+- [ ] Independently verify policymaking, appropriations and spending execution; source-based functional mappings alone do not establish who controls most category spending.
+
+Source review and known gaps: [official responsibilities audit](docs/authority-sources.md).
+
 ## Priority 0.1 — Test evidence and plain language everywhere
 
 - [x] **Durable handover process:** keep a chronological test and decision journal with each trial, what failed, corrections, retests, open limitations, and next action; add a mandatory PR checklist.
 - [x] **Per-test automated reports:** GitHub Actions displays and uploads individual JavaScript/Python test names, outcomes and diagnostics (reports are temporary artifacts; permanently meaningful context belongs in git).
+- [x] **Household-income table bubble:** replace the separate index explanation paragraph with a touch/focus/hover (i) button in the history table column itself.
 - [x] **Plain-language glossary:** explain terms like real household income index, COFOG, HICP, real vs nominal, current-year comparison and consolidated government, with practical examples and statistical limits.
 - [ ] **Audit all technical labels** across country calculators, data warnings, pensions, other pages and future 24-language catalogs; require a nearby short explanation (not just a glossary link).
 - [ ] **Validate comprehension** with users who lack financial training; improve any explanations that lead readers to confuse indices with money amounts, reported expenditure with policy control, or national trends with international living-standard rankings.

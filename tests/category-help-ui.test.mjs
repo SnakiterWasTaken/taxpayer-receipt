@@ -28,6 +28,8 @@ test('Common category help is interactive and accessible in all spending display
  assert.match(js,/role','tooltip'/);
  assert.match(js,/help\.open|help-open/);
  assert.match(js,/event.key==='Escape'/);
+ assert.match(js,/wireInfoBubble\(el\('income-table-help'\)\)/);
+ assert.match(js,/responsibilityStatus\(activeCountry,code,Number\(year\)\)/);
  assert.match(js,/categoryInfo\(leader\)/);
  assert.match(js,/categoryInfo\(f\)/);
  assert.match(css,/category-help:hover \.category-help-tooltip/);

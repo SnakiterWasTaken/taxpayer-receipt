@@ -377,3 +377,37 @@
   .topic-card .method-grid{grid-template-columns:minmax(0,1fr)}
   .methodology.topic-card .topic-content{padding:13px 14px 20px}
 }
+
+/* Household-income help lives beside the table heading rather than in a
+ * separate page-length paragraph. Fixed placement escapes the scrollable table. */
+.income-table-help{vertical-align:middle;margin-left:4px}
+.income-table-help .category-help-tooltip{
+  position:fixed;z-index:140;left:50%;top:auto;bottom:19px;
+  transform:translateX(-50%);right:auto;
+  width:min(420px,calc(100vw - 32px));max-width:420px;
+}
+.income-table-help .category-help-tooltip span{white-space:normal}
+.economic-table th{white-space:normal}
+.authority-details{margin-top:10px;max-width:100%;min-width:0}
+.authority-summary{
+  list-style:revert;cursor:pointer;font-size:11px;
+  color:#a8d9df;line-height:1.5;
+}
+.authority-details>summary:focus-visible{outline:2px solid #e4c68c;outline-offset:3px}
+.authority-content{
+  padding:11px 12px;margin:9px 0 3px;
+  background:#112d3c;border:1px solid #3b596b;border-radius:8px;
+  min-width:0;max-width:100%;overflow-wrap:anywhere;
+  font-size:11px;line-height:1.6;
+}
+.authority-content>strong{display:block;font-size:12px;color:#e2f1f2}
+.authority-content p{margin:8px 0;color:#c4d8e1}
+.authority-content dl{display:grid;gap:4px;margin:12px 0}
+.authority-content dt{margin-top:7px;color:#e1f2f0;font-weight:700}
+.authority-content dd{margin:0;color:#abc6d3}
+.authority-content .authority-period{color:#dec99f}
+.authority-content .authority-caveat{border-left:2px solid #9ab2be;padding-left:10px}
+.authority-content .authority-unavailable{margin:0}
+.authority-sources{display:grid;gap:7px;margin-top:14px}
+.authority-sources a{color:#9cd7dc;text-decoration:underline;font-size:11px;overflow-wrap:anywhere}
+@media(max-width:700px){.income-table-help .category-help-tooltip{bottom:12px}}

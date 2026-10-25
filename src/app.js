@@ -6,6 +6,7 @@ import {countryNotesFor,notePeriodDescription} from './country-notes.js';
 import {helpForCategory} from './category-help.js';
 import {spendingLeaders,observationsForCountry} from './glance.js';
 import {explainIncomeIndex} from './plain-language.js';
+import {responsibilityStatus} from './official-responsibilities.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -72,6 +73,13 @@ function categoryInfo(item){
  const caveat=document.createElement('span');caveat.textContent='Note: '+info.not;
  const disclaimer=document.createElement('small');disclaimer.textContent='Examples of classified functions, not a receipt for individual spending.';
  tip.append(summary,examples,caveat,disclaimer);wrap.append(button,tip);
+ wireInfoBubble(wrap);
+ return wrap;
+}
+/** Same pointer, keyboard and touch behavior for static and dynamic information bubbles. */
+function wireInfoBubble(wrap){
+ const button=wrap.querySelector('button');
+ if(!button)return;
  button.setAttribute('aria-expanded','false');
  button.addEventListener('click',()=>{
    const opening=!wrap.classList.contains('help-open');
@@ -88,7 +96,40 @@ function categoryInfo(item){
  button.addEventListener('keydown',event=>{
    if(event.key==='Escape'){wrap.classList.remove('help-open');button.blur();}
  });
- return wrap;
+}
+/** Explain only responsibilities supported by official, country-specific publications. */
+function authorityDetails(code){
+ const data=responsibilityStatus(activeCountry,code,Number(year));
+ const card=document.createElement('details');card.className='authority-details';
+ const trigger=document.createElement('summary');trigger.className='authority-summary';
+ trigger.textContent=data.available?'Who is responsible? · verified examples':'Who is responsible? · no verified data';
+ const content=document.createElement('div');content.className='authority-content';
+ if(!data.available){
+   const missing=document.createElement('p');missing.className='authority-unavailable';
+   missing.textContent=data.reason+' This does not mean no government institution is responsible.';
+   content.append(missing);
+ }else{
+   const record=data.entry;
+   const scope=document.createElement('strong');scope.textContent=record.scope;
+   const intro=document.createElement('p');intro.textContent=record.summary;
+   const date=document.createElement('p');date.className='authority-period';date.textContent=data.timeNote;
+   const list=document.createElement('dl');
+   for(const role of record.roles){
+     const dt=document.createElement('dt');dt.textContent=role.label;
+     const dd=document.createElement('dd');dd.textContent=role.detail;
+     list.append(dt,dd);
+   }
+   const caution=document.createElement('p');caution.className='authority-caveat';caution.textContent=record.limit;
+   const sources=document.createElement('div');sources.className='authority-sources';
+   for(const src of record.sources){
+     const link=document.createElement('a');
+     link.href=src.url;link.textContent=src.title+' ↗';link.rel='noopener noreferrer';
+     link.target='_blank';sources.append(link);
+   }
+   content.append(scope,intro,date,list,caution,sources);
+ }
+ card.append(trigger,content);
+ return card;
 }
 function breakdownRow(item,amount,curr){
  const row=document.createElement('div');row.className='breakdown-row';
@@ -97,7 +138,7 @@ function breakdownRow(item,amount,curr){
  const title=document.createElement('b');title.textContent=item.label;labelNode.append(title);
  const help=categoryInfo(item);if(help)labelNode.append(help);
  if(amount!=null){const small=document.createElement('small');small.textContent=formatMoney(item.allocated,curr);labelNode.append(small)}
- const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar';fill.style.background=item.color;fill.style.width=formatPct(item.share);track.append(fill);main.append(labelNode,track);
+ const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar';fill.style.background=item.color;fill.style.width=formatPct(item.share);track.append(fill);main.append(labelNode,track,authorityDetails(item.code));
  const pct=document.createElement('div');pct.className='pct';pct.textContent=formatPct(item.share);
  row.append(square,main,pct);return row;
 }
@@ -454,6 +495,7 @@ function init(){
   childrenEl.addEventListener('change',()=>{renderChildZtpInputs();if(snapshot)refreshCountry()});
   for(const field of [spouseEl,disabilityEl,ownZtpEl])field.addEventListener('change',()=>{if(snapshot)refreshCountry()});
   renderChildZtpInputs();
+  wireInfoBubble(el('income-table-help'));
   yearEl.addEventListener('change',()=>{year=Number(yearEl.value);refreshCountry();updateUrl()});
   compareEl.addEventListener('change',()=>{compare=compareEl.value;renderCompare();updateUrl()});
   amountEl.addEventListener('input',()=>{if(snapshot)refreshCountry()});
