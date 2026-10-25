@@ -347,9 +347,9 @@ function renderCzechStateBudgetLedger(container){
  warning.textContent='This is the STATE budget (cash accounting), not Eurostat’s whole-government COFOG total. Chapter spending can include transfers to municipalities or other bodies. Do not add it to the Eurostat figures or assign a whole chapter to one spending category.';
  const wrap=document.createElement('div');wrap.className='cz-chapters-scroll';
  const table=document.createElement('table');table.className='cz-chapters-table';
- const caption=document.createElement('caption');caption.textContent='Czech state budget chapter actual spending in 2024, largest first; rounded to 0.1 billion CZK';
+ const caption=document.createElement('caption');caption.textContent='Actual 2024 state-budget spending, sorted largest first. Large sums shown in billions (bn) of CZK; smaller sums in millions (m) of CZK. Display amounts rounded.';
  const thead=document.createElement('thead'),tr=document.createElement('tr');
- for(const name of ['Budget chapter / administrator','Actual spending (CZK bn)']){
+ for(const name of ['Budget chapter / administrator','Actual spending']){
    const th=document.createElement('th');th.scope='col';th.textContent=name;tr.append(th);
  }
  thead.append(tr);
@@ -357,7 +357,11 @@ function renderCzechStateBudgetLedger(container){
  for(const chapter of czechChaptersSorted()){
    const row=document.createElement('tr');
    const name=document.createElement('th');name.scope='row';name.textContent=chapter.id+' · '+chapter.name;
-   const amount=document.createElement('td');amount.textContent=formatNumber(chapter.actualThousandCzk/1e6,1);
+   const amount=document.createElement('td');
+   amount.textContent=chapter.actualThousandCzk===0?'CZK 0':
+     chapter.actualThousandCzk>=1e6
+       ?'CZK '+formatNumber(chapter.actualThousandCzk/1e6,2)+' bn'
+       :'CZK '+formatNumber(chapter.actualThousandCzk/1000,1)+' m';
    row.append(name,amount);tbody.append(row);
  }
  table.append(caption,thead,tbody);wrap.append(table);
