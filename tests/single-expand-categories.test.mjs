@@ -12,7 +12,8 @@ test('One category-card expansion reveals the single complete list of ten functi
  assert.ok(a>=0 && end>a, 'outer spending card exists and closes');
  const inside=html.slice(a,end);
  assert.match(inside,/id="breakdown"/);
- assert.doesNotMatch(inside,/<details\b|id="breakdown-extra"/);
+ assert.equal((inside.match(/<details\b/g)||[]).length,1,"only the outer disclosure is present");
+ assert.doesNotMatch(inside,/id="breakdown-extra"/);
  assert.match(app,/el\('breakdown'\)\.replaceChildren\(\.\.\.allocations\.map\(makeRow\)\)/);
  assert.equal(FUNCTIONS.length,10,'all ten common COFOG functions remain registered');
 });
