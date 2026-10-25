@@ -7,7 +7,7 @@ The project aims to make official government spending, tax contributions and eco
 - [x] **Understand at a glance:** identify the largest three spending categories, with a percentage of all public spending and up to two source-backed observations. No individual tax calculation is required. Tax inputs and more detailed tables are optional (issue #8).
 - [x] **Explain every category:** show an accessible **(i)** bubble beside all ten COFOG categories, containing examples of included services and common misconceptions. Use universal COFOG definitions, the same for every country, ready for translation.
 - [ ] **Who decides?** First official-source Czech pilot shipped for roads, municipal waste and primary-school provision, with other categories and countries explicitly unavailable; complete country/year/service authority mappings still pending. Provide a verified country-and-year-specific explanation of who sets rules, who approves/controls the budget, and who actually delivers or records spending for each COFOG category (issue #10). Shared authority must remain visible; don't invent a dominant ministry.
-- [ ] **Where expenditure is recorded:** investigate Eurostat sector-level `gov_10a_exp` (`S1311` central, `S1312` regional, `S1313` local, `S1314` social security) and validate institutional transfers and S13 reconciliation before publishing any percentages. These are **accounting sectors, not proof of spending autonomy**.
+- [x] **Where expenditure is recorded (source-backed first pass):** add an EU27 Eurostat sector-expenditure extraction, country/year/function coverage matrix and conservative accounting labels; national ministries and largest **budget managers remain unverified** until comparable ledger crosswalks are independently reviewed. Original follow-up: investigate Eurostat sector-level `gov_10a_exp` (`S1311` central, `S1312` regional, `S1313` local, `S1314` social security) and validate institutional transfers and S13 reconciliation before publishing any percentages. These are **accounting sectors, not proof of spending autonomy**.
 - [ ] **Country-specific policy and budget authority:** source national rules, financing, budget approval and executing institutions separately, with effective dates, references and review metadata. Display these only for the selected country and never mix national specifics into the common methodology.
 - [ ] **Evidence, not political scores:** only report verifiable facts, reference periods and denominators; a high share does not by itself demonstrate waste, efficiency or causality.
 - [ ] **Multilingual explanations:** translate short category help and deeper institutional notes into the 24 EU official languages, while keeping original source URLs and unchanged calculations.
@@ -43,6 +43,20 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 - [ ] Independently verify policymaking, appropriations and spending execution; source-based functional mappings alone do not establish who controls most category spending.
 
 Source review and known gaps: [official responsibilities audit](docs/authority-sources.md).
+
+## Priority 0.3 — All 27 countries: official sector expenditure and national budget responsibility
+
+- [x] Build and test one reproducible annual **EU27 × 10 COFOG** sector-data sweep from Eurostat, including country-by-country availability, source-year attribution and the four general-government subsectors.
+- [x] Preserve the Eurostat rule **S13 consolidated total ≠ sum of the subsectors**, and show actual amounts rather than bogus 'share controlled' percentages.
+- [x] Distinguish **not yet reviewed by this project** from **official data unavailable**, with an explicit "largest budget manager not verified" message.
+- [x] Add directly reviewed national budget sources for an initial seven countries, clearly labelled as budget portals **not** COFOG/decision-authority crosswalks.
+- [ ] For each country's 2024 budget and local-government treasury ledgers, independently verify the institution, spending purpose, approved budget, actual expenditure, decision powers, and intergovernmental transfers before identifying a category's largest manager.
+- [ ] Finish official country-specific source discovery for the other 20 countries; do not infer competent ministry from the category's name.
+- [ ] Distinguish 2024 legal powers from 2026 reviewed current-law examples. Translate country-specific descriptions and verify historical legal effective dates.
+- [ ] Extend direct review from one representative year to every selectable expenditure year and explicitly document revisions.
+- [ ] Run a browser-level mobile/keyboard integration test and capture screenshots before describing accessibility as fully verified.
+
+Source coverage, limitations and next individual research tasks: [EU27 source sweep](docs/eu27-authority-sweep.md).
 
 ## Priority 0.1 — Test evidence and plain language everywhere
 
