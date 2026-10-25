@@ -94,6 +94,18 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Limitations:** Production JavaScript data filling, real device viewport handling, iOS Safari and direct visual inspection of the published app have **not yet been verified**. The browser fixture shares representative layout rules but is not the actual production DOM/CSS bundle.
 - **Next:** Validate PR tests/data refresh/build, merge only on success, confirm GitHub Pages publish, and run an actual smartphone or browser device-emulation check expanding economic history and country-specific notes. If any panel still widens, capture viewport size and affected section and add a browser-level regression.
 
+### 2026-10-25 — Less text; expandable insight and explanation cards (PR pending)
+
+- **Goal (in ordinary language):** a visitor sees their country, the biggest spending areas and a few important facts. Explanations, national legal details, source notes and historical statistics should be available when opened, rather than making an intimidating wall of text.
+- **Scope:** Shared interface, every country/year; no changes to Eurostat data, tax rules, tax-calculator mathematics, reference years, or the country-specific note registry. Markup uses native accessible `<details>/<summary>` rather than a custom JavaScript-only accordion; multiple sections can remain open.
+- **Attempt 1 — inspection (PASS):** found default-page redundancy: the same top three functions are shown as cards and repeated in the breakdown; country notes showed lengthy text before the user opened anything; the page ended with three methodology articles. Checked existing mobile-width fix and planned not to undo it.
+- **Adjustment:** Grouped the full category breakdown, pensions, economic history, national notes and general methodology into five optional topic cards. The closed pension card previews the **selected country's verified pension share and year**; the economic card previews **selected year's inflation and real household income movement** when reported; the national card says how many notes are available for the selected country. Country-specific content stays country-specific, and detailed financial-source caveats are kept inside the cards.
+- **Attempt 2 — insight layout (implementation prepared):** moved methodological caveats and source explanations inside expandable individual insight cards; the actual observation remains visible even when collapsed. All text is inserted using `textContent` rather than `innerHTML` so source data or user inputs cannot inject markup.
+- **Attempt 3 — deep link (implementation prepared):** added `revealLinkedSection` to open containing native disclosures when the salary receipt's tax rules link or the methodology anchor is opened. Full official source links remain reachable. Open/closed state is managed by the browser, not saved remotely.
+- **Regression risks to test:** legacy HTML tests referenced old class names, so their expectations have been updated to the new markup. On mobile, all nested cards must keep `min-width:0`; wide economic tables continue to scroll within their own wrapper. The numerical model must remain unchanged.
+- **Status at initial journal entry:** **NOT RUN** as a GitHub PR validation or deployed-site browser test. Do not claim a live fix until CI and Pages have reported results.
+- **Next:** run full JavaScript/Python CI plus real data refresh/build; inspect failing tests and log any adjustments; merge only if successful; verify published Pages, then arrange real mobile and keyboard browsing checks. Translation work is still pending.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
