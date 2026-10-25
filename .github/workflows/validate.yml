@@ -42,6 +42,34 @@ jobs:
           path: test-results/
           if-no-files-found: warn
           retention-days: 90
+      - name: Probe original Czech December 2024 FIN source ZIP (metadata only)
+        id: fin_probe
+        continue-on-error: true
+        run: python3 scripts/probe-fin-2024.py --only all
+      - name: Preserve official-source probe and unresolved errors
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cz-fin-source-metadata
+          path: test-results/fin-2024-source-probe.json
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Show FIN source verification status in workflow
+        if: always()
+        run: |
+          echo "## Original MONITOR FIN 2024 source probe" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f test-results/fin-2024-source-probe.json ]; then
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d=json.load(open("test-results/fin-2024-source-probe.json"))
+          for x in d["datasets"]:
+              print("- **"+x["dataset"]+"**: "+x["status"])
+              print("  - Archive SHA-256: "+x.get("sha256","NOT VERIFIED"))
+              print("  - "+x.get("failureExplanation","ZIP downloaded and CSV schema sample inspected. No budget decisions validated."))
+          PY
+          else
+            echo "BLOCKED: no original-source metadata was produced." >> "$GITHUB_STEP_SUMMARY"
+          fi
       - run: npm run data:refresh
       - run: npm run institutional:refresh
       - run: npm run context:refresh

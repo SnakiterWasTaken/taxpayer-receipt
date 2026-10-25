@@ -94,6 +94,12 @@ The budget-document sources below are individually checked official publications
 
 The [Czech actual-spending chapter ledger](countries/cz-budget-chapters-2024.md) now contains **48 source-verified state-budget chapter totals** for 2024, with an exact sum matching the official Czech Ministry of Finance final-account total. It is an **institutional cash-budget list**, not a mapping of 48 organisations to 10 COFOG purposes and not a decision-authority allocation. Other EU national chapter ledgers and the function-level/legal crosswalk remain outstanding.
 
+## Czech original institutional FIN extract milestone, 26 October 2026
+
+The original December 2024 local-government FINM and separate Prague FINMMC **ZIP files have been retrieved and all CSV member row counts verified**. The main 201 budget statement includes 6,966 reporting organisation IDs, and Prague's 201 statement includes 59; these sets have **not been deduplicated or transfer-reconciled**. Full Ministry download identity, SHA-256 hashes, classification warnings and required controls are in [FIN institution-level source audit](fin-institution-ingestion.md).
+
+For the other **26** EU countries, comparable original institution-level ledgers are **pending**, even though Eurostat's separately compiled government-*sector* data have already been validated EU-wide. A national budget portal is not a verified original expenditure CSV or authority finding.
+
 ## Per-country investigations required before naming a main budget manager
 
 For **every** one of the 27 countries and each of the 10 functions:
