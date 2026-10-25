@@ -99,3 +99,44 @@
 .country-note-rules dt{font-size:11px;color:#bfd5df}
 .country-note-rules dd{margin:0;font-size:12px;font-weight:700;color:#e6f6ee;text-align:right;font-variant-numeric:tabular-nums}
 @media(max-width:520px){.country-note-rules{grid-template-columns:1fr;gap:4px}.country-note-rules dd{text-align:left;margin-bottom:10px}}
+
+/* Universal COFOG definitions: hover on desktop, focus and tap on keyboard/touch. */
+.breakdown-label{justify-content:flex-start;flex-wrap:wrap;position:relative;gap:5px 7px}
+.breakdown-label>b{flex:0 1 auto}
+.breakdown-label>small{margin-left:auto}
+.category-help{position:relative;display:inline-flex;flex:none;align-self:center;z-index:1}
+.category-help:focus-within,.category-help:hover{z-index:45}
+.category-help-button{display:inline-grid;place-items:center;width:19px;height:19px;padding:0;border:1px solid #7499ac;border-radius:50%;background:#24455c;color:#e5f5fb;cursor:help;font-size:12px;font-weight:750;line-height:1;flex:none}
+.category-help-button:focus-visible{outline:2px solid #e4c68c;outline-offset:3px}
+.category-help-tooltip{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:50;width:min(310px,calc(100vw - 44px));box-sizing:border-box;display:none;flex-direction:column;gap:8px;padding:13px 15px;background:#0c2234;border:1px solid #7099a8;border-radius:10px;box-shadow:0 13px 38px #0009;color:#d6e7ef;font-size:12px;line-height:1.55;font-weight:400;text-align:left;white-space:normal}
+.category-help-tooltip strong{color:#f0f7fa;font-size:13px}
+.category-help-tooltip span{display:block}
+.category-help-tooltip small{font-size:10px;color:#9db7c8}
+.category-help:hover .category-help-tooltip,.category-help:focus-within .category-help-tooltip{display:flex}
+.category-help-source{font-size:11px;color:#9ab1c0;margin:2px 0 15px;line-height:1.6}
+.category-help-source a{color:#a7dade}
+@media(hover:none),(max-width:520px){.category-help-tooltip{position:fixed;top:auto;left:14px;right:14px;bottom:16px;transform:none;width:auto;max-width:460px;margin:auto}.category-help-button{cursor:pointer}}
+/* Defer secondary figures without burying their sources or changing the totals. */
+.glance-panel{border:1px solid #456376;background:#162d41;padding:19px;border-radius:13px;margin:16px 0 22px}
+.glance-panel h3{font-size:19px;margin:7px 0 9px}
+.glance-lead,.glance-caveat{font-size:11px;color:#a5bdcc;line-height:1.6}
+.glance-leaders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:17px 0 21px}
+.glance-leader{padding:13px;border:1px solid #3b5a6b;border-radius:10px;background:#1d3648;min-width:0}
+.glance-value{display:block;color:#cef3ed;font-size:23px;font-weight:800;line-height:1.3;font-variant-numeric:tabular-nums}
+.glance-leader span{color:#e6f0f4;font-size:11px;line-height:1.45;display:block;overflow-wrap:anywhere}
+.glance-observations{display:grid;gap:12px}
+.glance-observation{padding:12px 14px;border-left:3px solid #78b9c0;border-radius:0 8px 8px 0;background:#19374a}
+.glance-observation h4{margin:0 0 5px;font-size:12px;color:#e9f6f7}
+.glance-observation p{margin:0 0 7px;font-size:12px;color:#d0e3eb;line-height:1.55}
+.glance-observation small{font-size:10px;color:#a7c1cd;line-height:1.45}
+.detail-toggle{border-top:1px solid #34536a;padding-top:13px;margin-top:6px}
+.detail-toggle>summary{cursor:pointer;font-size:12px;font-weight:730;color:#acd9d8;padding:4px 0 12px}
+.detail-toggle .breakdown{padding-top:8px}
+.pension-disclosure{margin-top:20px}
+.pension-disclosure .pension-panel{margin-top:0}
+.economic-disclosure{padding:0!important;margin-top:17px}
+.economic-disclosure>summary{font-size:15px;font-weight:700;padding:21px;cursor:pointer;color:#c5e7e9}
+.economic-disclosure>.economic-panel{padding-top:0}
+.country-note-more{margin-top:15px}
+.country-note-more>summary{font-size:12px;font-weight:700;color:#abd7d9;cursor:pointer}
+@media(max-width:720px){.glance-leaders{grid-template-columns:1fr}.glance-leader{display:flex;align-items:center;gap:13px}.glance-value{min-width:63px}.glance-panel{padding:15px}.economic-disclosure>summary{padding:17px}}
