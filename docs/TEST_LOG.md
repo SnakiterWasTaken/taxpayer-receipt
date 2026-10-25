@@ -65,6 +65,16 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Evidence:** `docs/euromod-integration.md` and test suite `tests/test_euromod_tools.py`.
 - **Next:** Install a licensed compatible model, execute identical-household benchmarks and publish measured deviations with scope and sources.
 
+### 2026-10-25 — Per-test reporting, durable handover and household-index explanation (PR pending)
+
+- **Goal:** Make all subsequent test results comprehensible and discoverable, prevent code changes without a written handover record, and explain the household-income index without financial jargon for all countries.
+- **Affected:** GitHub Actions validation/deployment workflows; JavaScript and Python test reporting; global economic-context user interface, plain-language glossary and docs. **No change to Eurostat numerical values or the Czech tax engine.**
+- **Attempt 1 (implementation review):** Added a runner capturing individual Node TAP and Python verbose test outcomes, generating an explained Markdown report and raw diagnostic logs. Added synthetic PASS/FAIL fixtures for the parser and negative-case tests. **Status: NOT RUN in real GitHub CI as of this initial entry.** Unit tests will verify that a failure can never be reported as an overall pass.
+- **Attempt 2 (workflow change):** Replace aggregate-only test steps with `npm run test:report`; upload reports even on failure and surface them in GitHub Actions summary. PR check requires this journal to change when source, tests or workflow changes. **Status: awaiting PR validation.**
+- **Attempt 3 (human-facing interpretation):** Replaced ambiguous "Real household index" label with nearby simple explanations of the 2008=100 baseline, country-internal comparison, what 120 means, and what the index cannot say. Added a country-neutral glossary and explanation tests. **Status: awaiting PR validation and live Pages verification.**
+- **Unverified / limitations:** No real EUROMOD simulation was performed; browser interaction and mobile readability are not covered by unit tests. The CI artifact retains complete test rows for 90 days, while important decisions and failures belong in this committed journal.
+- **Next:** Run PR CI; record its individual-test report, real Eurostat fetch, static build and any failures here; fix issues before merge; separately confirm successful Pages deployment.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
