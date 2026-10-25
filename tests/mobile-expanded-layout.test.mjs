@@ -10,8 +10,8 @@ test('Each expanded mobile detail card remains constrained to the explorer colum
   assert.match(part,/\.output\s*\{\s*grid-template-columns:minmax\(0,1fr\);/);
   assert.match(part,/\.output\s*>\s*details\.panel\s*\{[^}]*width:100%;[^}]*min-width:0;[^}]*max-width:100%;/s);
   assert.match(part,/\.explorer\s*\{\s*grid-template-columns:minmax\(0,1fr\)/);
-  assert.match(html,/<details class="panel economic-disclosure" id="economic-details">/);
-  assert.match(html,/<details class="detail-toggle pension-disclosure" id="pension-details">/);
+  assert.match(html,/<details class="panel economic-disclosure topic-card" id="economic-details">/);
+  assert.match(html,/<details class="topic-card pension-disclosure" id="pension-details">/);
   assert.match(html,/<details id="spending-more" class="detail-toggle">/);
 });
 

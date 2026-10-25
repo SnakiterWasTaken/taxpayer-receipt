@@ -254,3 +254,126 @@
     min-width:0;
   }
 }
+
+/* Progressive information cards: one clear claim on the outside, sources inside.
+ * Native <details> remains tap, keyboard and screen-reader accessible.
+ * Constrain intrinsic size to avoid reintroducing mobile page overflow. */
+.topic-card,
+.topic-card>summary,
+.topic-card>.topic-content{
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+}
+.topic-card{
+  padding:0!important;
+  margin:13px 0;
+  overflow:visible;
+  background:linear-gradient(145deg,#162c3e,#142538);
+  border:1px solid #355165;
+  border-radius:13px;
+}
+.topic-card>summary.topic-summary{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-height:75px;
+  list-style:none;
+  cursor:pointer;
+  padding:15px 18px;
+  color:#e5f1f4;
+  outline-offset:-4px;
+}
+.topic-card>summary.topic-summary::-webkit-details-marker,
+.insight-card>summary::-webkit-details-marker,
+.country-note-card>summary::-webkit-details-marker{display:none}
+.topic-card>summary.topic-summary::marker,
+.insight-card>summary::marker,
+.country-note-card>summary::marker{content:""}
+.topic-card>summary.topic-summary:focus-visible,
+.insight-card>summary:focus-visible,
+.country-note-card>summary:focus-visible{
+  outline:2px solid #e4c68c;
+  outline-offset:2px;
+  border-radius:10px;
+}
+.topic-icon{
+  display:grid;
+  flex:0 0 38px;
+  width:38px;
+  height:38px;
+  place-items:center;
+  border-radius:10px;
+  background:#284c58;
+  color:#b6e9e4;
+  font-size:20px;
+  font-weight:740;
+}
+.topic-heading{display:grid;gap:3px;flex:1 1 auto;min-width:0}
+.topic-heading strong{font-size:14px;line-height:1.35}
+.topic-heading small{
+  color:#a0bac8;font-size:11px;line-height:1.4;
+  font-weight:440;overflow-wrap:anywhere
+}
+.topic-chevron{
+  flex:0 0 9px;width:9px;height:9px;border-right:2px solid #9fbac5;
+  border-bottom:2px solid #9fbac5;transform:rotate(45deg);
+  margin:0 4px 5px;transition:transform .16s ease
+}
+.topic-card[open]>.topic-summary .topic-chevron{
+  transform:rotate(225deg);margin:6px 4px 0
+}
+.topic-card[open]>.topic-summary{border-bottom:1px solid #345167}
+.topic-content{padding:17px 20px 20px}
+.topic-card .pension-panel{margin:0;padding:2px 0;border:0}
+.topic-card .economic-panel{padding:0!important}
+.topic-card .country-context-intro{margin:0 0 12px}
+.topic-card .breakdown-head{margin-top:3px}
+.topic-card .method-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.methodology.topic-card{margin:22px 0 40px;border-top:1px solid #355165}
+.methodology.topic-card .topic-content h2{font-size:24px;letter-spacing:-.6px;margin:10px 0 18px}
+.methodology.topic-card .topic-content{padding:19px 22px 24px}
+.methodology.topic-card .method-readmore{margin-bottom:0}
+.insight-card{border:1px solid #30566b;background:#153348;border-radius:9px;overflow:visible}
+.insight-card>summary{
+  list-style:none;cursor:pointer;padding:12px 15px;
+  display:grid;gap:5px;position:relative;padding-right:32px
+}
+.insight-card>summary::after{
+  content:"＋";position:absolute;right:10px;top:12px;
+  color:#9fd3d7;font-size:16px;line-height:1
+}
+.insight-card[open]>summary::after{content:"−"}
+.insight-card .insight-summary strong{font-size:12px;color:#e8f5f5;line-height:1.4}
+.insight-card .insight-summary span{font-size:12px;color:#cadde7;line-height:1.5}
+.insight-evidence{border-top:1px solid #3c5b6b;padding:10px 15px 14px}
+.insight-evidence p{color:#b5cbd8;font-size:11px;line-height:1.65;margin:0 0 9px}
+.insight-evidence small{font-size:10px;line-height:1.5;color:#93aebe}
+.country-note-card{
+  min-width:0;max-width:100%;margin-top:9px;
+  background:#102739;border:1px solid #3c5768;border-radius:9px
+}
+.country-note-card>summary{
+  display:grid;gap:4px;list-style:none;cursor:pointer;
+  padding:13px 16px;position:relative;padding-right:34px
+}
+.country-note-card>summary::after{
+  content:"＋";position:absolute;right:12px;top:14px;
+  font-size:16px;color:#a6d8d8
+}
+.country-note-card[open]>summary::after{content:"−"}
+.country-note-card-summary strong{font-size:13px;color:#dcedf1;line-height:1.5}
+.country-note-card-summary small{font-size:11px;color:#9ab6c7}
+.country-note-card .country-note{
+  border-top:1px solid #3a5365;margin:0;padding:14px 16px 16px
+}
+.country-note-card .country-note h3{display:none}
+.country-note-card .country-note p{overflow-wrap:anywhere}
+@media(max-width:700px){
+  .topic-card{width:100%;max-width:100%}
+  .topic-card>summary.topic-summary{gap:10px;padding:13px 14px;min-height:70px}
+  .topic-content{padding:13px 14px 18px}
+  .topic-icon{width:33px;height:33px;flex-basis:33px;font-size:17px}
+  .topic-card .method-grid{grid-template-columns:minmax(0,1fr)}
+  .methodology.topic-card .topic-content{padding:13px 14px 20px}
+}

@@ -116,11 +116,16 @@ function renderGlance(entry){
  const observations=observationsForCountry(entry,current,prior,[]).slice(0,2);
  const list=el('glance-observations');list.replaceChildren();
  for(const observation of observations){
-   const article=document.createElement('article');article.className='glance-observation';
-   const heading=document.createElement('h4');heading.textContent=observation.title;
-   const text=document.createElement('p');text.textContent=observation.text;
-   const foot=document.createElement('small');foot.textContent=observation.qualifier+' Source: '+observation.source+' ('+observation.year+').';
-   article.append(heading,text,foot);list.append(article);
+   const article=document.createElement('details');article.className='glance-observation insight-card';
+   const summary=document.createElement('summary');summary.className='insight-summary';
+   const heading=document.createElement('strong');heading.textContent=observation.title;
+   const text=document.createElement('span');text.textContent=observation.text;
+   summary.append(heading,text);
+   const evidence=document.createElement('div');evidence.className='insight-evidence';
+   const why=document.createElement('p');why.textContent=observation.qualifier;
+   const source=document.createElement('small');source.textContent='Source: '+observation.source+' · '+observation.year;
+   evidence.append(why,source);
+   article.append(summary,evidence);list.append(article);
  }
  el('glance-observations-caption').textContent=observations.length?'Facts to explore, not a rating of government policy.':'Historical comparisons are not available for this year.';
 }
@@ -202,6 +207,7 @@ function refreshCountry(){
   const entry=year?snapshot.entries[`${activeCountry}-${year}`]:null;
   el('result-title').firstChild.textContent=`${countryFlag(activeCountry)} ${name} `;
   renderCountryNotes(activeCountry,year);
+  if(window.location.hash)revealLinkedSection();
   el('result-year').textContent=year||'';
   if(!entry){toggle('results',false);toggle('error',true);el('error').textContent=`No complete, reconcilable spending data is available for ${name}. Try another country or year.`;renderCompare();return;}
   toggle('error',false);toggle('results',true);
@@ -236,6 +242,7 @@ function renderCountryNotes(code,spendingYear){
   const list=el('country-context-list');list.replaceChildren();
   if(notes.length===0)return;
   el('country-context-country').textContent=label(code);
+  el('country-context-teaser').textContent=notes.length===1?'1 country-specific note · Tap for context':notes.length+' country-specific notes · Tap for context';
   for(const note of notes){
     const article=document.createElement('article');article.className='country-note';
     article.dataset.noteId=note.id;article.id='country-note-'+note.id;
@@ -278,10 +285,17 @@ function renderCountryNotes(code,spendingYear){
       sources.append(a);
     }
     const more=document.createElement('details');more.className='country-note-more';
-    const summary=document.createElement('summary');summary.textContent='Show full rules and original sources';
+    const summary=document.createElement('summary');summary.textContent='Show complete rules and original sources';
     more.append(summary,details,sources);
+    const card=document.createElement('details');card.className='country-note-card';
+    card.id=article.id;article.removeAttribute('id');
+    const opener=document.createElement('summary');opener.className='country-note-card-summary';
+    const shortTitle=document.createElement('strong');shortTitle.textContent=note.title;
+    const shortMeta=document.createElement('small');shortMeta.textContent=note.sourcePeriod;
+    opener.append(shortTitle,shortMeta);
     article.append(meta,heading,body,period,caveat,more);
-    list.append(article);
+    card.append(opener,article);
+    list.append(card);
   }
 }
 
@@ -290,6 +304,9 @@ function renderPensions(entry, amount, curr) {
   toggle('pension-unavailable',!result);
   toggle('pension-metrics',!!result);
   el('pension-year').textContent=String(entry.year);
+  el('pension-teaser').textContent=result
+    ?formatPct(result.publicShare)+' of public spending · '+entry.year+' · See what it covers'
+    :'No comparable old-age breakdown available for '+entry.year;
   if(!result)return;
   el('pension-total').textContent='€'+formatNumber(result.combinedEurMillion,1)+' million';
   el('pension-share-total').textContent=formatPct(result.publicShare);
@@ -311,6 +328,13 @@ function renderEconomicContext(){
  const pct=n=>Number.isFinite(n)?(n>0?'+':'')+n.toFixed(1)+'%':'Not available';
  const val=n=>Number.isFinite(n)?formatNumber(n,1):'Not available';
  el('econ-inflation').textContent=pct(entry?.inflation);
+ const incomeChangeForTeaser=economicGrowth(entry?.disposableIncomeIndex,prior?.disposableIncomeIndex);
+ const preview=[];
+ if(Number.isFinite(entry?.inflation))preview.push('Prices '+pct(entry.inflation));
+ if(Number.isFinite(incomeChangeForTeaser))preview.push('Household income after inflation '+pct(incomeChangeForTeaser));
+ el('economic-teaser').textContent=preview.length
+   ?String(y)+' · '+preview.join(' · ')
+   :'Historical indicators not available for '+y+' · Open to check the sources';
  el('econ-wage').textContent=noFloor?'No national statutory minimum':Number.isFinite(entry?.minimumWage)?formatMoney(entry.minimumWage,currency(geo)):'Not available';
  const wageChange=economicGrowth(entry?.minimumWage,prior?.minimumWage);
  el('econ-wage-change').textContent=noFloor?'Collective agreements set sector wages':Number.isFinite(wageChange)?pct(wageChange)+' vs 1 January '+(y-1):'Previous January comparison unavailable';
@@ -398,6 +422,21 @@ function renderCompare(){
   }
 }
 function chooseCountry(code){activeCountry=code;contributionMode=code==='CZ'?'salary':'manual';selectYear(year);refreshCountry();updateUrl()}
+/** A direct link to an explanation opens every containing native disclosure first. */
+function revealLinkedSection(){
+ const hash=window.location.hash;
+ if(!hash||hash.length<2)return;
+ let id;
+ try{id=decodeURIComponent(hash.slice(1))}catch{return}
+ const target=document.getElementById(id);
+ if(!target||target.classList.contains('hidden'))return;
+ for(let parent=target;parent;parent=parent.parentElement){
+   if(parent.tagName==='DETAILS')parent.open=true;
+ }
+ if(target.id.startsWith('country-note-')||target.id==='how-it-works'){
+   target.scrollIntoView({block:'start',behavior:'auto'});
+ }
+}
 function init(){
   const q=new URLSearchParams(location.search);
   activeCountry=COUNTRIES.some(c=>c.code===q.get('country'))?q.get('country'):'CZ';
@@ -424,6 +463,7 @@ function init(){
     compareEl.value='';compare='';countryEl.value='CZ';year=2024;chooseCountry('CZ');
   });
   updateContributionControls();
+  window.addEventListener('hashchange',revealLinkedSection);
   loadData(Number(q.get('year'))||2024);
   loadEconomicContext();
 }

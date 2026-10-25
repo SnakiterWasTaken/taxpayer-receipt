@@ -35,8 +35,8 @@ test('Common category help is interactive and accessible in all spending display
 test('National and granular economic context remains available on demand',()=>{
  assert.match(js,/countryNotesFor\(code\)/);
  assert.match(js,/country-note-more/);
- assert.match(html,/<details class="panel economic-disclosure"/);
- assert.match(html,/<details class="detail-toggle pension-disclosure"/);
+ assert.match(html,/<details class="panel economic-disclosure topic-card"/);
+ assert.match(html,/<details class="topic-card pension-disclosure"/);
  assert.match(html,/docs\/methodology\.html/);
 });
 test('The common category tooltip descriptions are linked to primary classification references',()=>{

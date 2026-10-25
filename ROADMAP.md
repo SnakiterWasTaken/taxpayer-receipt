@@ -23,6 +23,17 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 - [ ] Add real mobile-browser smoke testing at 320–430 px viewport widths, plus desktop, to complement static CSS tests and representative fixtures.
 - [ ] Document device/browser, failed viewport, expected/actual widths, corrections, test output and any remaining limitations in the [handover journal](docs/TEST_LOG.md).
 
+## Priority 0.2 — Compact expandable information cards
+
+- [x] Convert long spending, pension, national-accounting, economic history and methodology sections into clear, accessible disclosure cards. The closed cards retain meaningful country/year-specific previews.
+- [x] Present short, source-backed **What's worth checking?** insights as individually expandable cards: the factual observation remains visible, methodological qualifications and source attribution remain one tap away.
+- [x] Keep reviewed country-specific notes inside the selected country's context, with optional deeper explanations and links; preserve tax-calculator deep links to hidden details.
+- [x] Preserve country/year selection and the three largest spending areas by default, without removing any data, statistics or official sources.
+- [ ] Manually verify mobile tap targets, card focus indicators, direct-link expansion, keyboard-only navigation, and screenshots at representative small and large viewports; record PASS/FAIL/BLOCKED per check in the handover journal.
+- [ ] Test comprehension with non-specialist readers and adapt the preview copy before translation into the 24 official EU languages.
+
+**Principle:** each closed card explains *why the visitor might open it*. Never hide all useful information behind generic "learn more" text.
+
 ## Priority 0.1 — Test evidence and plain language everywhere
 
 - [x] **Durable handover process:** keep a chronological test and decision journal with each trial, what failed, corrections, retests, open limitations, and next action; add a mandatory PR checklist.
