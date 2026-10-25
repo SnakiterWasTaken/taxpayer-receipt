@@ -7,6 +7,8 @@ import {helpForCategory} from './category-help.js';
 import {spendingLeaders,observationsForCountry} from './glance.js';
 import {explainIncomeIndex} from './plain-language.js';
 import {responsibilityStatus} from './official-responsibilities.js';
+import {SECTORS,validateSectorSpending,sectorSpendingFor,SECTOR_SOURCE,SECTOR_METHOD} from './sector-spending.js';
+import {budgetPortalFor} from './national-budget-portals.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -18,6 +20,8 @@ let childZtpSelection=[];
 let snapshot=null;
 let economicSnapshot=null;
 let economicError=null;
+let institutionalSnapshot=null;
+let institutionalError=null;
 let activeCountry='CZ';
 let year=null;
 let compare='';
@@ -128,6 +132,51 @@ function authorityDetails(code){
    }
    content.append(scope,intro,date,list,caution,sources);
  }
+ // These are official *reported expenditure* figures, not responsibility/control shares.
+ const reporting=document.createElement('section');reporting.className='institutional-report';
+ const heading=document.createElement('h4');heading.textContent='Where does government record this spending?';
+ reporting.append(heading);
+ const rec=sectorSpendingFor(institutionalSnapshot,activeCountry,Number(year),code);
+ if(rec){
+   const intro=document.createElement('p');
+   intro.textContent='Eurostat '+year+' · € million. Accounting sectors, not a list of budget decision-makers.';
+   const sectorList=document.createElement('dl');sectorList.className='institutional-sector-list';
+   for(const sector of SECTORS){
+     const dt=document.createElement('dt');dt.textContent=sector.label;
+     const dd=document.createElement('dd');
+     const value=rec.sectors[sector.code];
+     dd.textContent=value?'€'+formatNumber(value.eurMillion,1)+' million'+
+        (value.flags?' (Eurostat flags: '+value.flags+')':''):'Not reported or not applicable';
+     sectorList.append(dt,dd);
+   }
+   const caveat=document.createElement('p');caveat.className='authority-caveat';
+   caveat.textContent='These sector figures cannot be added to recreate the national total: transfers between public bodies are consolidated in the national figure. They do NOT show which authority controls the funding.';
+   const full=document.createElement('p');
+   full.textContent='Consolidated national total for this function: €'+formatNumber(rec.s13EurMillion,1)+' million. Do not sum subsectors or interpret their amounts as shares of decision-making authority.';
+   const source=document.createElement('a');source.href=SECTOR_SOURCE;source.target='_blank';source.rel='noopener noreferrer';
+   source.textContent='Eurostat original expenditure table ↗';
+   const method=document.createElement('a');method.href=SECTOR_METHOD;method.target='_blank';method.rel='noopener noreferrer';
+   method.textContent='Official explanation of transfers and consolidation ↗';
+   reporting.append(intro,sectorList,full,caveat,source,method);
+ }else{
+   const unavailable=document.createElement('p');
+   unavailable.textContent=institutionalError?'Official Eurostat institutional data could not be loaded: '+institutionalError
+      :institutionalSnapshot?'No matched published Eurostat sector figures for '+activeCountry+', '+year+', '+code+'.'
+      :'Loading official Eurostat sector figures…';
+   reporting.append(unavailable);
+ }
+ const budget=document.createElement('p');budget.className='authority-manager-gap';
+ budget.textContent='Largest budget manager: Not yet verified from comparable official institution-level accounts. This figure cannot be inferred from the reporting sectors above.';
+ reporting.append(budget);
+ const portal=budgetPortalFor(activeCountry);
+ if(portal){
+   const sourceLink=document.createElement('a');sourceLink.href=portal.url;
+   sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
+   sourceLink.textContent='Official national budget documents: '+portal.label+' ↗';
+   const scopeNote=document.createElement('small');scopeNote.textContent=portal.scope;
+   reporting.append(sourceLink,scopeNote);
+ }
+ content.append(reporting);
  card.append(trigger,content);
  return card;
 }
@@ -409,6 +458,20 @@ function renderEconomicContext(){
    :!entry?'No matching economic observations for the selected country/year.'
    :'Independent Eurostat statistical series. The displayed year is not substituted.';
 }
+/** Published official institutional data, refreshed independently of national laws. */
+async function loadInstitutionalSpending(){
+ try{
+   const response=await fetch('./data/institutional-spending.json',{cache:'no-cache'});
+   if(!response.ok)throw Error('published institutional reporting snapshot unavailable (HTTP '+response.status+')');
+   institutionalSnapshot=validateSectorSpending(await response.json());
+   institutionalError=null;
+ }catch(error){
+   institutionalSnapshot=null;
+   institutionalError=error.message;
+ }
+ // Redisplay the selected country's official-sector panels with the new source data.
+ if(snapshot&&year)refreshCountry();
+}
 async function loadEconomicContext(){
  try{
    const res=await fetch('./data/economic-context.json',{cache:'no-cache'});
@@ -509,6 +572,7 @@ function init(){
   window.addEventListener('hashchange',revealLinkedSection);
   loadData(Number(q.get('year'))||2024);
   loadEconomicContext();
+  loadInstitutionalSpending();
 }
 async function loadData(preferredYear){
   toggle('loading',true);toggle('error',false);
