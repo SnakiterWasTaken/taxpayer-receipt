@@ -32,7 +32,7 @@ test('Every unreviewed country or function fails closed to a visible no-data mes
        assert.equal(result.available,true);
      }else{
        assert.equal(result.available,false);
-       assert.match(result.reason,/No verified official public data available here/);
+       assert.match(result.reason,/No category-wide decision-maker verified by this project yet/);
      }
    }
 });

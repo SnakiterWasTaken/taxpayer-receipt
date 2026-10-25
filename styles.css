@@ -411,3 +411,24 @@
 .authority-sources{display:grid;gap:7px;margin-top:14px}
 .authority-sources a{color:#9cd7dc;text-decoration:underline;font-size:11px;overflow-wrap:anywhere}
 @media(max-width:700px){.income-table-help .category-help-tooltip{bottom:12px}}
+
+/* Official sector-level expenditure must never look like authority/control shares. */
+.institutional-report{
+ margin-top:15px;padding-top:14px;border-top:1px solid #4a6373;
+ min-width:0;max-width:100%;overflow-wrap:anywhere;
+}
+.institutional-report h4{font-size:12px;color:#ddedee;margin:0 0 8px}
+.institutional-report p{margin:8px 0;font-size:11px;color:#b9d0de;line-height:1.6}
+.institutional-sector-list{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;margin:11px 0;align-items:baseline}
+.institutional-sector-list dt{font-size:11px;color:#abcbd2;margin:0}
+.institutional-sector-list dd{text-align:right;font-size:11px;color:#e4f3f3;margin:0;font-variant-numeric:tabular-nums}
+.institutional-report>a{display:block;font-size:11px;color:#9cd6dc;text-decoration:underline;margin:9px 0;overflow-wrap:anywhere}
+.institutional-report>small{font-size:10px;color:#9bb1c1;display:block;margin-bottom:10px}
+.institutional-report .authority-manager-gap{
+ border-left:3px solid #d5ab6d;background:#26383d;
+ padding:9px 10px;margin-top:15px;color:#f2e6d0
+}
+@media(max-width:560px){
+ .institutional-sector-list{grid-template-columns:minmax(0,1fr)}
+ .institutional-sector-list dd{text-align:left;padding:0 0 5px 10px}
+}

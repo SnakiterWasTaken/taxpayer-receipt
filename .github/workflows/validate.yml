@@ -42,5 +42,7 @@ jobs:
           path: test-results/
           if-no-files-found: warn
           retention-days: 90
+      - run: npm run data:refresh
+      - run: npm run institutional:refresh
       - run: npm run context:refresh
       - run: npm run build
