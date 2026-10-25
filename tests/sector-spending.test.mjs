@@ -23,7 +23,8 @@ function fixture(){
 }
 test('Eurostat official institutional sector URL fixes transaction, unit, period and source',()=>{
  const u=new URL(sectorSourceUrl());
- assert.match(u.host,/eurostat/);
+ assert.equal(u.hostname,'ec.europa.eu');
+ assert.match(u.pathname,/eurostat\/api\/dissemination\/statistics\/1\.0\/data/);
  assert.equal(u.searchParams.get('na_item'),'TE');
  assert.equal(u.searchParams.get('unit'),'MIO_EUR');
  assert.equal(u.searchParams.get('sinceTimePeriod'),'2021');
