@@ -1,9 +1,9 @@
 {
   "name": "taxpayer-receipt",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Official EU government expenditure explorer with a limited Czech 2024–2026 employee salary-to-tax estimator.",
+  "description": "Official EU government expenditure explorer with a Czech 2024–2026 employee and household salary-to-tax estimator.",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "data:refresh": "node scripts/refresh-data.mjs",

@@ -26,3 +26,16 @@
 .payroll-extra strong{color:#e5f2f4}
 .payroll-caveat{font-size:10.5px;line-height:1.55;color:#91aabd;margin:13px 0 8px}
 @media(max-width:700px){.payroll-hero strong{font-size:19px}.payroll-report{padding:16px}.payroll-grid strong{font-size:13px}}
+
+/* Self-declared full-year Czech household relief controls. */
+.household-fields{border:1px solid #405b65;background:#102635;border-radius:12px;margin:0 0 22px;padding:15px 13px 5px;min-width:0}
+.household-fields legend{color:#dbeaf0;font-size:13px;font-weight:700;padding:0 6px}
+.household-optional{font-size:10px;font-weight:400;color:#9bb9bf}
+.household-intro{margin:0 0 18px}.household-fields .field{margin-bottom:16px}
+.child-ztp-fields{padding:8px 10px 3px;border:1px dashed #4d6b78;border-radius:8px;margin:-2px 0 17px}
+.child-ztp-fields .field-hint{margin:0 0 10px}
+.check-field{display:flex;align-items:flex-start;gap:9px;font-size:11px;color:#c7d9e2;margin:8px 0 12px;line-height:1.45;cursor:pointer}
+.check-field input{flex-shrink:0;width:15px;height:15px;accent-color:#9fd3d7;cursor:pointer;margin:0}
+.payroll-household{border-bottom:1px solid #345160;padding:12px 0;display:grid;gap:8px}
+.payroll-household div{display:flex;justify-content:space-between;gap:18px;color:#aabecb;font-size:11px}
+.payroll-household strong{color:#c6eee8;font-size:12px;text-align:right}

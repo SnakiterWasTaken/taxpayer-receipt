@@ -5,6 +5,9 @@ import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 const el=id=>document.getElementById(id);
 const countryEl=el('country'),yearEl=el('year'),amountEl=el('amount'),compareEl=el('compare');
 const modeEl=el('contribution-mode'),grossEl=el('gross-salary'),taxYearEl=el('tax-year'),basisEl=el('allocation-basis');
+const childrenEl=el('household-children'),childZtpEl=el('child-ztp-fields'),spouseEl=el('household-spouse');
+const disabilityEl=el('household-disability'),ownZtpEl=el('household-ztp');
+let childZtpSelection=[];
 let snapshot=null;
 let activeCountry='CZ';
 let year=null;
@@ -64,6 +67,25 @@ function updateContributionControls(){
   toggle('manual-fields',contributionMode==='manual');
   toggle('other-countries-note',activeCountry!=='CZ');
 }
+/** Never persist household selections in URLs, storage or network requests. */
+function renderChildZtpInputs(){
+  const count=Number(childrenEl.value);
+  childZtpSelection=Array.from({length:count},(_,index)=>childZtpSelection[index]||false);
+  childZtpEl.replaceChildren();toggle('child-ztp-fields',count>0);
+  if(count===0)return;
+  const note=document.createElement('p');note.className='field-hint';note.textContent='Select any child with a ZTP/P card. The order is the benefit order you claim, not necessarily birth order.';childZtpEl.append(note);
+  for(let i=0;i<count;i++){
+    const label=document.createElement('label');label.className='check-field';
+    const check=document.createElement('input');check.type='checkbox';check.checked=childZtpSelection[i];
+    check.addEventListener('change',()=>{childZtpSelection[i]=check.checked;if(snapshot)refreshCountry()});
+    const title=document.createElement('span');title.textContent=`Child ${i+1} has ZTP/P (doubles this child’s credit)`;
+    label.append(check,title);childZtpEl.append(label);
+  }
+}
+function currentHousehold(){return {
+  children:Number(childrenEl.value),childZtp:[...childZtpSelection],
+  spouse:spouseEl.value,disability:disabilityEl.value,ownZtp:ownZtpEl.checked,
+}}
 function renderPayroll(receipt){
   toggle('payroll-panel',!!receipt);
   if(!receipt)return;
@@ -75,12 +97,15 @@ function renderPayroll(receipt){
     'payroll-health':receipt.employeeHealth,
     'payroll-total':receipt.totalEmployee,
     'payroll-employer':receipt.employerSocial+receipt.employerHealth,
+    'payroll-other-credits':receipt.householdCreditsApplied.spouse+receipt.householdCreditsApplied.disability+receipt.householdCreditsApplied.ztp,
+    'payroll-child-credit':receipt.householdCreditsApplied.children,
+    'payroll-child-bonus':receipt.childTaxBonus,
   };
   for(const [id,value] of Object.entries(amounts))el(id).textContent=formatMoney(value,'CZK');
   el('payroll-year').textContent=receipt.year;
   el('payroll-rate').textContent=formatPct(receipt.effectiveEmployeeRate);
   const adjustment=receipt.annualSettlementAdjustment;
-  el('payroll-caveat').textContent=`Full-year, single-employer estimate with the basic taxpayer credit only. Year-end income-tax reconciliation adjustment vs monthly advances: ${formatMoney(adjustment,'CZK')}. Other reliefs, bonuses, deductions and special employment cases excluded.`;
+  el('payroll-caveat').textContent=`Full-year, single-employer estimate with self-declared household eligibility. Estimated tax settlement vs advances assuming ONLY the basic credit was applied monthly: ${formatMoney(adjustment,'CZK')} (negative means refund). The child tax bonus is added to net pay and is not counted as a tax deduction. Partial-year reliefs and exceptional cases excluded.`;
 }
 function currentContribution(){
   toggle('salary-error',false);
@@ -89,7 +114,7 @@ function currentContribution(){
     const raw=grossEl.value.trim();
     if(!raw)return {amount:null,kind:'salary'};
     try {
-      const receipt=calculateCzechEmployee({grossAnnual:Number(raw),year:Number(taxYearEl.value)});
+      const receipt=calculateCzechEmployee({grossAnnual:Number(raw),year:Number(taxYearEl.value),household:currentHousehold()});
       renderPayroll(receipt);
       return {amount:basisEl.value==='income'?receipt.incomeTax:receipt.totalEmployee,kind:'salary',receipt};
     }catch(error){
@@ -125,7 +150,7 @@ function refreshCountry(){
   el('summary-number').textContent=`€${formatNumber(entry.eurMillion,1)} million`;
   el('summary-kicker').textContent=withAmount?'Official national total':'Reported total expenditure';
   el('breakdown-caption').textContent=withAmount?`Illustrative allocation of ${formatMoney(amount,curr)} · spending year ${year}`:'Share of public expenditure, by COFOG function';
-  el('allocation-note').textContent=withAmount?(contribution.kind==='salary'?`Illustration only: ${formatMoney(amount,curr)} is estimated for Czech tax year ${taxYearEl.value} (${basisEl.value==='income'?'income tax after the basic credit':'income tax plus employee social and health contributions'}). Spending shares use ${year}. Social and health contributions have their own financing arrangements; this is not an actual flow of your payments.`:`Illustration only: ${formatMoney(amount,curr)} is the amount you entered. Shares are pro-rata estimates, not traced payments.`):'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
+  el('allocation-note').textContent=withAmount?(contribution.kind==='salary'?`Illustration only: ${formatMoney(amount,curr)} is estimated for Czech tax year ${taxYearEl.value} (${basisEl.value==='income'?'income tax after applicable household credits (child bonus excluded)':'income tax plus employee social and health contributions (refundable child bonus excluded)'}). Spending shares use ${year}. Social and health contributions have their own financing arrangements; this is not an actual flow of your payments.`:`Illustration only: ${formatMoney(amount,curr)} is the amount you entered. Shares are pro-rata estimates, not traced payments.`):'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
   const list=el('breakdown');list.replaceChildren(...allocations.map(x=>breakdownRow(x,withAmount?amount:null,curr)));
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
@@ -170,10 +195,18 @@ function init(){
   grossEl.addEventListener('input',()=>{if(snapshot)refreshCountry()});
   taxYearEl.addEventListener('change',()=>{if(snapshot)refreshCountry();updateUrl()});
   basisEl.addEventListener('change',()=>{if(snapshot)refreshCountry()});
+  childrenEl.addEventListener('change',()=>{renderChildZtpInputs();if(snapshot)refreshCountry()});
+  for(const field of [spouseEl,disabilityEl,ownZtpEl])field.addEventListener('change',()=>{if(snapshot)refreshCountry()});
+  renderChildZtpInputs();
   yearEl.addEventListener('change',()=>{year=Number(yearEl.value);refreshCountry();updateUrl()});
   compareEl.addEventListener('change',()=>{compare=compareEl.value;renderCompare();updateUrl()});
   amountEl.addEventListener('input',()=>{if(snapshot)refreshCountry()});
-  el('reset').addEventListener('click',()=>{grossEl.value='';amountEl.value='';basisEl.value='income';taxYearEl.value='2024';compareEl.value='';compare='';countryEl.value='CZ';year=2024;chooseCountry('CZ')});
+  el('reset').addEventListener('click',()=>{
+    grossEl.value='';amountEl.value='';basisEl.value='income';taxYearEl.value='2024';
+    childrenEl.value='0';childZtpSelection=[];renderChildZtpInputs();spouseEl.value='none';
+    disabilityEl.value='none';ownZtpEl.checked=false;
+    compareEl.value='';compare='';countryEl.value='CZ';year=2024;chooseCountry('CZ');
+  });
   updateContributionControls();
   loadData(Number(q.get('year'))||2024);
 }

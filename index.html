@@ -39,6 +39,16 @@
         <div id="salary-fields">
           <div class="field"><label for="gross-salary">Your yearly gross salary (CZK)</label><input id="gross-salary" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 900000" autocomplete="off" /><p class="field-hint">Standard Czech employment for a full calendar year, with salary spread evenly over 12 months. No salary is transmitted or stored.</p></div>
           <div class="field"><label for="tax-year">Income-tax year</label><select id="tax-year"><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select><p class="field-hint">Independent from the government spending year above.</p></div>
+          <fieldset class="household-fields" aria-describedby="household-help">
+            <legend>Household tax reliefs <span class="household-optional">optional</span></legend>
+            <p class="field-hint household-intro" id="household-help">Select only reliefs <strong>you personally claim</strong> for all 12 months of the selected tax year. A child’s allowance cannot also be claimed by another taxpayer. Eligibility and documents are not verified.</p>
+            <div class="field"><label for="household-children">Qualifying children you claim for the full year</label><select id="household-children"><option value="0">None</option><option value="1">1 child</option><option value="2">2 children</option><option value="3">3 children</option><option value="4">4 children</option><option value="5">5 children</option><option value="6">6 children</option></select><p class="field-hint">CZK 15,204 for the first, 22,320 for the second, 27,840 for each additional child; doubled for each child with ZTP/P. All amounts are CZK/year.</p></div>
+            <div id="child-ztp-fields" class="child-ztp-fields hidden" aria-label="ZTP/P status of children"></div>
+            <div class="field"><label for="household-spouse">Eligible spouse or registered partner — full year</label><select id="household-spouse"><option value="none">No claim</option><option value="eligible">Eligible — CZK 24,840 annual credit</option><option value="eligible-ztp">Eligible and spouse holds ZTP/P — CZK 49,680</option></select><p class="field-hint">Only if you lived together with an eligible dependent child under three throughout the year <strong>and</strong> your spouse/partner’s own annual income was at most CZK 68,000. Paid maternity benefits usually count; parental allowance usually does not. See methodology.</p></div>
+            <div class="field"><label for="household-disability">Your disability tax credit — full year</label><select id="household-disability"><option value="none">No claim</option><option value="grade12">Disability pension grade I or II — CZK 2,520</option><option value="grade3">Disability pension grade III — CZK 5,040</option></select></div>
+            <label class="check-field" for="household-ztp"><input id="household-ztp" type="checkbox" /> <span>I have ZTP/P eligibility throughout the year (CZK 16,140 credit)</span></label>
+            <p class="field-hint">Partial-year eligibility, changes of child custody, student qualifications, nonresident restrictions and split claims are outside this estimate.</p>
+          </fieldset>
           <div class="field"><label for="allocation-basis">Proportional allocation based on</label><select id="allocation-basis"><option value="income">Income tax only</option><option value="all">All employee payroll deductions (tax + social + health)</option></select><p class="field-hint">Social and health insurance are not interchangeable with unrestricted income-tax revenue. Both choices illustrate spending shares, not actual transfers.</p></div>
           <div id="salary-error" class="field-warning hidden" role="alert"></div>
         </div>
@@ -60,13 +70,18 @@
               <div class="payroll-head"><div><span class="kicker">CZECH EMPLOYEE TAX ESTIMATE</span><h3>Annual payroll receipt <span id="payroll-year">2024</span></h3></div><span class="payroll-badge">ESTIMATE</span></div>
               <div class="payroll-hero"><div><span>Annual gross salary</span><strong id="payroll-gross">—</strong></div><div><span>Estimated annual net pay</span><strong id="payroll-net">—</strong></div></div>
               <div class="payroll-grid">
-                <div><span>Income tax after basic credit</span><strong id="payroll-income">—</strong></div>
+                <div><span>Income tax after applicable credits</span><strong id="payroll-income">—</strong></div>
                 <div><span>Employee social insurance</span><strong id="payroll-social">—</strong></div>
                 <div><span>Employee health insurance</span><strong id="payroll-health">—</strong></div>
                 <div><span>Total employee deductions</span><strong id="payroll-total">—</strong></div>
               </div>
+              <div class="payroll-household" id="payroll-household" aria-label="Household tax relief breakdown">
+                <div><span>Spouse, disability and ZTP/P credits actually used</span><strong id="payroll-other-credits">—</strong></div>
+                <div><span>Child credit offset against income tax</span><strong id="payroll-child-credit">—</strong></div>
+                <div><span>Refundable child tax bonus (added to net pay)</span><strong id="payroll-child-bonus">—</strong></div>
+              </div>
               <div class="payroll-extra"><span>Employer-paid contributions (not deducted from your salary): <strong id="payroll-employer">—</strong></span><span>Employee deduction rate: <strong id="payroll-rate">—</strong></span></div>
-              <p class="payroll-caveat" id="payroll-caveat">Full-year single-employer estimate with the basic taxpayer credit only. See methodology for exclusions.</p>
+              <p class="payroll-caveat" id="payroll-caveat">Full-year single-employer estimate; selected household eligibility is self-declared. See methodology for exclusions.</p>
               <a class="plain-link" href="./docs/methodology.html#czechia" target="_blank" rel="noopener noreferrer">Tax rules, assumptions and official sources ↗</a>
             </div>
             <div class="visual-row"><div class="donut-wrap"><svg id="donut" role="img" aria-label="Government spending distribution by function" viewBox="0 0 240 240"></svg><div class="donut-center"><span id="donut-eyebrow">TOTAL SPENDING</span><strong id="donut-number">—</strong><span id="donut-unit">billion EUR</span></div></div><div class="visual-details"><div class="summary-kicker" id="summary-kicker">Reported total expenditure</div><strong class="summary-number" id="summary-number">—</strong><p id="summary-explainer">Across all levels of government, including relevant social security funds.</p><div class="summary-divider"></div><div id="flags" class="flags"></div><a id="data-link" href="https://ec.europa.eu/eurostat/databrowser/view/gov_10a_exp/default/table?lang=en" target="_blank" rel="noopener noreferrer" class="plain-link">View original Eurostat dataset ↗</a></div></div>

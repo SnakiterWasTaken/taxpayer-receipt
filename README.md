@@ -1,6 +1,6 @@
 # Where Do My Taxes Go? — EU public spending explorer
 
-An open-source, privacy-respecting, source-verifiable **public spending explorer**. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **limited, source-audited 2024–2026 full-year employee gross-salary estimator**; other countries remain manual-only.
+An open-source, privacy-respecting, source-verifiable **public spending explorer**. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **source-audited 2024–2026 employee estimator with optional full-year household tax reliefs**; other countries remain manual-only.
 
 ## Run locally
 
@@ -35,8 +35,9 @@ On GitHub, enable **Settings → Pages → Build and deployment → Source: GitH
 ## Roadmap
 
 1. **Milestone 1 (this code):** EU-27 COFOG spending shares, year and country selector, optional illustrative contribution, comparison, automated source refresh and tests.
-2. **Milestone 2 (Czechia implemented):** Source-audited Czech 2024–2026 standard-employment salary estimator, annual income tax, employee social and health premiums, clear employer contributions, personal tax-credit handling and official reference tests. Other countries and family/exception cases remain out of scope. Adapt Budget Galaxy's UK tax engine later only if official rate tables are revalidated.
-3. **Milestone 3:** Deeper descriptions and optional detailed budget drill-downs, extending international coverage through OECD/IMF data.
+2. **Milestone 2 (Czechia implemented):** Source-audited Czech 2024–2026 standard-employment salary estimator, annual income tax, employee social and health premiums, clear employer contributions, personal tax-credit handling and official reference tests. Partial-year and nonstandard household/employment cases remain out of scope. Adapt Budget Galaxy's UK tax engine later only if official rate tables are revalidated.
+3. **Milestone 2.1 (household reliefs implemented):** Full-year dependent-child tax advantages (including ZTP/P), eligible spouse or registered partner, taxpayer disability and ZTP/P credits, and refundable annual child tax bonus with source-based tests.
+4. **Milestone 3:** Deeper descriptions and optional detailed budget drill-downs, extending international coverage through OECD/IMF data.
 
 ## Related initiatives and attribution
 
