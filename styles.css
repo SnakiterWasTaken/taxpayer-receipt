@@ -89,3 +89,13 @@
 .country-note-links a{color:var(--teal);text-decoration:none}
 .country-note-links a:hover{text-decoration:underline}
 @media(max-width:600px){.country-context{padding:19px}}
+
+/* Full tax-rule explanations are confined to the selected country's panel. */
+.country-note{scroll-margin-top:28px}
+.country-note-details{margin:16px 0}
+.country-note-details h4{font-size:13px;color:#c2e7e5;margin:16px 0 6px}
+.country-note-details p{margin:5px 0 9px}
+.country-note-rules{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 15px;padding:14px;background:#112638;border:1px solid #41586a;border-radius:9px}
+.country-note-rules dt{font-size:11px;color:#bfd5df}
+.country-note-rules dd{margin:0;font-size:12px;font-weight:700;color:#e6f6ee;text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:520px){.country-note-rules{grid-template-columns:1fr;gap:4px}.country-note-rules dd{text-align:left;margin-bottom:10px}}
