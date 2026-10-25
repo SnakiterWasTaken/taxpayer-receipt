@@ -44,6 +44,19 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 
 Source review and known gaps: [official responsibilities audit](docs/authority-sources.md).
 
+### Priority 0.5 — Czech 2024 cash-COFOG transfer reconciliation
+
+- [x] Transcribe and validate the Czech Finance Ministry's official **2024 Government Finance Statistics Table 5**, all ten COFOG functions and eight central/extrabudgetary/social-security/local/transfers columns, without adding it to incompatible Eurostat ESA or the 48-chapter cash ledger.
+- [x] Reconcile central + local budgets **after the stated internal transfer eliminations**, with independent 1–2-million-CZK rounding tolerance, and preserve the **-29,741 million CZK asset-sale adjustment** to the official public-budget total.
+- [x] Distinguish the **2024 law's municipal council power to approve a budget** from the separate executive power to manage an approved budget (§§84 and 102); explain central grants may constrain local discretion.
+- [x] Display these verified Czech cash figures in the **Who decides?** disclosure for each category only when selected country = CZ and year = 2024; no inference of a largest ministry.
+- [x] Locate original 2024 government MONITOR **FIN 2-12 M, FIN 1-12 OSS and FIN 1-12 SF** datasets in the official public open-data catalogue.
+- [ ] Download and validate **the actual original 2024 FIN transaction records**, document schema, IDs, version, checksums and treatment of Prague/boroughs, then reconcile institutions' cash spending to published MF Table 5.
+- [ ] Derive and audit a genuine official 2024 budget-paragraph-to-COFOG classification bridge, check grant/transfer double counting and **then** assess comparable largest institution-level spending authority.
+- [ ] Run real mobile tap and full source-link/browser review before marking the UX fully validated.
+
+Audit: [2024 Czech cash COFOG reconciliation](docs/cz-2024-cash-reconciliation.md).
+
 ## Priority 0.4 — Actual named institutions and reconciled budget authority
 
 - [x] **2024 Czech government-state budget:** transcribe **all 48 state-budget chapter cash-expenditure outturns** from the Ministry of Finance 2024 final accounts (Book G, Table 7). Require the sum to reconcile **exactly** with the official state-budget total. Show the audited chapter list only when Czechia and spending year 2024 are selected.
