@@ -11,7 +11,7 @@ The official Eurostat API extraction was **executed**, not merely proposed, in [
 - **27 of 27 countries have at least one reported government-subsector observation for each of those ten functions**.
 - **810** individual 2024 subsector/category observations (out of a theoretical **1,080** if all four subsectors reported values for all categories). Non-reported and inapplicable cells are **not filled with zero**.
 - **1,080 national S13 category/year observations were cross-checked** against the independently refreshed main expenditure dataset for 2021–2024; the tolerance gate passed.
-- **121 of 121 automated tests PASS, zero FAIL, zero SKIP**. The official economic-context refresh and static website build also completed successfully.
+- **123 of 123 automated tests PASS, zero FAIL, zero SKIP** (final PR verification, [Actions #40240485472](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40240485472)). The official economic-context refresh and static website build also completed successfully.
 
 | Country | 2024 national COFOG functions | Functions with any subsector amount | Individual reported sector/function amounts |
 |---|---:|---:|---:|
