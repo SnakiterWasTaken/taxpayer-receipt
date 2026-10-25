@@ -9,6 +9,7 @@ import {explainIncomeIndex} from './plain-language.js';
 import {responsibilityStatus} from './official-responsibilities.js';
 import {SECTORS,validateSectorSpending,sectorSpendingFor,SECTOR_SOURCE,SECTOR_METHOD} from './sector-spending.js';
 import {budgetPortalFor} from './national-budget-portals.js';
+import {czCashReconciliation,CZ_2024_CASH_SOURCE} from './cz-2024-cash-functions.js';
 import {CZ_2024_STATE_ACCOUNT_SOURCE,CZ_2024_CHAPTER_TOTAL_THOUSAND_CZK,czechChapterData,czechChaptersSorted} from './cz-2024-budget-chapters.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
@@ -172,6 +173,35 @@ function authorityDetails(code){
       :institutionalSnapshot?'No matched published Eurostat sector figures for '+activeCountry+', '+year+', '+code+'.'
       :'Loading official Eurostat sector figures…';
    reporting.append(unavailable);
+ }
+ const czCash=czCashReconciliation(activeCountry,Number(year),code);
+ if(czCash){
+   const cash=document.createElement('section');cash.className='cz-cash-reconciliation';
+   const cashHeading=document.createElement('h4');cashHeading.textContent='Czech 2024 public-budget transfer reconciliation';
+   const lead=document.createElement('p');lead.textContent='The Finance Ministry publishes a separate CASH-BASED public-budget view in crowns. This includes local budgets and removes internal transfers; it is NOT the same as Eurostat’s ESA national accounts.';
+   const values=[
+     ['Central budgets, after internal transfers',czCash.centralNetMillionCzk],
+     ['Local budgets, before central-to-local adjustment',czCash.localGrossMillionCzk],
+     ['Transfer and other cross-level eliminations',czCash.centralLocalTransfersMillionCzk],
+     ['Combined public-budget expenditure for this function',czCash.publicBudgetsFunctionMillionCzk]
+   ];
+   const dl=document.createElement('dl');dl.className='cz-cash-rows';
+   for(const [label,amount] of values){
+     const dt=document.createElement('dt');dt.textContent=label;
+     const dd=document.createElement('dd');
+     dd.textContent=(amount<0?'−':'')+'CZK '+formatNumber(Math.abs(amount)/1000,1)+' bn';
+     dl.append(dt,dd);
+   }
+   const warning=document.createElement('p');warning.className='authority-caveat';
+   warning.textContent='Amounts are rounded by the Ministry to whole millions CZK, so individual sums may differ by 1–2 million. A transfer may be paid by a ministry but spent under municipal budget decisions. These figures do not identify the largest discretionary budget manager.';
+   const law=document.createElement('p');
+   law.textContent='Under the 2024 Municipalities Act §84(2)(b), municipal councils approve their budgets and final accounts. Under §102(2)(a), municipal executives manage spending under the approved budget. The central government may separately impose grant conditions.';
+   const link=document.createElement('a');link.href=CZ_2024_CASH_SOURCE.url;link.target='_blank';link.rel='noopener noreferrer';
+   link.textContent='Original Ministry of Finance · Government Finance Statistics 2024 · Table 5 ↗';
+   const lawLink=document.createElement('a');lawLink.href='https://e-sbirka.gov.cz/sb/2000/128/2024-01-01';
+   lawLink.target='_blank';lawLink.rel='noopener noreferrer';lawLink.textContent='Municipalities Act, version effective in 2024, §§84 and 102 ↗';
+   cash.append(cashHeading,lead,dl,warning,law,link,lawLink);
+   reporting.append(cash);
  }
  const budget=document.createElement('p');budget.className='authority-manager-gap';
  budget.textContent='Largest budget manager: Not yet verified from comparable official institution-level accounts. This figure cannot be inferred from the reporting sectors above.';

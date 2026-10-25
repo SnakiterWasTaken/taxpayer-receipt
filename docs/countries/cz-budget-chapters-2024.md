@@ -21,6 +21,10 @@
 
 **These are not shares or leading managers of COFOG categories.** They are the largest lines in the **2024 state-budget chapter ledger**, across all purposes. Many entries include transfers, pensions, grants or programmes managed or delivered by others.
 
+## Companion official Czech cash-function breakdown
+
+A separate source now supplies [2024 public-budget GFS spending by COFOG function, central and local figures, and transfer eliminations](../cz-2024-cash-reconciliation.md). It uses **million CZK**, a different cash accounting definition and scope; do **not** add it to this state-budget chapter ledger or Eurostat ESA total. Combining the two sources into named **function-level budget managers** still requires the original 2024 FIN budget paragraph/organisation accounts and official classification reconciliation.
+
 ## What this DOES NOT prove
 
 1. **Not the whole government:** The state budget is not the same as Eurostat's **consolidated S13 general government** including municipalities, regions, other extra-budgetary units and separate social-insurance reporting. Different classification and accounting basis; cannot add totals.

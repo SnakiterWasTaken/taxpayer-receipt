@@ -465,3 +465,13 @@
  .cz-chapter-section{width:100%}
  .cz-chapters-scroll{max-width:100%}
 }
+
+/* Czech 2024 public-budget CASH view. Not Eurostat and not a budget-control score. */
+.cz-cash-reconciliation{margin-top:15px;padding:13px 0;border-top:1px solid #476579;min-width:0;max-width:100%}
+.cz-cash-reconciliation h4{margin:0 0 7px;font-size:13px;color:#deeff0}
+.cz-cash-reconciliation>p{font-size:11px;line-height:1.65;color:#bdd1de}
+.cz-cash-rows{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;margin:12px 0}
+.cz-cash-rows dt{margin:0;font-size:11px;color:#b5cedb;overflow-wrap:anywhere}
+.cz-cash-rows dd{margin:0;text-align:right;font-size:11px;color:#f0f5f3;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cz-cash-reconciliation>a{display:block;margin-top:9px;color:#a8e2de;font-size:11px;overflow-wrap:anywhere}
+@media(max-width:420px){.cz-cash-rows{grid-template-columns:minmax(0,1fr)}.cz-cash-rows dd{text-align:left;margin-bottom:5px}}
