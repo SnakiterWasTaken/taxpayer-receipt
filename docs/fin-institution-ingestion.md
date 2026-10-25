@@ -33,6 +33,15 @@ All 18 CSV members were streamed completely (under the two-million-rows-per-memb
 
 Each primary file includes both period codes `2024012` and `0000000`; the meaning of the latter must be verified before an aggregation. Source amounts use decimal-point strings. No values were published from this intake because the classification, summary rows, government boundary and transfer accounting remain unverified.
 
+## State budget chapter and fund source expansion (26 October 2026)
+
+Two further independently checked official December 2024 source distributions are queued for the same read-only bounded ZIP/CSV profiling workflow:
+
+- [FIN 1-12 OSS — state budget chapters and state organisational units](https://data.gov.cz/datov%C3%A1-sada?iri=https://data.gov.cz/zdroj/datov%C3%A9-sady/00006947/f6ed0509c52610c3c5658712a4671b13), original `FinOSS/2024_12_Data_CSUIS_MISRIS.zip`.
+- [FIN 1-12 SF — state funds](https://data.gov.cz/datov%C3%A1-sada?iri=https://data.gov.cz/zdroj/datov%C3%A9-sady/00006947/bdbd188371eb3b7417a1312d4062506e), original `FinSF/2024_12_Data_CSUIS_FINSF.zip`.
+
+Status when added: **official source identity verified; download, member counts, source checksum and any state-budget reconciliation NOT RUN**. No amounts are inferred from institution names or the URL.
+
 ## Decision authority: what remains unresolved
 
 **Do not rank a named budget manager yet.** Prague's separate extract must be checked for overlap with other reporting entities. The Czech Ministry of Finance [changed FIN 2-12 M effective 1 January 2026](https://mf.gov.cz/cs/rozpoctova-politika/uzemni-rozpocty/legislativa-a-metodicka-podpora-uzemnich-rozpoctu/2026/nova-struktura-financniho-vykazu-fin-2-12-m-od-1-l-62745), adding counterparty identifiers for many transfers. This new 2026 partner information must **not** be presumed present in the 2024 extract. Official [2024 public-budget function/transfer totals](cz-2024-cash-reconciliation.md) and the [2024 state-budget chapter outturns](countries/cz-budget-chapters-2024.md) remain separate accounting sources until a reconciliation is demonstrated.

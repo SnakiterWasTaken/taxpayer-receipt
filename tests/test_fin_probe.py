@@ -13,12 +13,15 @@ spec.loader.exec_module(probe)
 
 class FinProbeTests(unittest.TestCase):
     def test_source_registry_is_official_and_year_scoped(self):
-        self.assertEqual(len(probe.DATASETS),2)
+        self.assertEqual(len(probe.DATASETS),4)
         for item in probe.DATASETS:
             self.assertIn("2024-12",item["id"])
             self.assertEqual(item["url"].split("/")[2],"monitor.statnipokladna.gov.cz")
             self.assertTrue(item["url"].endswith(".zip"))
             self.assertIn("data.gov.cz/",item["catalogue"])
+        self.assertEqual([x["id"] for x in probe.DATASETS[2:]],
+                         ["FIN1-12OSS-2024-12","FIN1-12SF-2024-12"])
+        self.assertTrue(all("2024_12" in x["url"] for x in probe.DATASETS))
 
     def test_sample_header_detection_and_no_trust_in_amounts(self):
         d=probe.sniff_first_csv_rows("ICO;PARAGRAF;POL;SKUTECNOST\n00000001;3113;5331;30000\n".encode())
