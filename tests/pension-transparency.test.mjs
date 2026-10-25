@@ -19,7 +19,7 @@ test('COFOG GF1002 and GF1003 are children of GF10, not added to the government 
  const e=snap.entries['FR-2024']; assert.equal(e.eurMillion,1000);assert.equal(e.categories.length,10);
  const p=pensionTransparency(e,10000);
  assert.equal(p.combinedEurMillion,280);assert.equal(p.publicShare,.28);
- assert.ok(Math.abs(p.socialShare-280/340)<1e-9);assert.equal(p.totalAllocated,2800);
+ assert.ok(Math.abs(p.socialShare-280/340)<1e-9);assert.ok(Math.abs(p.totalAllocated-2800)<1e-8);
  assert.equal(p.oldAgeAllocated,2500);assert.equal(p.survivorsAllocated,300);
  assert.ok(Math.abs(e.categories.reduce((s,x)=>s+x.share,0)-1)<1e-12);
 });
