@@ -22,7 +22,7 @@ test('Top-spending categories do not invent missing observations',()=>{
 test('Pension share is identified as pension-related functions, not only cash pensions or waste',()=>{
  const out=observationsForCountry(entry,null,null,[]);
  assert.equal(out[0].id,'old-age-share');
- assert.match(out[0].text,/€24\.0/);
+ assert.match(out[0].text,/24\.0% of total public spending/);
  assert.match(out[0].qualifier,/include more than cash retirement pensions/);
  assert.doesNotMatch(out[0].text,/waste|crisis|good|bad/i);
 });
