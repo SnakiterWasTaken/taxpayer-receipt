@@ -31,6 +31,6 @@ test('Who-is-responsible panels show on EVERY spending function but never invent
 test('Authority details are expandable and remain mobile width constrained',()=>{
  assert.match(app,/document\.createElement\('details'\);card\.className='authority-details'/);
  assert.match(app,/document\.createElement\('summary'\);trigger\.className='authority-summary'/);
- assert.match(css,/\.authority-details\{[^}]*max-width:100%;min-width:0;/);
+ assert.match(css,/\.authority-details\{[^}]*max-width:100%;min-width:0;?\}/);
  assert.match(css,/\.authority-content\{[^}]*min-width:0;max-width:100%;overflow-wrap:anywhere;/s);
 });
