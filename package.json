@@ -1,0 +1,15 @@
+{
+  "name": "taxpayer-receipt",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Transparent, country-comparable public expenditure explorer, with a future personal tax receipt layer.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "data:refresh": "node scripts/refresh-data.mjs",
+    "build": "node scripts/build.mjs",
+    "serve": "python3 -m http.server 8000"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f1c2c" />
+  <meta name="description" content="Explore official Eurostat public spending data across the EU, and see an illustrative allocation of your taxes. Open source and privacy preserving." />
+  <title>Where Do My Taxes Go? — Public spending, made understandable</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a href="./" class="brand" aria-label="Where Do My Taxes Go home"><span class="brand-icon" aria-hidden="true">▥</span><span>where<span class="brand-accent">taxes</span>go<span class="brand-punctuation">.</span></span></a>
+      <nav aria-label="Primary navigation">
+        <a href="#explore" class="nav-current">Explore</a>
+        <a href="#how-it-works">Methodology</a>
+        <a href="https://github.com/SnakiterWasTaken/taxpayer-receipt" target="_blank" rel="noopener noreferrer" title="Host on GitHub">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> AN OPEN CIVIC DATA PROJECT <span class="eyebrow-rule"></span> EU-27 EXPLORER</div>
+      <h1 id="hero-heading">Public money.<br /><span>Made understandable.</span></h1>
+      <p>Discover how your country spends its public funds, using standardised official statistics. No spin, no guesswork—just traceable numbers.</p>
+      <div class="hero-facts"><span><strong>27</strong> EU countries</span><span><strong>10</strong> spending functions</span><span><strong>1</strong> official source</span></div>
+    </section>
+    <section id="explore" class="explorer" aria-label="Public spending explorer">
+      <aside class="controls panel">
+        <div class="panel-head"><span class="step">01</span><div><h2>Set your view</h2><p>Choose a country and year</p></div></div>
+        <div class="field"><label for="country">Country</label><select id="country" aria-label="Country"><option>Loading countries…</option></select></div>
+        <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
+        <div class="control-separator"></div>
+        <div class="panel-head secondary-head"><span class="step">02</span><div><h2>Make it personal</h2><p>Optional illustrative allocation</p></div></div>
+        <div class="field"><label for="amount">Your annual tax amount <span id="currency-label">(CZK)</span></label><div class="input-prefix"><input type="number" min="0" step="100" inputmode="decimal" id="amount" placeholder="e.g. 100000" autocomplete="off" /></div><p class="field-hint">Enter <strong>taxes paid</strong>, not your gross salary. Your amount stays in this browser.</p></div>
+        <div class="upcoming" role="note"><span class="coming-mark">◇</span><div><strong>Gross-salary calculator</strong><br /><span>Coming in the next milestone, with country-specific verified rules.</span></div></div>
+        <div class="control-separator"></div>
+        <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div>
+        <button id="reset" class="reset-btn" type="button">↺ Reset view</button>
+      </aside>
+      <div class="output">
+        <div class="panel results-panel">
+          <div class="results-header"><div><div class="kicker">GOVERNMENT EXPENDITURE</div><h2 id="result-title">Czechia <span id="result-year">2024</span></h2><p id="result-subtitle">Consolidated general government · COFOG</p></div><span class="source-pill" id="source-pill">OFFICIAL DATA</span></div>
+          <div id="loading" class="loading-state" role="status" aria-live="polite"><span class="loading-spinner" aria-hidden="true"></span><span id="loading-label">Loading official Eurostat figures…</span></div>
+          <div id="error" class="error-state hidden" role="alert"></div>
+          <div id="results" class="hidden">
+            <div class="visual-row"><div class="donut-wrap"><svg id="donut" role="img" aria-label="Government spending distribution by function" viewBox="0 0 240 240"></svg><div class="donut-center"><span id="donut-eyebrow">TOTAL SPENDING</span><strong id="donut-number">—</strong><span id="donut-unit">billion EUR</span></div></div><div class="visual-details"><div class="summary-kicker" id="summary-kicker">Reported total expenditure</div><strong class="summary-number" id="summary-number">—</strong><p id="summary-explainer">Across all levels of government, including relevant social security funds.</p><div class="summary-divider"></div><div id="flags" class="flags"></div><a id="data-link" href="https://ec.europa.eu/eurostat/databrowser/view/gov_10a_exp/default/table?lang=en" target="_blank" rel="noopener noreferrer" class="plain-link">View original Eurostat dataset ↗</a></div></div>
+            <div class="breakdown-head"><div><h3>Where the money goes</h3><p id="breakdown-caption">Share of public expenditure, by COFOG function</p></div><span class="breakdown-sort">LARGEST FIRST ↓</span></div>
+            <div id="breakdown" class="breakdown" aria-live="polite"></div>
+            <p id="allocation-note" class="allocation-note">Figures represent public spending shares, not actual earmarked individual tax payments.</p>
+          </div>
+        </div>
+        <section class="panel comparison-panel hidden" id="comparison-panel" aria-labelledby="comparison-title"><div class="comparison-header"><div><div class="kicker">CROSS-COUNTRY VIEW</div><h2 id="comparison-title">How priorities compare</h2><p>Share of government expenditure; same calendar year, same COFOG definitions.</p></div><div id="compare-key" class="compare-key"></div></div><div id="comparison-rows"></div></section>
+      </div>
+    </section>
+    <div class="data-status" id="data-status" aria-live="polite">Connecting to Eurostat…</div>
+    <section id="how-it-works" class="methodology">
+      <div class="section-eyebrow">THE METHODOLOGY</div>
+      <h2>Transparency starts<br />with the fine print.</h2>
+      <div class="method-grid"><article><span class="method-icon">◫</span><h3>One common standard</h3><p>All countries use the same ten COFOG functions, general government sector S13, and Eurostat's total expenditure figures.</p></article><article><span class="method-icon">◎</span><h3>Proportional, not literal</h3><p>Taxes enter pooled budgets. An entered tax amount illustrates spending proportions; it does not follow actual money flows.</p></article><article><span class="method-icon">◇</span><h3>Open source and private</h3><p>Data is public and source-attributed. Personal inputs remain on your device; the app does not send them to a backend.</p></article></div>
+      <p class="method-readmore"><a href="./docs/methodology.html">Read the complete methodology in the repository ↗</a> <span>·</span> <a href="https://doi.org/10.2908/gov_10a_exp" target="_blank" rel="noopener noreferrer">Eurostat dataset DOI ↗</a></p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><span>Made for citizens, not governments.</span><span>Source: Eurostat, <a href="https://doi.org/10.2908/gov_10a_exp" target="_blank" rel="noopener noreferrer">gov_10a_exp</a> · MIT open source · <span id="footer-fetched">Data status pending</span></span></div></footer>
+</body>
+</html>
