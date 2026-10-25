@@ -44,6 +44,17 @@ See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md), the [common UN COFOG classif
 
 Source review and known gaps: [official responsibilities audit](docs/authority-sources.md).
 
+### Priority 0.6 — Reproducible official FIN 2024 institution-level ingestion
+
+- [x] Find direct official Ministry of Finance CSV/ZIP distributions and original Czech open-data catalogue identities for **2024 FIN 2-12 M** municipalities/regions and a **separate Prague** dataset; record them without guessing download URLs.
+- [x] Build a read-only GitHub Actions original-source probe: bounded download, archive SHA-256, safe ZIP member validation and first-row CSV schema, with an explicit **BLOCKED** status when the original source cannot be fetched.
+- [ ] Download and validate the complete FIN 2-12 M 2024 original data, with exact row counts, organisation IDs, units and transfer classifications. Separate ZIP-schema inspection is **not** this acceptance criterion.
+- [ ] Verify Prague magistrate / borough overlap before combining original institution records with other local-government data.
+- [ ] Verify official 2024 FIN 1-12 OSS state chapters and FIN 1-12 SF funds original distributions; reconcile state-chapter totals without adding incompatible ESA numbers.
+- [ ] Reconcile funding flows, identify which legal institution truly approved and controlled the expenditure, and only then publish a COFOG category's largest budget manager.
+
+Official source, run failures and next steps: [FIN ingestion log](docs/TEST_LOG.md).
+
 ### Priority 0.5 — Czech 2024 cash-COFOG transfer reconciliation
 
 - [x] Transcribe and validate the Czech Finance Ministry's official **2024 Government Finance Statistics Table 5**, all ten COFOG functions and eight central/extrabudgetary/social-security/local/transfers columns, without adding it to incompatible Eurostat ESA or the 48-chapter cash ledger.

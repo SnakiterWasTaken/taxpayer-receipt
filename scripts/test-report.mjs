@@ -18,7 +18,7 @@ function execute(program,args,logName){
  return {content,success:result.status===0&&!result.error};
 }
 const node=execute(process.execPath,['--test','--test-reporter=tap',...testPaths],'node-tests.log');
-const py=execute('python3',['-m','unittest','discover','-v','-s','tests','-p','test_euromod*.py'],'python-tests.log');
+const py=execute('python3',['-m','unittest','discover','-v','-s','tests','-p','test_*.py'],'python-tests.log');
 const commit=process.env.GITHUB_SHA||'local, uncommitted/unknown';
 const runUrl=process.env.GITHUB_RUN_ID
  ?'https://github.com/'+(process.env.GITHUB_REPOSITORY||'unknown')+'/actions/runs/'+process.env.GITHUB_RUN_ID

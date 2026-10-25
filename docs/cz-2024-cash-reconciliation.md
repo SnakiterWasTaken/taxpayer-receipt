@@ -53,6 +53,12 @@ This is **budget approval/implementation** evidence for ordinary municipal self-
 - **Not yet executed:** download, schema/period verification, de-duplication and reconciliation of full FIN statement rows to the 2024 functional table; extraction of named individual municipal and regional actual-expense managers; and the source-verified crosswalk from budget paragraphs and chapters to the UN COFOG purpose.
 - The `2024 Ministry of Finance GFS public-budget cash table` itself already publishes the **aggregated cross-level consolidation** for ten functions. This is verified, without yet publishing a claim about **any named municipality's amount**.
 
+## Official ZIP provenance probe — 26 October 2026
+
+The national open-data catalogue identifies the 2024 December local-government FIN extract and separately the Prague magistrate/district statement. Their original official downloadable ZIP addresses and catalogue identities are recorded in `scripts/probe-fin-2024.py`. A reproducible read-only GitHub Actions probe records source checksum and header shape **if the archive can be downloaded**; it does not aggregate/publish municipality spending. The local runtime could not reach MONITOR due to external DNS restrictions, so CI may still report BLOCKED. All attempts and future results belong in `docs/TEST_LOG.md`.
+
+The raw FIN source's ZIP/CSV headers are **not** automatically a map from budget paragraph to COFOG and do not prove spending decision-making authority.
+
 ## What must happen before naming a 'largest budget manager'
 
 1. Download original **2024 FIN 1-12 OSS** chapter/paragraph and **2024 FIN 2-12 M** local government institution/paragraph datasets from official public distributions, keeping checksums and provider metadata.
