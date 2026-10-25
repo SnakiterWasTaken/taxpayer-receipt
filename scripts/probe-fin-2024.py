@@ -24,6 +24,12 @@ DATASETS = [
     {"id": "FIN2-12M-PRAGUE-2024-12", "scope": "Prague magistrate and district statements; possible overlap with other accounts",
      "catalogue": SOURCE+"f9e06d391325b61670602899e652e084",
      "url": "https://monitor.statnipokladna.gov.cz/data/extrakty/csv/FinMMC/2024_12_Data_CSUIS_FINMMC.zip"},
+    {"id": "FIN1-12OSS-2024-12", "scope": "state budget chapter and state organisational units; not same as final institution decision power",
+     "catalogue": SOURCE+"f6ed0509c52610c3c5658712a4671b13",
+     "url": "https://monitor.statnipokladna.gov.cz/data/extrakty/csv/FinOSS/2024_12_Data_CSUIS_MISRIS.zip"},
+    {"id": "FIN1-12SF-2024-12", "scope": "state budgetary funds, not all central government spending",
+     "catalogue": SOURCE+"bdbd188371eb3b7417a1312d4062506e",
+     "url": "https://monitor.statnipokladna.gov.cz/data/extrakty/csv/FinSF/2024_12_Data_CSUIS_FINSF.zip"},
 ]
 MAX_ZIP_BYTES = 250 * 1024 * 1024
 MAX_MEMBER_BYTES = 1_000 * 1024 * 1024
@@ -154,9 +160,11 @@ def download_probe(dataset: dict) -> dict:
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--out",default="test-results/fin-2024-source-probe.json")
-    parser.add_argument("--only",choices=["all","municipal","prague"],default="all")
+    parser.add_argument("--only",choices=["all","municipal","prague","state"],default="all")
     args=parser.parse_args()
-    subset = DATASETS if args.only=="all" else [DATASETS[0] if args.only=="municipal" else DATASETS[1]]
+    subset = (DATASETS if args.only=="all" else
+      DATASETS[:1] if args.only=="municipal" else
+      DATASETS[1:2] if args.only=="prague" else DATASETS[2:])
     out={"schema":1,"kind":"SOURCE_DISCOVERY_ONLY","period":"2024-12",
          "scopeWarning":"Source ZIP sampling does not validate accounting totals, internal transfers, COFOG classification or budget decision authority.",
          "datasets":[download_probe(ds) for ds in subset]}
