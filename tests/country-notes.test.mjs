@@ -9,7 +9,7 @@ test('National note registry only targets known EU countries',()=>{
 });
 test('French note is visible for FR only, not globally',()=>{
  assert.equal(countryNotesFor('FR').length,1);
- for(const country of ['CZ','DE','IT','BE'])assert.deepEqual(countryNotesFor(country),[]);
+ for(const country of ['DE','IT','BE'])assert.deepEqual(countryNotesFor(country),[]);
 });
 test('Notes distinguish source and selected expenditure years',()=>{
  const note=countryNotesFor('FR')[0];
@@ -23,7 +23,7 @@ test('Every reviewed national note has independent source citations',()=>{
  for(const notes of Object.values(COUNTRY_NOTES))for(const note of notes){
   assert.match(note.id,/^[a-z0-9-]+$/);assert.ok(note.sources.length>=1);
   assert.ok(note.sources.every(s=>s.label&&s.url.startsWith('https://')));
-  assert.ok(note.detailPage.startsWith('./docs/countries/'));
+  if(note.detailPage)assert.ok(note.detailPage.startsWith('./docs/countries/'));
  }
 });
 test('General pension page is country-neutral; source notes have their own page',()=>{
@@ -52,4 +52,13 @@ test('General methodology pages do not embed Czech-specific tax rules',()=>{
  assert.doesNotMatch(md,/^## Czechia personal income-tax calculator/m);
  const specific=readFileSync(new URL('../docs/countries/cz-tax.md',import.meta.url),'utf8');
  assert.match(specific,/CZK 30,840/);
+});
+
+test('Payroll help links to country-scoped tax notes on the main explorer',()=>{
+ const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+ const js=readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
+ assert.match(html,/href="#country-note-cz-employee-tax-2024-2026"/);
+ assert.match(js,/renderCountryNotes\(activeCountry,year\)/);
+ assert.match(js,/note\.details/);
+ assert.match(js,/CZ_RULES\[y\]/);
 });

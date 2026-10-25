@@ -175,19 +175,46 @@ function renderCountryNotes(code,spendingYear){
   el('country-context-country').textContent=label(code);
   for(const note of notes){
     const article=document.createElement('article');article.className='country-note';
-    article.dataset.noteId=note.id;
+    article.dataset.noteId=note.id;article.id='country-note-'+note.id;
     const meta=document.createElement('div');meta.className='country-note-meta';meta.textContent=note.status;
     const heading=document.createElement('h3');heading.textContent=note.title;
     const body=document.createElement('p');body.textContent=note.summary;
-    const period=document.createElement('p');period.className='country-note-period';period.textContent=notePeriodDescription(note,spendingYear);
+    const period=document.createElement('p');period.className='country-note-period';period.textContent=notePeriodDescription(note,spendingYear,code==='CZ'?Number(taxYearEl.value):null);
     const caveat=document.createElement('p');caveat.className='country-note-caveat';caveat.textContent=note.caveat;
+    const details=document.createElement('div');details.className='country-note-details';
+    if(note.topic==='employee-tax-model' && code==='CZ'){
+      const y=Number(taxYearEl.value),rules=CZ_RULES[y];
+      if(rules){
+        const h=document.createElement('h4');h.textContent='Parameters for tax year '+y;
+        const dl=document.createElement('dl');dl.className='country-note-rules';
+        for(const [label,value] of [
+          ['Annual threshold for 23% income tax',rules.annualHigherRate],
+          ['Annual social insurance assessment cap',rules.maxSocialBase],
+          ['Minimum income for annual child tax bonus',rules.minimumAnnualBonusIncome],
+        ]){
+          const dt=document.createElement('dt');dt.textContent=label;
+          const dd=document.createElement('dd');dd.textContent=formatMoney(value,'CZK');
+          dl.append(dt,dd);
+        }
+        details.append(h,dl);
+      }
+    }
+    for(const item of note.details||[]){
+      const h=document.createElement('h4');h.textContent=item.title;
+      const para=document.createElement('p');para.textContent=item.body;
+      details.append(h,para);
+    }
     const sources=document.createElement('div');sources.className='country-note-links';
-    const detail=document.createElement('a');detail.href=note.detailPage;detail.textContent='Read the detailed accounting explanation ↗';sources.append(detail);
+    if(note.detailPage){
+      const detail=document.createElement('a');detail.href=note.detailPage;
+      detail.textContent='Read the detailed national accounting explanation ↗';
+      sources.append(detail);
+    }
     for(const src of note.sources){
       const a=document.createElement('a');a.href=src.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=src.label+' ↗';
       sources.append(a);
     }
-    article.append(meta,heading,body,period,caveat,sources);
+    article.append(meta,heading,body,period,details,caveat,sources);
     list.append(article);
   }
 }
