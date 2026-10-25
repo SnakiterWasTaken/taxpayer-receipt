@@ -53,3 +53,8 @@ MIT for original application source code. Official statistical data retain their
 ## EUROMOD validation proof of concept (experimental)
 
 The independent [EUROMOD integration toolkit](docs/euromod-integration.md) provides a Python connector probe for official training data, country XML policy diffs, a Czech scenario-comparison gate, and a weekly official release watcher that opens review issues. **No EUROMOD tax results or national policy updates are automatically published.** The actual EUROMOD model/executable must be installed separately under the European Commission's terms before running a real comparison. The existing GitHub Pages app remains fully self-contained.
+
+
+### Pensions transparency (COFOG second level)
+
+Where Eurostat provides both `GF1002` (Old age) and `GF1003` (Survivors), their combined share appears as a non-additive drill-down within `GF10` (Social protection). The result is derived from the same official Eurostat S13 dataset as the top-level chart, without approximations for unavailable entries. For France, the separate `docs/pension-transparency.html` explains the CAS Pensions ministry-budget accounting controversy and distinctions from ESA and DREES scopes.

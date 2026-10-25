@@ -24,7 +24,9 @@ for(let attempt=0;attempt<4;attempt++) {
     const target=join(root,'data','eu-spending.json');
     await mkdir(dirname(target),{recursive:true});
     await writeFile(target,JSON.stringify(snapshot,null,2)+'\n');
-    console.log(`Wrote ${Object.keys(snapshot.entries).length} complete country-year records to ${target}; ${snapshot.skipped.length} incomplete excluded.`);
+    const pensionCount=Object.values(snapshot.entries).filter(x=>x.pensionDetail).length;
+    const france2024=!!snapshot.entries['FR-2024']?.pensionDetail;
+    console.log(`Wrote ${Object.keys(snapshot.entries).length} complete country-year records to ${target}; ${snapshot.skipped.length} incomplete excluded. Pension-related GF1002+GF1003: ${pensionCount} complete country-years; France 2024: ${france2024?'available':'unavailable'}.`);
     process.exit(0);
   }catch(e){lastError=e;console.error(`Attempt ${attempt+1}: ${e.message}`);if(attempt<3)await new Promise(r=>setTimeout(r,2500*(attempt+1)));}
 }
