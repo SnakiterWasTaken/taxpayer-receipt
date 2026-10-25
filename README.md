@@ -58,3 +58,8 @@ The independent [EUROMOD integration toolkit](docs/euromod-integration.md) provi
 ### Pensions transparency (COFOG second level)
 
 Where Eurostat provides both `GF1002` (Old age) and `GF1003` (Survivors), their combined share appears as a non-additive drill-down within `GF10` (Social protection). The result is derived from the same official Eurostat S13 dataset as the top-level chart, without approximations for unavailable entries. For France, the separate `docs/pension-transparency.html` explains the CAS Pensions ministry-budget accounting controversy and distinctions from ESA and DREES scopes.
+
+
+## Historical economic context
+
+Historical views include Eurostat annual HICP inflation, January national statutory minimum wages, and real gross disposable income per capita (2008=100 index). Automatic source refresh is part of the GitHub Actions deployment. Indicators appear only when reported by their separate official datasets; missing data remain missing and the five EU countries without a national statutory minimum wage are labelled accordingly. For indicator definitions and caveats, see [economic context methodology](docs/economic-context.md).
