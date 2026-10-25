@@ -12,12 +12,13 @@ test('The initial view shows country/year and optional tax inputs',()=>{
  assert.match(html,/<details class="sidebar-details" id="compare-details">/);
  assert.doesNotMatch(html,/<details[^>]+id="personalize-details"[^>]*open/);
 });
-test('Three-category summary and full detail have distinct accessible containers',()=>{
- for(const id of ['glance-leaders','glance-observations','glance-observations-caption','breakdown','breakdown-extra'])
+test('Three-category summary remains distinct from one complete expandable spending breakdown',()=>{
+ for(const id of ['glance-leaders','glance-observations','glance-observations-caption','breakdown'])
    assert.match(html,new RegExp('id="'+id+'"'));
- assert.match(html,/<details id="spending-more"/);
- assert.match(js,/allocations\.slice\(0,3\)/);
- assert.match(js,/allocations\.slice\(3\)/);
+ assert.match(html,/<details class="topic-card spending-card" id="category-details">/);
+ assert.doesNotMatch(html,/id="spending-more"|id="breakdown-extra"/);
+ assert.match(js,/el\('breakdown'\)\.replaceChildren\(\.\.\.allocations\.map\(makeRow\)\)/);
+ assert.doesNotMatch(js,/breakdown-extra|allocations\.slice\(3\)/);
  assert.match(js,/renderGlance\(entry\)/);
 });
 test('Common category help is interactive and accessible in all spending displays',()=>{

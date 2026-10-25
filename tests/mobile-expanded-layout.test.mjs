@@ -12,7 +12,8 @@ test('Each expanded mobile detail card remains constrained to the explorer colum
   assert.match(part,/\.explorer\s*\{\s*grid-template-columns:minmax\(0,1fr\)/);
   assert.match(html,/<details class="panel economic-disclosure topic-card" id="economic-details">/);
   assert.match(html,/<details class="topic-card pension-disclosure" id="pension-details">/);
-  assert.match(html,/<details id="spending-more" class="detail-toggle">/);
+  assert.match(html,/<details class="topic-card spending-card" id="category-details">/);
+  assert.doesNotMatch(html,/id="spending-more"/);
 });
 
 test('Wide economic table scrolls inside its own box instead of resizing the whole page',()=>{
