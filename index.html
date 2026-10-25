@@ -33,7 +33,9 @@
         <div class="panel-head"><span class="step">01</span><div><h2>Set your view</h2><p>Choose a country and year</p></div></div>
         <div class="field"><label for="country">Country</label><select id="country" aria-label="Country"><option>Loading countries…</option></select></div>
         <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
-        <div class="control-separator"></div>
+        <details class="sidebar-details" id="personalize-details">
+          <summary>Estimate my personal share <small>Optional — no personal data required</small></summary>
+          <div class="personalize-content">
         <div class="panel-head secondary-head"><span class="step">02</span><div><h2>Make it personal</h2><p>Optional illustrative allocation</p></div></div>
         <div class="field"><label for="contribution-mode">How would you like to estimate your contribution?</label><select id="contribution-mode"><option value="salary">Calculate from annual gross salary — Czechia</option><option value="manual">Enter an amount I already know</option></select></div>
         <div id="salary-fields">
@@ -56,8 +58,11 @@
           <div class="field"><label for="amount">Your annual tax amount <span id="currency-label">(CZK)</span></label><input type="number" min="0" step="100" inputmode="decimal" id="amount" placeholder="e.g. 100000" autocomplete="off" /><p class="field-hint">Enter <strong>taxes paid</strong>, not your gross salary. This amount stays in your browser.</p></div>
         </div>
         <div id="other-countries-note" class="upcoming hidden" role="note"><span class="coming-mark">◇</span><div><strong>Salary calculation for other countries</strong><br /><span>Currently available for Czechia only. You can still enter a known annual tax amount.</span></div></div>
+          </div>
+        </details>
         <div class="control-separator"></div>
-        <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div>
+        <details class="sidebar-details" id="compare-details"><summary>Compare countries</summary>
+        <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div></details>
         <button id="reset" class="reset-btn" type="button">↺ Reset view</button>
       </aside>
       <div class="output">
