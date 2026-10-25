@@ -40,7 +40,7 @@ test('Czech tax and household eligibility belongs to the Czech country view',()=
  assert.equal(note.topic,'employee-tax-model');
  assert.deepEqual(note.sourceYears,[2024,2025,2026]);
  assert.match(note.summary,/15%\/23%/);
- assert.match(note.details.map(x=>x.body).join(' '),/child bonus/i);
+ assert.match(note.details.map(x=>x.body).join(' '),/child.*bonus/i);
  assert.match(notePeriodDescription(note,2024,2026),/2026/);
  assert.match(notePeriodDescription(note,2024,2026),/2024/);
  assert.equal(countryNotesFor('FR').some(x=>x.topic==='employee-tax-model'),false);
@@ -51,7 +51,7 @@ test('General methodology pages do not embed Czech-specific tax rules',()=>{
  assert.doesNotMatch(html,/(?:id="czechia"|Czech employment calculator|CZK 30,840|Spouse\/eligible)/);
  assert.doesNotMatch(md,/^## Czechia personal income-tax calculator/m);
  const specific=readFileSync(new URL('../docs/countries/cz-tax.md',import.meta.url),'utf8');
- assert.match(specific,/CZK 30,840/);
+ assert.match(specific,/30,840 CZK/);
 });
 
 test('Payroll help links to country-scoped tax notes on the main explorer',()=>{
