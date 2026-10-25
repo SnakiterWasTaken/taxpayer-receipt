@@ -148,6 +148,8 @@ function authorityDetails(code){
    const sectorList=document.createElement('dl');sectorList.className='institutional-sector-list';
    for(const sector of SECTORS){
      const dt=document.createElement('dt');dt.textContent=sector.label;
+     const explainer=document.createElement('small');explainer.textContent=sector.help;
+     dt.append(explainer);
      const dd=document.createElement('dd');
      const value=rec.sectors[sector.code];
      dd.textContent=value?'€'+formatNumber(value.eurMillion,1)+' million'+
