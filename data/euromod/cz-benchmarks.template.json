@@ -1,0 +1,30 @@
+{
+  "provenance": {
+    "provider": "EUROMOD",
+    "modelVersion": "J2.54+",
+    "modelSha256": "REPLACE_WITH_ACTUAL_DOWNLOADED_MODEL_SHA256",
+    "inputDataset": "REPLACE_WITH_REVIEWED_HYPOTHETICAL_HOUSEHOLD_INPUT",
+    "outputMapping": "REPLACE_WITH_EXPLICIT_IDENTIFIED_COLUMNS_AND_CZK_PER_YEAR_UNIT_CONVERSION",
+    "units": "CZK/year",
+    "reviewed": false
+  },
+  "cases": [
+    {
+      "id": "cz2024-single-900k",
+      "year": 2024,
+      "grossAnnual": 900000,
+      "household": {"children": 0},
+      "observed": {"incomeTaxAnnual": null, "employeeContributionsAnnual": null},
+      "toleranceCZK": 24
+    },
+    {
+      "id": "cz2024-one-child-900k",
+      "year": 2024,
+      "grossAnnual": 900000,
+      "household": {"children": 1, "childZtp": [false]},
+      "observed": {"incomeTaxAnnual": null, "employeeContributionsAnnual": null},
+      "toleranceCZK": 24
+    }
+  ],
+  "warning": "Template, NOT EUROMOD output. It MUST fail until the real model is executed and mapped."
+}

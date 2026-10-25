@@ -1,0 +1,9 @@
+{
+  "source": "https://euromod-web.jrc.ec.europa.eu/download-euromod/",
+  "verified_as_of": "2026-10-25",
+  "versions": {
+    "stable": "J2.0+",
+    "beta": "J2.54+"
+  },
+  "note": "A new EUROMOD release is not automatically a change to this project's validated tax parameters. A human must review it."
+}

@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm test
+      - name: Run EUROMOD integration unit tests (no external model required)
+        run: python3 -m unittest discover -s tests -p 'test_euromod*.py'
       - run: npm run data:refresh
       - run: npm run build
       - uses: actions/configure-pages@v5

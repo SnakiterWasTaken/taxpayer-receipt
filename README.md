@@ -48,3 +48,8 @@ On GitHub, enable **Settings → Pages → Build and deployment → Source: GitH
 ## License
 
 MIT for original application source code. Official statistical data retain their publisher's attribution and reuse conditions.
+
+
+## EUROMOD validation proof of concept (experimental)
+
+The independent [EUROMOD integration toolkit](docs/euromod-integration.md) provides a Python connector probe for official training data, country XML policy diffs, a Czech scenario-comparison gate, and a weekly official release watcher that opens review issues. **No EUROMOD tax results or national policy updates are automatically published.** The actual EUROMOD model/executable must be installed separately under the European Commission's terms before running a real comparison. The existing GitHub Pages app remains fully self-contained.

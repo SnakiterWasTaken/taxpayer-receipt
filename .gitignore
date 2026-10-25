@@ -3,3 +3,10 @@ node_modules/
 .DS_Store
 .env
 *.log
+
+# EUROMOD downloads/output; never commit EU-SILC/private microdata
+/euromod-models/
+/euromod-training-probe.json
+/release-watch-result.json
+*euromod-cz-diff*.json
+*euromod-comparison*.json

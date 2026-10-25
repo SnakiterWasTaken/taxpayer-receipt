@@ -1,0 +1,42 @@
+name: Watch official EUROMOD releases
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 7 * * 2'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check-model-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect release version changes (no tax rule changes)
+        run: python3 scripts/euromod/release_watch.py --output release-watch-result.json
+      - name: Open review issue if a new model is published
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const info = JSON.parse(fs.readFileSync('release-watch-result.json', 'utf8'));
+            for(const [channel, change] of Object.entries(info.changes)) {
+              const title = `[EUROMOD] Review ${channel} model ${change.observed}`;
+              const { data: existing } = await github.rest.issues.listForRepo({
+                ...context.repo, state: 'all', per_page: 100, labels: 'euromod-update'
+              });
+              if(existing.some(i => i.title === title)) continue;
+              const body = [
+                `Official EUROMOD **${channel}** model has changed: ${change.baseline} → ${change.observed}.`,
+                '', `Official source: ${info.source_url}`, '',
+                'Checklist:',
+                '- [ ] Download the relevant official releases and record SHA256.',
+                '- [ ] Run `python3 scripts/euromod/model_diff.py --old OLD.zip --new NEW.zip --country CZ`.',
+                '- [ ] Run the connector against training data; map approved hypothetical households.',
+                '- [ ] Review any change in tax and contribution coverage and effective dates.',
+                '- [ ] Update country tax rules only after independent official-source validation.',
+                '', '**No tax rules were changed automatically.**'
+              ].join('\n');
+              try { await github.rest.issues.getLabel({...context.repo,name:'euromod-update'}); }
+              catch(err) { if(err.status===404) await github.rest.issues.createLabel({...context.repo,name:'euromod-update',color:'757575',description:'Official model change requiring review'}); else throw err; }
+              await github.rest.issues.create({...context.repo,title,body,labels:['euromod-update']});
+            }
