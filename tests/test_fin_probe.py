@@ -38,14 +38,14 @@ class FinProbeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/"dummy.zip"
             with zipfile.ZipFile(path,"w") as z:
-                z.writestr("sample.csv","ICO;PARAGRAF;POL;SKUTECNOST\n00000001;3113;5331;30000\n")
+                z.writestr("sample.csv","ZC_ICO:ZC_ICO;0FISCPER:0FISCPER;FUNC_AREA:0FUNC_AREA;ZU_ROZKZ:ZU_ROZKZ\n00000001;2024012;3113;30000\n")
             parts=probe.inspect_zip(path)
             self.assertEqual(len(parts),1)
-            self.assertEqual(parts[0]["header"][0],"ICO")
+            self.assertEqual(parts[0]["header"][0],"ZC_ICO:ZC_ICO")
             self.assertEqual(parts[0]["profile"]["countedRows"],1)
             self.assertTrue(parts[0]["profile"]["rowCountComplete"])
             self.assertEqual(parts[0]["profile"]["uniqueOrganisationIds"],1)
-            self.assertEqual(parts[0]["profile"]["periods"],[])
+            self.assertEqual(parts[0]["profile"]["periods"],["2024012"])
             self.assertNotIn("00000001",str(parts))
 
 if __name__=="__main__":
