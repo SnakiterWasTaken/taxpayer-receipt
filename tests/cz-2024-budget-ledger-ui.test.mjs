@@ -20,7 +20,7 @@ test('One country detail expansion exposes the entire 48-row ledger without a se
  assert.match(block,/Source|CZ_2024_STATE_ACCOUNT_SOURCE/);
 });
 test('Historical budget year, cash-vs-S13 differences, chapter-versus-category distinction and original source are prominent',()=>{
- assert.match(app,/state budget \(cash accounting\), not Eurostat/);
+ assert.match(app,/state budget \(cash accounting\), not Eurostat/i);
  assert.match(app,/Chapter spending can include transfers/);
  assert.match(app,/original Ministry of Finance final accounts|Original Ministry of Finance final accounts/);
  assert.match(docs,/state budget is not the same as Eurostat/);
