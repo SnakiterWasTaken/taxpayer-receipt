@@ -170,14 +170,20 @@
             <div><span>Minimum legal monthly pay <a class="term-help" href="./docs/glossary.html#minimum-wage" aria-label="What is the legal minimum wage?">ⓘ</a></span><strong id="econ-wage">—</strong><small id="econ-wage-change">Gross pay (before deductions) as at 1 January</small></div>
             <div><span>Average household income after inflation <a class="term-help" href="./docs/glossary.html#household-income-index" aria-label="What is the inflation-adjusted household income index?">ⓘ</a></span><strong id="econ-real-income">—</strong><small>Change since previous year, per person</small><small id="econ-income-index">Inflation-adjusted income index</small></div>
           </div>
-          <details class="economic-help" id="income-index-explainer">
-            <summary>What does the household-income index mean?</summary>
-            <p>The indicator estimates how the <strong>average money households have available per person</strong> changes after taxes, transfers and inflation. In each country <strong>2008 is set to 100</strong>; a value of <strong>120</strong> means roughly <strong>20% higher than in 2008</strong>, not €120. It is a national average, not the typical person's income, and it cannot tell which country is richer.</p>
-            <p><a href="./docs/glossary.html#household-income-index">Simple example, limits and official source ↗</a></p>
-          </details>
           <h3>Historical observations</h3>
           <div class="economic-table-wrap"><table class="economic-table">
-            <thead><tr><th>Year</th><th>Price rise</th><th>Minimum wage (Jan)</th><th>Wage change before inflation</th><th><a href="./docs/glossary.html#household-income-index">Household income index (2008 = 100)</a></th></tr></thead>
+            <thead><tr><th>Year</th><th>Price rise</th><th>Minimum wage (Jan)</th><th>Wage change before inflation</th><th>Household income index (2008 = 100)
+              <span class="category-help income-table-help" id="income-table-help">
+                <button type="button" class="category-help-button" aria-label="Explain the household-income index" aria-describedby="income-index-explainer">i</button>
+                <span class="category-help-tooltip" id="income-index-explainer" role="tooltip">
+                  <strong>What does this number mean?</strong>
+                  <span>2008 is set to 100 in each country. A value of 120 means average income per resident, after taxes, transfers and inflation, is about 20% higher than in 2008 — not €120.</span>
+                  <span>It is a national average, not the typical person's income. It cannot tell which country is richer.</span>
+                  <small>Source: Eurostat household income index (tepsr_wc310).</small>
+                </span>
+              </span>
+              <a href="./docs/glossary.html#household-income-index" class="term-help" aria-label="Full glossary explanation of household income index">↗</a>
+            </th></tr></thead>
             <tbody id="economic-history"></tbody>
           </table></div>
           <p id="economic-status" class="economic-status" role="status">Loading independently sourced context data…</p>

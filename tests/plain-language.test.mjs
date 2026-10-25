@@ -17,7 +17,9 @@ test('Index 100 means the baseline and missing observations are not silently int
  assert.match(explainIncomeIndex(Number.NaN),/Not available/);
 });
 test('Every technical metric panel gives a nearby short explanation and a glossary link',()=>{
- assert.match(html,/id="income-index-explainer"/);
+ assert.match(html,/<span class="category-help income-table-help" id="income-table-help">/);
+ assert.match(html,/id="income-index-explainer" role="tooltip"/);
+ assert.doesNotMatch(html,/<details class="economic-help" id="income-index-explainer"/);
  assert.match(html,/2008 is set to 100/);
  assert.match(html,/href="\.\/docs\/glossary\.html#household-income-index"/);
  assert.match(html,/href="\.\/docs\/glossary\.html#inflation"/);
