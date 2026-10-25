@@ -20,6 +20,7 @@ let activeCountry='CZ';
 let year=null;
 let compare='';
 let contributionMode='salary';
+let categoryTooltipSequence=0;
 
 function formatNumber(x,max=0){return new Intl.NumberFormat('en-GB',{maximumFractionDigits:max}).format(x)}
 function formatMoney(x,currency){return new Intl.NumberFormat('en-GB',{style:'currency',currency,maximumFractionDigits:0}).format(x)}
@@ -63,14 +64,29 @@ function categoryInfo(item){
  const wrap=document.createElement('span');wrap.className='category-help';
  const button=document.createElement('button');button.type='button';button.className='category-help-button';
  button.textContent='i';button.setAttribute('aria-label','What does '+item.label+' include?');
- const id='category-help-'+item.code;button.setAttribute('aria-describedby',id);
+ const id='category-help-'+item.code+'-'+(++categoryTooltipSequence);button.setAttribute('aria-describedby',id);
  const tip=document.createElement('span');tip.className='category-help-tooltip';tip.id=id;tip.setAttribute('role','tooltip');
  const summary=document.createElement('strong');summary.textContent=info.summary;
  const examples=document.createElement('span');examples.textContent='For example: '+info.examples;
  const caveat=document.createElement('span');caveat.textContent='Note: '+info.not;
  const disclaimer=document.createElement('small');disclaimer.textContent='Examples of classified functions, not a receipt for individual spending.';
  tip.append(summary,examples,caveat,disclaimer);wrap.append(button,tip);
- button.addEventListener('keydown',event=>{if(event.key==='Escape')button.blur()});
+ button.setAttribute('aria-expanded','false');
+ button.addEventListener('click',()=>{
+   const opening=!wrap.classList.contains('help-open');
+   for(const prior of document.querySelectorAll('.category-help.help-open')){
+     prior.classList.remove('help-open');
+     prior.querySelector('button')?.setAttribute('aria-expanded','false');
+   }
+   wrap.classList.toggle('help-open',opening);
+   button.setAttribute('aria-expanded',String(opening));
+ });
+ button.addEventListener('blur',()=>{
+   wrap.classList.remove('help-open');button.setAttribute('aria-expanded','false');
+ });
+ button.addEventListener('keydown',event=>{
+   if(event.key==='Escape'){wrap.classList.remove('help-open');button.blur();}
+ });
  return wrap;
 }
 function breakdownRow(item,amount,curr){
@@ -90,6 +106,7 @@ function renderGlance(entry){
    const card=document.createElement('div');card.className='glance-leader';
    const value=document.createElement('strong');value.className='glance-value';value.textContent=leader.perHundred.toFixed(1)+'%';
    const label=document.createElement('span');label.textContent=leader.label;
+   const help=categoryInfo(leader);if(help)label.append(help);
    card.append(value,label);leaders.append(card);
  }
  el('glance-country-year').textContent=label(activeCountry)+' · '+entry.year;
@@ -351,6 +368,7 @@ function renderCompare(){
     const a=current.categories.find(x=>x.code===f.code)?.share||0;
     const b=other.categories.find(x=>x.code===f.code)?.share||0;
     const row=document.createElement('div');row.className='compare-row';const title=document.createElement('span');title.className='compare-label';title.textContent=f.label;
+    const help=categoryInfo(f);if(help)title.append(help);
     const tracks=document.createElement('div');tracks.className='compare-tracks';
     for(const [value,color] of [[a,'#7ec8c8'],[b,'#dda773']]){
       const t=document.createElement('div');t.className='compare-track';const fill=document.createElement('div');fill.className='compare-fill';fill.style.width=`${Math.min(100,value/scale*100)}%`;fill.style.background=color;t.append(fill);
