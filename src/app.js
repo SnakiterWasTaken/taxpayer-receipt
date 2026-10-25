@@ -1,12 +1,15 @@
 import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.js';
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
+import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 
 const el=id=>document.getElementById(id);
 const countryEl=el('country'),yearEl=el('year'),amountEl=el('amount'),compareEl=el('compare');
+const modeEl=el('contribution-mode'),grossEl=el('gross-salary'),taxYearEl=el('tax-year'),basisEl=el('allocation-basis');
 let snapshot=null;
 let activeCountry='CZ';
 let year=null;
 let compare='';
+let contributionMode='salary';
 
 function formatNumber(x,max=0){return new Intl.NumberFormat('en-GB',{maximumFractionDigits:max}).format(x)}
 function formatMoney(x,currency){return new Intl.NumberFormat('en-GB',{style:'currency',currency,maximumFractionDigits:0}).format(x)}
@@ -28,6 +31,7 @@ function updateUrl(){
   u.searchParams.set('country',activeCountry);
   if(year)u.searchParams.set('year',String(year)); else u.searchParams.delete('year');
   if(compare)u.searchParams.set('compare',compare);else u.searchParams.delete('compare');
+  if(contributionMode==='salary'&&activeCountry==='CZ')u.searchParams.set('taxYear',taxYearEl.value);else u.searchParams.delete('taxYear');
   // Never persist visitor-entered money in a link, analytics or network request.
   history.replaceState(null,'',u);
 }
@@ -52,27 +56,76 @@ function breakdownRow(item,amount,curr){
   const pct=document.createElement('div');pct.className='pct';pct.textContent=formatPct(item.share);
   row.append(square,main,pct);return row;
 }
+function updateContributionControls(){
+  if(activeCountry!=='CZ') contributionMode='manual';
+  modeEl.value=contributionMode;
+  for(const option of modeEl.options) option.disabled=option.value==='salary'&&activeCountry!=='CZ';
+  toggle('salary-fields',contributionMode==='salary'&&activeCountry==='CZ');
+  toggle('manual-fields',contributionMode==='manual');
+  toggle('other-countries-note',activeCountry!=='CZ');
+}
+function renderPayroll(receipt){
+  toggle('payroll-panel',!!receipt);
+  if(!receipt)return;
+  const amounts={
+    'payroll-gross':receipt.grossAnnual,
+    'payroll-net':receipt.netAnnual,
+    'payroll-income':receipt.incomeTax,
+    'payroll-social':receipt.employeeSocial,
+    'payroll-health':receipt.employeeHealth,
+    'payroll-total':receipt.totalEmployee,
+    'payroll-employer':receipt.employerSocial+receipt.employerHealth,
+  };
+  for(const [id,value] of Object.entries(amounts))el(id).textContent=formatMoney(value,'CZK');
+  el('payroll-year').textContent=receipt.year;
+  el('payroll-rate').textContent=formatPct(receipt.effectiveEmployeeRate);
+  const adjustment=receipt.annualSettlementAdjustment;
+  el('payroll-caveat').textContent=`Full-year, single-employer estimate with the basic taxpayer credit only. Year-end income-tax reconciliation adjustment vs monthly advances: ${formatMoney(adjustment,'CZK')}. Other reliefs, bonuses, deductions and special employment cases excluded.`;
+}
+function currentContribution(){
+  toggle('salary-error',false);
+  renderPayroll(null);
+  if(contributionMode==='salary'&&activeCountry==='CZ'){
+    const raw=grossEl.value.trim();
+    if(!raw)return {amount:null,kind:'salary'};
+    try {
+      const receipt=calculateCzechEmployee({grossAnnual:Number(raw),year:Number(taxYearEl.value)});
+      renderPayroll(receipt);
+      return {amount:basisEl.value==='income'?receipt.incomeTax:receipt.totalEmployee,kind:'salary',receipt};
+    }catch(error){
+      el('salary-error').textContent=error.message;
+      toggle('salary-error',true);
+      return {amount:null,kind:'invalid'};
+    }
+  }
+  const raw=amountEl.value.trim();
+  if(!raw)return {amount:null,kind:'manual'};
+  const amount=Number(raw);
+  const valid=Number.isFinite(amount)&&amount>=0;
+  amountEl.setCustomValidity(valid?'':'Please enter a nonnegative tax amount.');
+  return {amount:valid?amount:null,kind:valid?'manual':'invalid'};
+}
 function refreshCountry(){
   const name=label(activeCountry),curr=currency(activeCountry);
   el('currency-label').textContent=`(${curr})`;
+  updateContributionControls();
   const entry=year?snapshot.entries[`${activeCountry}-${year}`]:null;
   el('result-title').firstChild.textContent=`${countryFlag(activeCountry)} ${name} `;
   el('result-year').textContent=year||'';
   if(!entry){toggle('results',false);toggle('error',true);el('error').textContent=`No complete, reconcilable spending data is available for ${name}. Try another country or year.`;renderCompare();return;}
   toggle('error',false);toggle('results',true);
-  const numText=amountEl.value.trim();const amount=numText===''?null:Number(numText);
-  const validAmount=amount===null||(Number.isFinite(amount)&&amount>=0);
-  amountEl.setCustomValidity(validAmount?'':'Please enter a nonnegative tax amount.');
-  const allocations=allocate(snapshot,activeCountry,year,validAmount&&amount!==null?amount:0).sort((a,b)=>b.share-a.share);
-  const withAmount=validAmount&&amount!==null;
+  const contribution=currentContribution();
+  const amount=contribution.amount;
+  const withAmount=amount!==null;
+  const allocations=allocate(snapshot,activeCountry,year,withAmount?amount:0).sort((a,b)=>b.share-a.share);
   donut(allocations);
   const billions=entry.eurMillion/1000;
   el('donut-number').textContent=formatNumber(billions,billions>=100?0:1);
   el('donut-unit').textContent='billion EUR';
   el('summary-number').textContent=`€${formatNumber(entry.eurMillion,1)} million`;
   el('summary-kicker').textContent=withAmount?'Official national total':'Reported total expenditure';
-  el('breakdown-caption').textContent=withAmount?`Illustrative allocation of ${formatMoney(amount,curr)} · ${year}`:'Share of public expenditure, by COFOG function';
-  el('allocation-note').textContent=withAmount?`Illustration only: ${formatMoney(amount,curr)} represents a tax amount you entered, NOT taxes computed from your salary. Figures are pro-rata allocations, not traced payments.`:'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
+  el('breakdown-caption').textContent=withAmount?`Illustrative allocation of ${formatMoney(amount,curr)} · spending year ${year}`:'Share of public expenditure, by COFOG function';
+  el('allocation-note').textContent=withAmount?(contribution.kind==='salary'?`Illustration only: ${formatMoney(amount,curr)} is estimated for Czech tax year ${taxYearEl.value} (${basisEl.value==='income'?'income tax after the basic credit':'income tax plus employee social and health contributions'}). Spending shares use ${year}. Social and health contributions have their own financing arrangements; this is not an actual flow of your payments.`:`Illustration only: ${formatMoney(amount,curr)} is the amount you entered. Shares are pro-rata estimates, not traced payments.`):'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
   const list=el('breakdown');list.replaceChildren(...allocations.map(x=>breakdownRow(x,withAmount?amount:null,curr)));
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
@@ -103,7 +156,7 @@ function renderCompare(){
     row.append(title,tracks);rows.append(row);
   }
 }
-function chooseCountry(code){activeCountry=code;selectYear(year);refreshCountry();updateUrl()}
+function chooseCountry(code){activeCountry=code;contributionMode=code==='CZ'?'salary':'manual';selectYear(year);refreshCountry();updateUrl()}
 function init(){
   const q=new URLSearchParams(location.search);
   activeCountry=COUNTRIES.some(c=>c.code===q.get('country'))?q.get('country'):'CZ';
@@ -111,10 +164,17 @@ function init(){
   renderOptions(countryEl,COUNTRIES.map(c=>({code:c.code,name:`${countryFlag(c.code)}  ${c.name}`})),activeCountry);
   renderOptions(compareEl,[{code:'',name:'No comparison'},...COUNTRIES.map(c=>({code:c.code,name:`${countryFlag(c.code)}  ${c.name}`}))],compare);
   countryEl.addEventListener('change',()=>chooseCountry(countryEl.value));
+  contributionMode=activeCountry==='CZ'?'salary':'manual';
+  taxYearEl.value=CZ_RULES[Number(q.get('taxYear'))]?q.get('taxYear'):'2024';
+  modeEl.addEventListener('change',()=>{contributionMode=modeEl.value;updateContributionControls();if(snapshot)refreshCountry()});
+  grossEl.addEventListener('input',()=>{if(snapshot)refreshCountry()});
+  taxYearEl.addEventListener('change',()=>{if(snapshot)refreshCountry();updateUrl()});
+  basisEl.addEventListener('change',()=>{if(snapshot)refreshCountry()});
   yearEl.addEventListener('change',()=>{year=Number(yearEl.value);refreshCountry();updateUrl()});
   compareEl.addEventListener('change',()=>{compare=compareEl.value;renderCompare();updateUrl()});
   amountEl.addEventListener('input',()=>{if(snapshot)refreshCountry()});
-  el('reset').addEventListener('click',()=>{amountEl.value='';compareEl.value='';compare='';countryEl.value='CZ';year=2024;chooseCountry('CZ')});
+  el('reset').addEventListener('click',()=>{grossEl.value='';amountEl.value='';basisEl.value='income';taxYearEl.value='2024';compareEl.value='';compare='';countryEl.value='CZ';year=2024;chooseCountry('CZ')});
+  updateContributionControls();
   loadData(Number(q.get('year'))||2024);
 }
 async function loadData(preferredYear){

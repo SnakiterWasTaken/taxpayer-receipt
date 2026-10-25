@@ -1,9 +1,9 @@
 {
   "name": "taxpayer-receipt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Transparent, country-comparable public expenditure explorer, with a future personal tax receipt layer.",
+  "description": "Official EU government expenditure explorer with a limited Czech 2024–2026 employee salary-to-tax estimator.",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "data:refresh": "node scripts/refresh-data.mjs",

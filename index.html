@@ -35,8 +35,17 @@
         <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
         <div class="control-separator"></div>
         <div class="panel-head secondary-head"><span class="step">02</span><div><h2>Make it personal</h2><p>Optional illustrative allocation</p></div></div>
-        <div class="field"><label for="amount">Your annual tax amount <span id="currency-label">(CZK)</span></label><div class="input-prefix"><input type="number" min="0" step="100" inputmode="decimal" id="amount" placeholder="e.g. 100000" autocomplete="off" /></div><p class="field-hint">Enter <strong>taxes paid</strong>, not your gross salary. Your amount stays in this browser.</p></div>
-        <div class="upcoming" role="note"><span class="coming-mark">◇</span><div><strong>Gross-salary calculator</strong><br /><span>Coming in the next milestone, with country-specific verified rules.</span></div></div>
+        <div class="field"><label for="contribution-mode">How would you like to estimate your contribution?</label><select id="contribution-mode"><option value="salary">Calculate from annual gross salary — Czechia</option><option value="manual">Enter an amount I already know</option></select></div>
+        <div id="salary-fields">
+          <div class="field"><label for="gross-salary">Your yearly gross salary (CZK)</label><input id="gross-salary" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 900000" autocomplete="off" /><p class="field-hint">Standard Czech employment for a full calendar year, with salary spread evenly over 12 months. No salary is transmitted or stored.</p></div>
+          <div class="field"><label for="tax-year">Income-tax year</label><select id="tax-year"><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select><p class="field-hint">Independent from the government spending year above.</p></div>
+          <div class="field"><label for="allocation-basis">Proportional allocation based on</label><select id="allocation-basis"><option value="income">Income tax only</option><option value="all">All employee payroll deductions (tax + social + health)</option></select><p class="field-hint">Social and health insurance are not interchangeable with unrestricted income-tax revenue. Both choices illustrate spending shares, not actual transfers.</p></div>
+          <div id="salary-error" class="field-warning hidden" role="alert"></div>
+        </div>
+        <div id="manual-fields" class="hidden">
+          <div class="field"><label for="amount">Your annual tax amount <span id="currency-label">(CZK)</span></label><input type="number" min="0" step="100" inputmode="decimal" id="amount" placeholder="e.g. 100000" autocomplete="off" /><p class="field-hint">Enter <strong>taxes paid</strong>, not your gross salary. This amount stays in your browser.</p></div>
+        </div>
+        <div id="other-countries-note" class="upcoming hidden" role="note"><span class="coming-mark">◇</span><div><strong>Salary calculation for other countries</strong><br /><span>Currently available for Czechia only. You can still enter a known annual tax amount.</span></div></div>
         <div class="control-separator"></div>
         <div class="field"><label for="compare">Compare with</label><select id="compare"><option value="">No comparison</option></select></div>
         <button id="reset" class="reset-btn" type="button">↺ Reset view</button>
@@ -47,6 +56,19 @@
           <div id="loading" class="loading-state" role="status" aria-live="polite"><span class="loading-spinner" aria-hidden="true"></span><span id="loading-label">Loading official Eurostat figures…</span></div>
           <div id="error" class="error-state hidden" role="alert"></div>
           <div id="results" class="hidden">
+            <div id="payroll-panel" class="payroll-report hidden" aria-live="polite">
+              <div class="payroll-head"><div><span class="kicker">CZECH EMPLOYEE TAX ESTIMATE</span><h3>Annual payroll receipt <span id="payroll-year">2024</span></h3></div><span class="payroll-badge">ESTIMATE</span></div>
+              <div class="payroll-hero"><div><span>Annual gross salary</span><strong id="payroll-gross">—</strong></div><div><span>Estimated annual net pay</span><strong id="payroll-net">—</strong></div></div>
+              <div class="payroll-grid">
+                <div><span>Income tax after basic credit</span><strong id="payroll-income">—</strong></div>
+                <div><span>Employee social insurance</span><strong id="payroll-social">—</strong></div>
+                <div><span>Employee health insurance</span><strong id="payroll-health">—</strong></div>
+                <div><span>Total employee deductions</span><strong id="payroll-total">—</strong></div>
+              </div>
+              <div class="payroll-extra"><span>Employer-paid contributions (not deducted from your salary): <strong id="payroll-employer">—</strong></span><span>Employee deduction rate: <strong id="payroll-rate">—</strong></span></div>
+              <p class="payroll-caveat" id="payroll-caveat">Full-year single-employer estimate with the basic taxpayer credit only. See methodology for exclusions.</p>
+              <a class="plain-link" href="./docs/methodology.html#czechia" target="_blank" rel="noopener noreferrer">Tax rules, assumptions and official sources ↗</a>
+            </div>
             <div class="visual-row"><div class="donut-wrap"><svg id="donut" role="img" aria-label="Government spending distribution by function" viewBox="0 0 240 240"></svg><div class="donut-center"><span id="donut-eyebrow">TOTAL SPENDING</span><strong id="donut-number">—</strong><span id="donut-unit">billion EUR</span></div></div><div class="visual-details"><div class="summary-kicker" id="summary-kicker">Reported total expenditure</div><strong class="summary-number" id="summary-number">—</strong><p id="summary-explainer">Across all levels of government, including relevant social security funds.</p><div class="summary-divider"></div><div id="flags" class="flags"></div><a id="data-link" href="https://ec.europa.eu/eurostat/databrowser/view/gov_10a_exp/default/table?lang=en" target="_blank" rel="noopener noreferrer" class="plain-link">View original Eurostat dataset ↗</a></div></div>
             <div class="breakdown-head"><div><h3>Where the money goes</h3><p id="breakdown-caption">Share of public expenditure, by COFOG function</p></div><span class="breakdown-sort">LARGEST FIRST ↓</span></div>
             <div id="breakdown" class="breakdown" aria-live="polite"></div>

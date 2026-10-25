@@ -8,3 +8,21 @@
 @media(max-width:960px){.explorer{grid-template-columns:290px minmax(0,1fr)}.controls{padding:21px 18px}.results-panel{padding:24px 20px}.visual-row{grid-template-columns:190px 1fr;gap:6px}.donut-wrap{width:190px;height:190px}.donut-center strong{font-size:25px}.summary-number{font-size:22px}.compare-row{grid-template-columns:145px minmax(0,1fr)}}
 @media(max-width:700px){.shell{width:min(100% - 28px,500px)}nav{gap:12px}nav a{font-size:11px}nav a:nth-child(2){display:none}.header-inner{height:61px}.brand{font-size:17px;gap:8px}.brand-icon{width:29px;height:29px;font-size:20px}.hero{padding:42px 0 23px}.hero h1{letter-spacing:-2px;margin:14px 0}.hero p{font-size:14px}.hero-facts{gap:9px;flex-wrap:wrap}.hero-facts span+span:before{margin-right:9px}.explorer{grid-template-columns:1fr}.controls{padding:22px}.results-header h2{font-size:22px}.source-pill{font-size:8px}.visual-row{grid-template-columns:1fr;justify-items:center;gap:9px}.donut-wrap{width:226px;height:226px}.visual-details{text-align:center}.summary-divider{margin:14px auto}.breakdown-sort{display:none}.breakdown-row{grid-template-columns:13px minmax(0,1fr) 64px;gap:9px}.breakdown-label small{font-size:10px}.comparison-header{display:block}.compare-key{margin-top:13px}.compare-row{grid-template-columns:108px minmax(0,1fr);gap:10px}.compare-label{font-size:10px}.method-grid{grid-template-columns:1fr}.methodology{padding:35px 0 55px}.footer-inner{display:block;padding:18px 0}.footer-inner span{display:block;margin-bottom:5px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Personal Czech employee receipt — additive to the existing public-spending layout. */
+.field-warning{border:1px solid #b45b65;border-radius:9px;background:#602d332e;color:#ffc3c3;padding:11px;font-size:11px;line-height:1.6;margin:-8px 0 20px}
+.payroll-report{margin-top:22px;border:1px solid #3c5863;background:linear-gradient(130deg,#173640,#162c3a 60%,#182c38);border-radius:14px;padding:20px}
+.payroll-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.payroll-head h3{font-size:17px;letter-spacing:-.3px;margin:6px 0 0}
+.payroll-head h3 span{color:#9db0bf;font-weight:450;margin-left:7px}
+.payroll-badge{border:1px solid #47747b;border-radius:99px;color:#a7dcda;font-size:9px;font-weight:750;letter-spacing:1px;padding:6px 9px}
+.payroll-hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:18px;border-bottom:1px solid #345160}
+.payroll-hero div span,.payroll-grid div span{display:block;color:#a1b4c2;font-size:11px;line-height:1.5}
+.payroll-hero strong{display:block;margin-top:5px;font-size:24px;letter-spacing:-.6px}
+.payroll-hero div:nth-child(2) strong{color:var(--teal)}
+.payroll-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:17px 0;border-bottom:1px solid #345160}
+.payroll-grid strong{display:block;font-size:15px;margin-top:4px}
+.payroll-extra{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#b0c3d0;font-size:11px;margin-top:14px;line-height:1.5}
+.payroll-extra strong{color:#e5f2f4}
+.payroll-caveat{font-size:10.5px;line-height:1.55;color:#91aabd;margin:13px 0 8px}
+@media(max-width:700px){.payroll-hero strong{font-size:19px}.payroll-report{padding:16px}.payroll-grid strong{font-size:13px}}

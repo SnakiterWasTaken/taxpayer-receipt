@@ -1,6 +1,6 @@
 # Where Do My Taxes Go? — EU public spending explorer
 
-An open-source, privacy-respecting, source-verifiable **public spending explorer**. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. **Gross-salary-to-tax estimation is not yet implemented.**
+An open-source, privacy-respecting, source-verifiable **public spending explorer**. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **limited, source-audited 2024–2026 full-year employee gross-salary estimator**; other countries remain manual-only.
 
 ## Run locally
 
@@ -28,14 +28,14 @@ On GitHub, enable **Settings → Pages → Build and deployment → Source: GitH
 
 - Source: Eurostat `gov_10a_exp`; general government (`S13`), total expenditure (`TE`), ten COFOG categories, millions of euros.
 - Missing values are **not** zero. Complete country-years only; reconciliation check against reported total.
-- The user-entered figure is **a tax amount, not gross salary**. It is never sent to any server.
+- The manually entered figure is a **tax amount, not gross salary**. In Czechia, visitors may instead enter yearly gross salary to estimate personal income tax and payroll contributions. Both inputs stay in the browser.
 - This is a proportional illustration, not a claim that a particular taxpayer's money was traced or earmarked.
 - See [methodology](docs/methodology.md) for definitions, source links and known limitations.
 
 ## Roadmap
 
 1. **Milestone 1 (this code):** EU-27 COFOG spending shares, year and country selector, optional illustrative contribution, comparison, automated source refresh and tests.
-2. **Milestone 2:** Audited national salary-to-tax adapters; separate income tax and mandatory contributions. Adapt Budget Galaxy's UK tax engine if licence and official rate tables are revalidated.
+2. **Milestone 2 (Czechia implemented):** Source-audited Czech 2024–2026 standard-employment salary estimator, annual income tax, employee social and health premiums, clear employer contributions, personal tax-credit handling and official reference tests. Other countries and family/exception cases remain out of scope. Adapt Budget Galaxy's UK tax engine later only if official rate tables are revalidated.
 3. **Milestone 3:** Deeper descriptions and optional detailed budget drill-downs, extending international coverage through OECD/IMF data.
 
 ## Related initiatives and attribution
