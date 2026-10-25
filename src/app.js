@@ -198,6 +198,23 @@ function renderCompare(){
     }
     row.append(title,tracks);rows.append(row);
   }
+  // Non-additive cross-country drill-down below the ten COFOG divisions.
+  // Both countries must have official GF1002/GF1003 observations.
+  if(current.pensionDetail && other.pensionDetail){
+    const pA=current.pensionDetail.publicShare;
+    const pB=other.pensionDetail.publicShare;
+    const row=document.createElement('div');row.className='compare-row pension-compare-row';
+    const title=document.createElement('span');title.className='compare-label';
+    title.textContent='↳ Old age & survivors (included above)';
+    const tracks=document.createElement('div');tracks.className='compare-tracks';
+    for(const [value,color] of [[pA,'#7ec8c8'],[pB,'#dda773']]){
+      const t=document.createElement('div');t.className='compare-track';
+      const fill=document.createElement('div');fill.className='compare-fill';
+      fill.style.width=`${Math.min(100,value/scale*100)}%`;fill.style.background=color;t.append(fill);
+      const n=document.createElement('span');n.className='compare-value';n.textContent=formatPct(value);t.append(n);tracks.append(t);
+    }
+    row.append(title,tracks);rows.append(row);
+  }
 }
 function chooseCountry(code){activeCountry=code;contributionMode=code==='CZ'?'salary':'manual';selectYear(year);refreshCountry();updateUrl()}
 function init(){
