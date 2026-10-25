@@ -25,7 +25,7 @@
     <section class="hero" aria-labelledby="hero-heading">
       <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> AN OPEN CIVIC DATA PROJECT <span class="eyebrow-rule"></span> EU-27 EXPLORER</div>
       <h1 id="hero-heading">Public money.<br /><span>Made understandable.</span></h1>
-      <p>Discover how your country spends its public funds, using standardised official statistics. No spin, no guesswork—just traceable numbers.</p>
+      <p>See where public money goes. Open the details when something catches your attention.</p>
       <div class="hero-facts"><span><strong>27</strong> EU countries</span><span><strong>10</strong> spending functions</span><span><strong>1</strong> official source</span></div>
     </section>
     <section id="explore" class="explorer" aria-label="Public spending explorer">
@@ -92,13 +92,20 @@
 <section class="glance-panel" aria-labelledby="glance-heading">
               <div class="kicker">AT A GLANCE · <span id="glance-country-year"></span></div>
               <h3 id="glance-heading">The three biggest spending areas</h3>
-              <p class="glance-lead">Of every 100 spent by the government, these are the largest shares. This is not a literal trace of your taxes.</p>
+              <p class="glance-lead">Share of all public spending — not a literal trace of your own taxes.</p>
               <div id="glance-leaders" class="glance-leaders" aria-live="polite"></div>
               <h3>Worth a closer look</h3>
               <div id="glance-observations" class="glance-observations" aria-live="polite"></div>
               <p class="glance-caveat" id="glance-observations-caption">These are factual observations, not political verdicts.</p>
             </section>
             <div class="visual-row"><div class="donut-wrap"><svg id="donut" role="img" aria-label="Government spending distribution by function" viewBox="0 0 240 240"></svg><div class="donut-center"><span id="donut-eyebrow">TOTAL SPENDING</span><strong id="donut-number">—</strong><span id="donut-unit">billion EUR</span></div></div><div class="visual-details"><div class="summary-kicker" id="summary-kicker">Reported total expenditure</div><strong class="summary-number" id="summary-number">—</strong><p id="summary-explainer">Across all levels of government, including relevant social security funds.</p><div class="summary-divider"></div><div id="flags" class="flags"></div><a id="data-link" href="https://ec.europa.eu/eurostat/databrowser/view/gov_10a_exp/default/table?lang=en" target="_blank" rel="noopener noreferrer" class="plain-link">View original Eurostat dataset ↗</a></div></div>
+            <details class="topic-card spending-card" id="category-details">
+              <summary class="topic-summary">
+                <span class="topic-icon" aria-hidden="true">▤</span>
+                <span class="topic-heading"><strong>Explore all spending categories</strong><small>Break down the spending chart and learn what each category pays for</small></span>
+                <span class="topic-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="topic-content">
             <div class="breakdown-head"><div><h3>Where the money goes</h3><p id="breakdown-caption">Share of public expenditure, by COFOG function</p></div><span class="breakdown-sort">LARGEST FIRST ↓</span></div>
             <div id="breakdown" class="breakdown" aria-live="polite"></div>
             <details id="spending-more" class="detail-toggle">
@@ -106,9 +113,16 @@
               <div id="breakdown-extra" class="breakdown"></div>
             </details>
             <p class="category-help-source">The <strong>(i)</strong> beside each category explains what it includes. <a href="https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html" target="_blank" rel="noopener noreferrer">Common OECD / UN spending definitions ↗</a></p>
+              </div>
+            </details>
             <p id="allocation-note" class="allocation-note">Figures represent public spending shares, not actual earmarked individual tax payments.</p>
-            <details class="detail-toggle pension-disclosure" id="pension-details">
-              <summary>Explore old-age and pension spending</summary>
+            <details class="topic-card pension-disclosure" id="pension-details">
+              <summary class="topic-summary">
+                <span class="topic-icon" aria-hidden="true">◎</span>
+                <span class="topic-heading"><strong>Where do pensions fit?</strong><small id="pension-teaser">See old-age and survivors’ share of public spending</small></span>
+                <span class="topic-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="topic-content">
             <section class="pension-panel" id="pension-panel" aria-labelledby="pension-title">
               <div class="kicker">BEYOND THE HEADLINE CATEGORIES</div>
               <h3 id="pension-title">Pensions &amp; old-age spending <span id="pension-year"></span></h3>
@@ -128,16 +142,28 @@
 
               <a class="plain-link" href="./docs/pension-transparency.html">Definitions, competing accounting perspectives and sources ↗</a>
             </section>
+              </div>
             </details>
           </div>
         </div>
-        <section class="panel country-context hidden" id="country-context" aria-labelledby="country-context-title">
-          <div class="kicker">COUNTRY-SPECIFIC TAX &amp; ACCOUNTING CONTEXT</div>
-          <h2 id="country-context-title">What to know about <span id="country-context-country">this country</span></h2>
-          <p class="country-context-intro">National tax-calculator rules and reviewed accounting issues, shown for the selected country with their source years. These notes do not modify Eurostat's harmonised expenditure totals.</p>
-          <div id="country-context-list"></div>
-        </section>
-        <details class="panel economic-disclosure" id="economic-details"><summary>Explore inflation, wages and living standards</summary>
+        <details class="panel country-context topic-card hidden" id="country-context">
+          <summary class="topic-summary">
+            <span class="topic-icon" aria-hidden="true">⌂</span>
+            <span class="topic-heading"><strong>What is different in <span id="country-context-country">this country</span>?</strong><small id="country-context-teaser">Tax rules and documented accounting explanations</small></span>
+            <span class="topic-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="topic-content">
+            <p class="country-context-intro">These notes explain national rules and accounting questions. They do not change the Eurostat spending totals.</p>
+            <div id="country-context-list"></div>
+          </div>
+        </details>
+        <details class="panel economic-disclosure topic-card" id="economic-details">
+          <summary class="topic-summary">
+            <span class="topic-icon" aria-hidden="true">↗</span>
+            <span class="topic-heading"><strong>Are living standards improving?</strong><small id="economic-teaser">Open to compare prices, wages and household income</small></span>
+            <span class="topic-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="topic-content">
         <section class="economic-panel" aria-labelledby="economic-title">
           <div class="kicker">HISTORICAL ECONOMIC CONTEXT</div>
           <h2 id="economic-title">Living standards in <span id="economic-country">Czechia</span></h2>
@@ -161,17 +187,26 @@
           <p id="economic-status" class="economic-status" role="status">Loading independently sourced context data…</p>
           <p class="economic-caveat">Price changes cover an entire calendar year, while minimum wages are measured on 1 January. Household index figures describe trends <em>inside each country</em>, not which country is richer. Some countries do not set a national minimum wage. <a href="./docs/glossary.html">What do these terms mean? ↗</a></p>
           <p class="economic-sources">Original sources: <a href="https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_ainr/default/table?lang=en" target="_blank" rel="noopener noreferrer">Eurostat inflation ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/earn_mw_cur/default/table?lang=en" target="_blank" rel="noopener noreferrer">Minimum wages ↗</a> · <a href="https://ec.europa.eu/eurostat/databrowser/view/tepsr_wc310/default/table?lang=en" target="_blank" rel="noopener noreferrer">Real household income ↗</a> · <a href="./docs/economic-context.md">Definitions &amp; limitations ↗</a></p>
-        </section></details>
+        </section>
+          </div>
+        </details>
         <section class="panel comparison-panel hidden" id="comparison-panel" aria-labelledby="comparison-title"><div class="comparison-header"><div><div class="kicker">CROSS-COUNTRY VIEW</div><h2 id="comparison-title">How priorities compare</h2><p>Share of government expenditure; same calendar year, same COFOG definitions.</p></div><div id="compare-key" class="compare-key"></div></div><div id="comparison-rows"></div></section>
       </div>
     </section>
     <div class="data-status" id="data-status" aria-live="polite">Connecting to Eurostat…</div>
-    <section id="how-it-works" class="methodology">
+    <details id="how-it-works" class="methodology topic-card">
+      <summary class="topic-summary">
+        <span class="topic-icon" aria-hidden="true">?</span>
+        <span class="topic-heading"><strong>How can I trust these figures?</strong><small>Understand our sources, estimates and privacy safeguards</small></span>
+        <span class="topic-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="topic-content">
       <div class="section-eyebrow">THE METHODOLOGY</div>
       <h2>Transparency starts<br />with the fine print.</h2>
       <div class="method-grid"><article><span class="method-icon">◫</span><h3>One common standard</h3><p>All countries use the same ten COFOG functions, general government sector S13, and Eurostat's total expenditure figures.</p></article><article><span class="method-icon">◎</span><h3>Proportional, not literal</h3><p>Taxes enter pooled budgets. An entered tax amount illustrates spending proportions; it does not follow actual money flows.</p></article><article><span class="method-icon">◇</span><h3>Open source and private</h3><p>Data is public and source-attributed. Personal inputs remain on your device; the app does not send them to a backend.</p></article></div>
       <p class="method-readmore"><a href="./docs/methodology.html">Read the common methodology ↗</a> <span>·</span> <a href="./docs/glossary.html">Financial terms explained ↗</a> <span>·</span> <a href="https://doi.org/10.2908/gov_10a_exp" target="_blank" rel="noopener noreferrer">Eurostat dataset DOI ↗</a></p>
-    </section>
+      </div>
+    </details>
   </main>
   <footer class="site-footer"><div class="shell footer-inner"><span>Made for citizens, not governments.</span><span>Source: Eurostat, <a href="https://doi.org/10.2908/gov_10a_exp" target="_blank" rel="noopener noreferrer">gov_10a_exp</a> · MIT open source · <a href="./ROADMAP.md">Development roadmap &amp; translations</a> · <a href="./docs/TEST_LOG.md">Testing history &amp; next steps</a> · <span id="footer-fetched">Data status pending</span></span></div></footer>
 </body>
