@@ -2,19 +2,6 @@
 
 The project aims to make official government spending, tax contributions and economic outcomes understandable, reproducible and internationally comparable. **No ranking or individual accounting claim may override source evidence, denominators, years or caveats.**
 
-## Priority 0 — Clear definitions and meaningful responsibility
-
-- [ ] **Plain-language default:** show the three largest spending functions as an amount out of every €100 of public expenditure, plus no more than three neutral, source-backed observations; make all additional figures optional. Tracked in [issue #8](https://github.com/SnakiterWasTaken/taxpayer-receipt/issues/8).
-- [ ] **Info bubbles for all 10 COFOG expense categories:** a clearly labelled **(i)** next to each category; hovering, keyboard focusing or tapping reveals everyday examples and the most common source of confusion. Definitions use the **same UN COFOG 1999 classification across countries**, link to the original explanation, and are ready for translation.
-- [ ] **Who decides?** For every `country + year + spending category`, eventually explain three distinct roles: **who sets policy**, **who decides/approves funding**, and **who records/delivers the spending**. A single institution may perform several roles; authority can be shared. Tracked in [issue #10](https://github.com/SnakiterWasTaken/taxpayer-receipt/issues/10).
-- [ ] **Institutional expenditure breakdown:** investigate Eurostat `gov_10a_exp` S1311 (central), S1312 (regional/state), S1313 (local), S1314 (social security), compared with S13 consolidated totals. Treat missing or inapplicable subsectors explicitly and **validate intergovernmental transfers and consolidation** before publishing percentages.
-- [ ] **National authority evidence:** independently verify legislative, appropriation, allocation and execution responsibilities using country/year-specific statutes and official budgets; never infer who **controls** spending solely from the sector or ministry that records it. Do not invent majority decision-makers.
-- [ ] **Progressive detail:** show only essential common definitions at a glance; government-sector composition, legal authority, ministry names, time-sensitive national caveats and official evidence live in optional disclosures **only when that country is selected**.
-- [ ] **Integrity and accessibility:** mouse hover, touch tap, keyboard focus and screen readers; no unsupported claims that spending level indicates efficiency, corruption or quality. Verify the examples against [UN COFOG](https://unstats.un.org/unsd/classifications/cofog/revision) and [OECD group definitions](https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/classification-of-the-functions-of-government-cofog_16aa2337.html).
-- [ ] **Localisation:** translate the category help, authority roles, source descriptions and national notes into all 24 official EU languages without changing numbers, years or country filtering.
-
-**Governing rules:** methodology common to all countries; national specifics only in the selected country's context; clarity first and evidence-rich detail on demand. See [PROJECT_PRINCIPLES.md](PROJECT_PRINCIPLES.md).
-
 ## Delivered foundations
 
 - [x] EU-27 government spending explorer using Eurostat S13 COFOG data; official source provenance, strict reconciliation, historical years and comparison.
