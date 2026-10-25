@@ -1,6 +1,49 @@
 # EU27 government expenditure and decision-authority sweep
 
-**Status as of 25 October 2026:** automated national-accounts sweep designed for all **27 EU Member States, ten COFOG spending categories and years 2021–2024**; official API execution and exact data coverage will be recorded by CI. A national ledger/municipal-law audit has **not** been completed for all countries. A country with no verified national budget portal listed below is **not** a country without published government accounts.
+**Status as of 25 October 2026:** actual official Eurostat API sweep **successfully executed across all 27 EU Member States**, ten COFOG spending categories and years 2021–2024; verified country-by-country results are recorded below. A national ledger/municipal-law audit has **not** been completed for all countries. A country with no verified national budget portal listed below is **not** a country without published government accounts.
+
+## Verified results — CI Eurostat API sweep, 25 October 2026
+
+The official Eurostat API extraction was **executed**, not merely proposed, in [GitHub Actions validation #40240167630](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40240167630):
+
+- **27 of 27 countries scanned** for 2024.
+- **27 of 27 countries have all ten complete national S13 COFOG categories**.
+- **27 of 27 countries have at least one reported government-subsector observation for each of those ten functions**.
+- **810** individual 2024 subsector/category observations (out of a theoretical **1,080** if all four subsectors reported values for all categories). Non-reported and inapplicable cells are **not filled with zero**.
+- **1,080 national S13 category/year observations were cross-checked** against the independently refreshed main expenditure dataset for 2021–2024; the tolerance gate passed.
+- **121 of 121 automated tests PASS, zero FAIL, zero SKIP**. The official economic-context refresh and static website build also completed successfully.
+
+| Country | 2024 national COFOG functions | Functions with any subsector amount | Individual reported sector/function amounts |
+|---|---:|---:|---:|
+| AT | 10/10 | 10/10 | 40/40 |
+| BE | 10/10 | 10/10 | 40/40 |
+| BG | 10/10 | 10/10 | 25/40 |
+| HR | 10/10 | 10/10 | 30/40 |
+| CY | 10/10 | 10/10 | 30/40 |
+| CZ | 10/10 | 10/10 | 30/40 |
+| DK | 10/10 | 10/10 | 30/40 |
+| EE | 10/10 | 10/10 | 30/40 |
+| FI | 10/10 | 10/10 | 30/40 |
+| FR | 10/10 | 10/10 | 30/40 |
+| DE | 10/10 | 10/10 | 40/40 |
+| EL | 10/10 | 10/10 | 30/40 |
+| HU | 10/10 | 10/10 | 30/40 |
+| IE | 10/10 | 10/10 | 30/40 |
+| IT | 10/10 | 10/10 | 30/40 |
+| LV | 10/10 | 10/10 | 21/40 |
+| LT | 10/10 | 10/10 | 24/40 |
+| LU | 10/10 | 10/10 | 30/40 |
+| MT | 10/10 | 10/10 | 20/40 |
+| NL | 10/10 | 10/10 | 30/40 |
+| PL | 10/10 | 10/10 | 30/40 |
+| PT | 10/10 | 10/10 | 27/40 |
+| RO | 10/10 | 10/10 | 30/40 |
+| SK | 10/10 | 10/10 | 30/40 |
+| SI | 10/10 | 10/10 | 30/40 |
+| ES | 10/10 | 10/10 | 40/40 |
+| SE | 10/10 | 10/10 | 23/40 |
+
+**Interpretation:** an observation is a government-sector expenditure figure, **not** a ministry/agency decision-power attestation. A country showing 30/40 observations is not necessarily less transparent than one with 40/40: it may have no separately constituted state or social-security-fund subsector. An absent record is not automatically zero. This sweep **does not** validate any of the 270 individual named 'largest budget managers'.
 
 ## What this source can establish — and what it cannot
 

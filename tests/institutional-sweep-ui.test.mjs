@@ -46,3 +46,9 @@ test('All EU countries are in the documented source register with no fabricated 
  assert.match(docs,/Not yet reviewed by this project/);
  assert.match(docs,/Not verified/);
 });
+
+test('No official sector value automatically makes an institution its category budget manager',()=>{
+ assert.match(app,/sector figures available; budget authority unverified/);
+ assert.match(app,/not yet verified by this project/);
+ assert.match(app,/Largest budget manager: Not yet verified/);
+});

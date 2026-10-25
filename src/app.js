@@ -106,7 +106,12 @@ function authorityDetails(code){
  const data=responsibilityStatus(activeCountry,code,Number(year));
  const card=document.createElement('details');card.className='authority-details';
  const trigger=document.createElement('summary');trigger.className='authority-summary';
- trigger.textContent=data.available?'Who is responsible? · verified examples':'Who is responsible? · no verified data';
+ const hasSector=!!sectorSpendingFor(institutionalSnapshot,activeCountry,Number(year),code);
+ trigger.textContent=data.available
+   ?'Who decides? · sourced legal examples'+(hasSector?' and sector expenditure':'')
+   :hasSector
+     ?'Who decides? · sector figures available; budget authority unverified'
+     :'Who decides? · not yet verified by this project';
  const content=document.createElement('div');content.className='authority-content';
  if(!data.available){
    const missing=document.createElement('p');missing.className='authority-unavailable';
