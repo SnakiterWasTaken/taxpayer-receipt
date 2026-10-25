@@ -2,6 +2,12 @@
 
 **Status (26 October 2026):** Actual Ministry of Finance ZIP downloads and complete CSV row profiling **PASS**; institutional spending reconciliation and named budget-manager authority **NOT VERIFIED**.
 
+## 2024-effective legal source located (26 October 2026)
+
+**Verified legal-version discovery:** The official [e-Sbírka historical version of Decree No. 5/2014 Sb., effective 1 January 2024 to 31 December 2025](https://e-sbirka.gov.cz/sb/2014/5/2024-01-01?odkazId=20404139) explicitly defines FIN 1-12 OSS (state organisations), FIN 1-12 SF (state funds), and FIN 2-12 M (local-government budget performance statements), with **monthly** local reporting. Annex 2 says statutory cities and Prague report a combined city-level statement. A separate district data export therefore **must not** be appended to the Prague/city-level statement before checking the exact source boundary. The Czech Ministry of Finance also hosts a [consolidated 1 January 2024 text](https://www.mfcr.cz/assets/attachments/2024-01-01_Vyhlaska-c-5-2014-Sb.pdf) and [highlighted amendment copy](https://www.mfcr.cz/assets/attachments/2024-01-01_Vyhlaska-c-5-2014-Sb-vyznacene-zmeny.pdf).
+
+**What this does *not* verify:** The legal annex names reporting systems and sections; it does not by itself prove the extract-specific SAP/BW column semantics (especially `0FISCPER`, `0CI_TYPE`, `ZU_ROZKZ`), full row identity, official 2024 purpose-to-COFOG mapping, internal-transfer reconciliation or discretionary decision power. Those remain blocked for monetary publication. Do not read the **current**, post-2025 annex (with changed partner identifiers) as though it were the 2024 annex.
+
 ## Official original sources and reproducible checks
 
 [GitHub Actions run 40244283048](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40244283048) retrieved both ZIP files (HTTP 200), computed SHA-256 checksums, streamed the nine CSV members in each archive and produced the `cz-fin-source-metadata` artifact. Reproduce with `python3 scripts/probe-fin-2024.py --only all`. Only metadata—not raw financial rows—is retained in the CI artifact.
