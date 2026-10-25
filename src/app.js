@@ -3,6 +3,8 @@ import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './euro
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 import {pensionTransparency} from './pensions.js';
 import {countryNotesFor,notePeriodDescription} from './country-notes.js';
+import {helpForCategory} from './category-help.js';
+import {spendingLeaders,observationsForCountry} from './glance.js';
 import {validateEconomicContext,economicForYear,economicGrowth,NO_NATIONAL_MINIMUM_WAGE,ECONOMIC_SOURCES} from './economic-context.js';
 
 const el=id=>document.getElementById(id);
@@ -54,15 +56,55 @@ function donut(data){
     const title=document.createElementNS(ns,'title');title.textContent=`${item.label}: ${formatPct(item.share)}`;circle.append(title);svg.append(circle);offset+=item.share;
   }
 }
+
+function categoryInfo(item){
+ const info=helpForCategory(item.code);
+ if(!info)return null;
+ const wrap=document.createElement('span');wrap.className='category-help';
+ const button=document.createElement('button');button.type='button';button.className='category-help-button';
+ button.textContent='i';button.setAttribute('aria-label','What does '+item.label+' include?');
+ const id='category-help-'+item.code;button.setAttribute('aria-describedby',id);
+ const tip=document.createElement('span');tip.className='category-help-tooltip';tip.id=id;tip.setAttribute('role','tooltip');
+ const summary=document.createElement('strong');summary.textContent=info.summary;
+ const examples=document.createElement('span');examples.textContent='For example: '+info.examples;
+ const caveat=document.createElement('span');caveat.textContent='Note: '+info.not;
+ const disclaimer=document.createElement('small');disclaimer.textContent='Examples of classified functions, not a receipt for individual spending.';
+ tip.append(summary,examples,caveat,disclaimer);wrap.append(button,tip);
+ button.addEventListener('keydown',event=>{if(event.key==='Escape')button.blur()});
+ return wrap;
+}
 function breakdownRow(item,amount,curr){
-  const row=document.createElement('div');row.className='breakdown-row';row.title=item.description;
-  const square=document.createElement('span');square.className='square';square.style.background=item.color;square.setAttribute('aria-hidden','true');
-  const main=document.createElement('div');const labelNode=document.createElement('div');labelNode.className='breakdown-label';
-  const title=document.createElement('b');title.textContent=item.label;labelNode.append(title);
-  if(amount!=null){const small=document.createElement('small');small.textContent=formatMoney(item.allocated,curr);labelNode.append(small)}
-  const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar';fill.style.background=item.color;fill.style.width=formatPct(item.share);track.append(fill);main.append(labelNode,track);
-  const pct=document.createElement('div');pct.className='pct';pct.textContent=formatPct(item.share);
-  row.append(square,main,pct);return row;
+ const row=document.createElement('div');row.className='breakdown-row';
+ const square=document.createElement('span');square.className='square';square.style.background=item.color;square.setAttribute('aria-hidden','true');
+ const main=document.createElement('div'),labelNode=document.createElement('div');labelNode.className='breakdown-label';
+ const title=document.createElement('b');title.textContent=item.label;labelNode.append(title);
+ const help=categoryInfo(item);if(help)labelNode.append(help);
+ if(amount!=null){const small=document.createElement('small');small.textContent=formatMoney(item.allocated,curr);labelNode.append(small)}
+ const track=document.createElement('div');track.className='bar-track';const fill=document.createElement('div');fill.className='bar';fill.style.background=item.color;fill.style.width=formatPct(item.share);track.append(fill);main.append(labelNode,track);
+ const pct=document.createElement('div');pct.className='pct';pct.textContent=formatPct(item.share);
+ row.append(square,main,pct);return row;
+}
+function renderGlance(entry){
+ const leaders=el('glance-leaders');leaders.replaceChildren();
+ for(const leader of spendingLeaders(entry)){
+   const card=document.createElement('div');card.className='glance-leader';
+   const value=document.createElement('strong');value.className='glance-value';value.textContent=leader.perHundred.toFixed(1)+'%';
+   const label=document.createElement('span');label.textContent=leader.label;
+   card.append(value,label);leaders.append(card);
+ }
+ el('glance-country-year').textContent=label(activeCountry)+' · '+entry.year;
+ const current=economicForYear(economicSnapshot,activeCountry,entry.year);
+ const prior=economicForYear(economicSnapshot,activeCountry,entry.year-1);
+ const observations=observationsForCountry(entry,current,prior,[]).slice(0,2);
+ const list=el('glance-observations');list.replaceChildren();
+ for(const observation of observations){
+   const article=document.createElement('article');article.className='glance-observation';
+   const heading=document.createElement('h4');heading.textContent=observation.title;
+   const text=document.createElement('p');text.textContent=observation.text;
+   const foot=document.createElement('small');foot.textContent=observation.qualifier+' Source: '+observation.source+' ('+observation.year+').';
+   article.append(heading,text,foot);list.append(article);
+ }
+ el('glance-observations-caption').textContent=observations.length?'Facts to explore, not a rating of government policy.':'Historical comparisons are not available for this year.';
 }
 function updateContributionControls(){
   if(activeCountry!=='CZ') contributionMode='manual';
@@ -157,7 +199,10 @@ function refreshCountry(){
   el('summary-kicker').textContent=withAmount?'Official national total':'Reported total expenditure';
   el('breakdown-caption').textContent=withAmount?`Illustrative allocation of ${formatMoney(amount,curr)} · spending year ${year}`:'Share of public expenditure, by COFOG function';
   el('allocation-note').textContent=withAmount?(contribution.kind==='salary'?`Illustration only: ${formatMoney(amount,curr)} is estimated for Czech tax year ${taxYearEl.value} (${basisEl.value==='income'?'income tax after applicable household credits (child bonus excluded)':'income tax plus employee social and health contributions (refundable child bonus excluded)'}). Spending shares use ${year}. Social and health contributions have their own financing arrangements; this is not an actual flow of your payments.`:`Illustration only: ${formatMoney(amount,curr)} is the amount you entered. Shares are pro-rata estimates, not traced payments.`):'Figures represent shares of consolidated general-government spending, not actual earmarked individual tax payments.';
-  const list=el('breakdown');list.replaceChildren(...allocations.map(x=>breakdownRow(x,withAmount?amount:null,curr)));
+  renderGlance(entry);
+  const makeRow=x=>breakdownRow(x,withAmount?amount:null,curr);
+  el('breakdown').replaceChildren(...allocations.slice(0,3).map(makeRow));
+  el('breakdown-extra').replaceChildren(...allocations.slice(3).map(makeRow));
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
   el('result-subtitle').textContent=`Consolidated general government (S13) · ${year} · 10 COFOG functions`;
@@ -214,7 +259,10 @@ function renderCountryNotes(code,spendingYear){
       const a=document.createElement('a');a.href=src.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=src.label+' ↗';
       sources.append(a);
     }
-    article.append(meta,heading,body,period,details,caveat,sources);
+    const more=document.createElement('details');more.className='country-note-more';
+    const summary=document.createElement('summary');summary.textContent='Show full rules and original sources';
+    more.append(summary,details,sources);
+    article.append(meta,heading,body,period,caveat,more);
     list.append(article);
   }
 }
@@ -283,6 +331,8 @@ async function loadEconomicContext(){
    economicError=null;
  }catch(err){economicError=err.message;economicSnapshot=null;}
  renderEconomicContext();
+ const record=year?snapshot?.entries[activeCountry+'-'+year]:null;
+ if(record)renderGlance(record);
 }
 
 function renderCompare(){
