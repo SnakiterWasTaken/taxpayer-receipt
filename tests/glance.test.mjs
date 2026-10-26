@@ -19,12 +19,12 @@ test('Top-spending categories do not invent missing observations',()=>{
  assert.deepEqual(spendingLeaders({categories:[]}),[]);
  assert.equal(spendingLeaders(entry,2).length,2);
 });
-test('Pension share is identified as pension-related functions, not only cash pensions or waste',()=>{
+test('Pension observations are never highlighted solely because detailed data are available',()=>{
  const out=observationsForCountry(entry,null,null,[]);
- assert.equal(out[0].id,'old-age-share');
- assert.match(out[0].text,/24\.0% of total public spending/);
- assert.match(out[0].qualifier,/include more than cash retirement pensions/);
- assert.doesNotMatch(out[0].text,/waste|crisis|good|bad/i);
+ assert.deepEqual(out,[], 'absence of a reviewed local debate means no topical spotlight');
+ const contextual=observationsForCountry(entry,{inflation:2.3},null,[]);
+ assert.ok(contextual.some(item=>item.id==='annual-inflation'));
+ assert.ok(!contextual.some(item=>item.id==='old-age-share'));
 });
 test('Independent price and household indicators are matched by selected year and not causal',()=>{
  const out=observationsForCountry(entry,{inflation:2.3,disposableIncomeIndex:105},{disposableIncomeIndex:110},[]);
