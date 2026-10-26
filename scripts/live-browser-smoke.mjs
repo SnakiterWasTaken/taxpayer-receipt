@@ -85,6 +85,24 @@ try {
     }finally{await page.close();}
   });
 
+  await test('EU map: pointer click and mobile touch change selected country',async()=>{
+    const desktop=await browser.newPage({viewport:{width:1280,height:800}});
+    try{
+      await loaded(desktop);
+      await desktop.locator('#eu-map [data-country="FR"] .eu-map-land').click();
+      assert.equal(await desktop.locator('#country').inputValue(),'FR');
+      assert.equal(await desktop.locator('#eu-map [data-country="FR"]').getAttribute('aria-pressed'),'true');
+    }finally{await desktop.close();}
+    const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+    const page=await context.newPage();
+    try{
+      await loaded(page);
+      await page.locator('#eu-map [data-country="DE"] .eu-map-land').tap();
+      assert.equal(await page.locator('#country').inputValue(),'DE');
+      assert.ok((await page.locator('#result-title').textContent()).includes('Germany'));
+    }finally{await context.close();}
+  });
+
   await test('Keyboard: SVG slices disclose the corresponding breakdown',async()=>{
     const page=await browser.newPage({viewport:{width:1280,height:800}});
     try{
