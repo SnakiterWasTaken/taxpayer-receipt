@@ -70,7 +70,7 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
             type_col=col("0CI_TYPE")
             purpose_col=col("0FUNC_AREA")
             amount_col=col("ZU_ROZKZ")
-            organisations=set(); periods=set(); types={}; purpose_codes=set()
+            organisations=set(); periods=set(); period_counts={}; types={}; purpose_codes=set()
             count=0; bad_columns=0; null_actuals=0; amount_shapes={}
             for row in reader:
                 count+=1
@@ -80,7 +80,9 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
                     value=row[ico_col].strip()
                     if value:organisations.add(value)
                 if period_col is not None and len(row)>period_col:
-                    periods.add(row[period_col].strip())
+                    period=row[period_col].strip()
+                    periods.add(period)
+                    period_counts[period]=period_counts.get(period,0)+1
                 if type_col is not None and len(row)>type_col:
                     label=row[type_col].strip()
                     types[label]=types.get(label,0)+1
@@ -97,6 +99,7 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
             return {"countedRows":count,"rowCountComplete":count<MAX_PROFILE_ROWS_PER_MEMBER,
                 "malformedColumnRows":bad_columns,"uniqueOrganisationIds":len(organisations),
                 "periods":sorted(periods)[:24],
+                "periodRowCounts":{k:period_counts[k] for k in sorted(period_counts)},
                 "budgetTypeDistribution":types,
                 "distinctPurposeCodes":len(purpose_codes),
                 "missingActualFields":null_actuals,
