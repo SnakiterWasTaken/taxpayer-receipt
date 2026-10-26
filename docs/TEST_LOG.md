@@ -345,6 +345,13 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Action:** Add event propagation diagnostics to distinguish missing `click` emulation from unhandled touch/pointer events; results pending. Switch workflow to hosted Chrome on supported Ubuntu 24.04 and lightweight `playwright-core` to avoid large browser downloads for each PR.
 - **Retest status:** new hosted Chrome driver **NOT RUN** at entry creation; touchscreen action remains a blocker until a passing real touch test. Prior 8 passing cases do not prove complete Safari/mobile compatibility.
 
+### 2026-10-26 — Confirmed Chromium touch click-retargeting bug and interaction fix
+
+- **Actual browser trace:** [PR workflow #40303300876](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303300876) testing the candidate build achieved **8/9 PASS**. At a painted SVG pie arc, `elementFromPoint` and `pointerdown`, `touchstart`, `pointerup`, `touchend` all correctly identified the `circle.donut-segment`, but the subsequent browser-synthesised `click` was dispatched to the parent `svg`. The click-only category activation therefore failed; no page JavaScript exception occurred. This is a **real touch interaction defect**, not an inaccurate coordinate or Playwright setup.
+- **Correction:** Add a `pointerup` listener for `event.pointerType === 'touch'` directly on each SVG segment, invoking existing idempotent breakdown activation; preserve regular `click` for mouse and `keydown` for keyboard. Add static regression assertions for touch listener. No financial figures or tax logic are changed.
+- **Build/run mechanism:** Hosted `/usr/bin/google-chrome` + `playwright-core` works on Ubuntu 24.04 and runs the same candidate smoke suite without downloading browser binaries. PR test is separate from post-Pages `workflow_run` public-site check.
+- **Retest:** New source change and browser acceptance **NOT RUN yet** at journal write; release accessibility remains conditional on observed green CI and actual published-version retest.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
