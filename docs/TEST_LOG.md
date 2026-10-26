@@ -393,6 +393,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Reviewed appearance:** Desktop and 320px screenshot shows monochrome outlined Europe; the selected Czech flag remains clipped to the Czech silhouette; user-selected Malta remains identifiable in the side label and shortcut. The small-country shortcut is required for reliable touch selection of tiny polygons.
 - **Status:** Passes apply to candidate branch; production GitHub Pages deployment and post-publish browser run **NOT RUN for this PR yet**. External manual Safari/Firefox/screen-reader testing remains outstanding.
 
+### 2026-10-26 — Smooth map contours and make pie-chart highlighting exclusive
+
+- **Request:** Reduce the rough appearance of the EU-27 selector and fix chart selections leaving multiple breakdown rows highlighted.
+- **Changes:** Simplify the existing Natural Earth SVG contours with a 2-unit Douglas–Peucker tolerance. All 27 countries and 207 polygon rings remain; coordinate vertices are reduced from 4,416 to 2,024 (about 54% fewer). When a new pie segment is activated, clear any previous `breakdown-selected` row before highlighting the matching category. Add a country-code attribute to chart segments for reliable assertions.
+- **Regression coverage:** Static tests assert that selection clears the previous highlight; real-Chromium acceptance clicks two different pie segments and checks exactly one, matching row remains highlighted. Existing EU map geometry, flag, keyboard, touch, and responsive checks remain enabled.
+- **Financial scope:** No spending values, data sources, allocations, or tax calculations changed.
+- **Status at entry:** Candidate CI and published-site browser acceptance pending. Results will be appended after the runs complete.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
