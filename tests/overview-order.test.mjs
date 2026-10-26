@@ -20,4 +20,7 @@ test('every pie slice can be selected with pointer and keyboard',()=>{
  assert.match(app,/circle\.setAttribute\('aria-label'/);
  assert.match(app,/details\.open=true/);
  assert.match(html,/id="donut-selection" role="status"/);
+ assert.match(app,/circle\.dataset\.code=item\.code/);
+ assert.match(app,/querySelectorAll\('\.breakdown-selected'\)/);
+ assert.match(app,/classList\.remove\('breakdown-selected'\)/);
 });

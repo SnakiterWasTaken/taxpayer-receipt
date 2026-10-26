@@ -68,6 +68,7 @@ function donut(data){
     const title=document.createElementNS(ns,'title');title.textContent=`${item.label}: ${formatPct(item.share)}`;
     circle.append(title);
     circle.classList.add('donut-segment');
+    circle.dataset.code=item.code;
     circle.setAttribute('role','button');
     circle.setAttribute('tabindex','0');
     circle.setAttribute('aria-label',`${item.label}, ${formatPct(item.share)} of spending. Show breakdown.`);
@@ -78,6 +79,8 @@ function donut(data){
     const openBreakdown=()=>{
       describe();
       const details=el('category-details');details.open=true;
+      // A chart selection is exclusive: never leave a previous row highlighted.
+      el('breakdown').querySelectorAll('.breakdown-selected').forEach(node=>node.classList.remove('breakdown-selected'));
       const row=Array.from(el('breakdown').children).find(node=>node.dataset.code===item.code);
       if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('breakdown-selected');}
     };
