@@ -48,6 +48,20 @@ try {
     }finally{await page.close();}
   });
 
+  await test('Neutrality: no default pension spotlight for CZ or FR',async()=>{
+    const page=await browser.newPage({viewport:{width:1280,height:800}});
+    try{
+      await loaded(page);
+      for(const code of ['CZ','FR']){
+        await page.locator('#country').selectOption(code);
+        assert.equal(await page.locator('#local-debate-topics').isVisible(),false,
+          'country '+code+' must not promote a topical card without reviewed local evidence');
+        const headline=await page.locator('#glance-observations').innerText();
+        assert.doesNotMatch(headline,/Old age and survivors|pension-related share/i);
+      }
+    }finally{await page.close();}
+  });
+
   await test('Keyboard: SVG slices disclose the corresponding breakdown',async()=>{
     const page=await browser.newPage({viewport:{width:1280,height:800}});
     try{
