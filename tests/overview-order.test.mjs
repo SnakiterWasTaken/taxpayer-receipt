@@ -8,7 +8,9 @@ test('overview order: pie, category explanations, then three largest areas',()=>
  const pie=html.indexOf('class="visual-row"');
  const categories=html.indexOf('id="category-details"');
  const glance=html.indexOf('class="glance-panel"');
- assert.ok(pie>0&&categories>pie&&glance>categories);
+ const receipt=html.indexOf('id="payroll-panel"');
+ assert.ok(pie>0&&categories>pie&&glance>categories&&receipt>glance,
+   'pie stays first, followed by breakdowns and top three even when personal payroll report is visible');
 });
 test('every pie slice can be selected with pointer and keyboard',()=>{
  assert.match(app,/circle\.addEventListener\('click',openBreakdown\)/);
