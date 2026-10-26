@@ -2,6 +2,7 @@ import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 import {pensionTransparency} from './pensions.js';
+import {reviewedTopic} from './local-debate-topics.js';
 import {countryNotesFor,notePeriodDescription} from './country-notes.js';
 import {helpForCategory} from './category-help.js';
 import {spendingLeaders,observationsForCountry} from './glance.js';
@@ -381,7 +382,17 @@ function refreshCountry(){
   el('flags').textContent=entry.flags.length?`Statistical flags: ${entry.flags.join(', ')} (see Eurostat for definitions)`:'Reported complete dataset; no observation flags in this selection.';
   el('data-link').href=EUROSTAT_PAGE;
   el('result-subtitle').textContent=`All government levels and social-security funds · ${year} · ten spending categories`;
-  renderPensions(entry,withAmount?amount:null,curr);
+  // A large spending share alone is not grounds for a topical spotlight.
+  // Hide the entire optional disclosure unless evidence proves relevance to
+  // the selected country's debate for this exact reporting year.
+  const pensionReview=reviewedTopic(activeCountry,Number(year),'old-age-and-survivors');
+  toggle('local-debate-topics',!!pensionReview);
+  if(pensionReview){
+    el('pension-relevance').textContent=pensionReview.explanation+' Reviewed '+pensionReview.reviewedAt+'.';
+    renderPensions(entry,withAmount?amount:null,curr);
+  }else{
+    el('pension-details').open=false;
+  }
   renderCompare();
   renderEconomicContext();
 }
@@ -610,23 +621,7 @@ function renderCompare(){
     }
     row.append(title,tracks);rows.append(row);
   }
-  // Non-additive cross-country drill-down below the ten COFOG divisions.
-  // Both countries must have official GF1002/GF1003 observations.
-  if(current.pensionDetail && other.pensionDetail){
-    const pA=current.pensionDetail.publicShare;
-    const pB=other.pensionDetail.publicShare;
-    const row=document.createElement('div');row.className='compare-row pension-compare-row';
-    const title=document.createElement('span');title.className='compare-label';
-    title.textContent='↳ Old age & survivors (included above)';
-    const tracks=document.createElement('div');tracks.className='compare-tracks';
-    for(const [value,color] of [[pA,'#7ec8c8'],[pB,'#dda773']]){
-      const t=document.createElement('div');t.className='compare-track';
-      const fill=document.createElement('div');fill.className='compare-fill';
-      fill.style.width=`${Math.min(100,value/scale*100)}%`;fill.style.background=color;t.append(fill);
-      const n=document.createElement('span');n.className='compare-value';n.textContent=formatPct(value);t.append(n);tracks.append(t);
-    }
-    row.append(title,tracks);rows.append(row);
-  }
+
 }
 function chooseCountry(code){activeCountry=code;contributionMode=code==='CZ'?'salary':'manual';selectYear(year);refreshCountry();updateUrl()}
 /** A direct link to an explanation opens every containing native disclosure first. */
