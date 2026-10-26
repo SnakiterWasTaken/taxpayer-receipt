@@ -377,6 +377,15 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Limits:** No local-debate topic is yet source-qualified or published; this is deliberate, not evidence that pensions are never debated. No full regional media studies or user interviews have been completed.
 - **Next:** Verify unit, source, build and actual browser candidate tests; merge only if they pass; check live Pages after deployment.
 
+### 2026-10-26 — EU-27 clickable map with flag-filled hover/selection (PR pending)
+
+- **Goal:** Replace the country-select dropdown sidebar with a monochrome, contour-only EU-27 map as the primary interactive country control. On hover, keyboard focus or selection, show the *local national flag clipped within that country's polygon*; clicking, tapping or Enter/Space chooses the same country/year-spending view as the previous dropdown. Retain an alphabetical native list and explicit shortcuts for difficult-to-hit small states.
+- **Implementation:** `src/eu-map-geometry.js` derives exactly 27 simplified geographic silhouettes from public-domain Natural Earth 1:10m Admin-0 polygons via datasets/geo-countries (Greek ISO GR → site's Eurostat EL). `assets/flags/` bundles 27 national SVG assets and retained MIT licence from lipis/flag-icons; no external map/flag tracking. `src/eu-map.js` builds SVG country buttons, clip paths, accessible status text, flag overlays and a synchronised selection callback. The map sits above the explorer; the optional personal-tax and comparison controls remain in the side panel; year is alongside the map.
+- **Cartographic limitations:** Remote overseas areas and some outlying islands are not drawn; Eurostat source totals still cover their actual reporting scope. This is not a geopolitical representation of maritime or disputed boundaries. [Map provenance](eu-country-map-sources.md).
+- **Tests added:** Unit tests for exactly 27 geometries and flag files, offline provenance, selection accessibility, flag clipping and small-country shortcuts; real-browser map test for shape count, flag visibility on keyboard focus, changing Germany by Enter and Malta through shortcut; older country-dropdown browser paths adjusted to reveal the fallback list first.
+- **Verification:** Unit tests, V1 PR candidate browser and production deployment tests **NOT RUN at journal creation**. No verified browser/layout/privacy claims for the new map until CI returns; official spending/tax calculations unchanged.
+- **Next:** Run both GitHub Actions suites; inspect real screenshots and mobile overflow, adjust without weakening checks; merge only after passes and confirm Pages post-deployment.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
