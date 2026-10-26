@@ -18,11 +18,12 @@ test('Country and year remain immediately accessible while five explanations are
 test('Each closed category card communicates a clear purpose without reading full body',()=>{
  for(const phrase of [
    'Explore all spending categories',
-   'Where do pensions fit?',
+   'Dive deeper: reviewed local questions',
    'What is different in',
    'Are living standards improving?',
    'How can I trust these figures?',
  ])assert.ok(html.includes(phrase),phrase);
+ assert.match(html,/id="local-debate-topics" class="hidden"/);
  assert.match(html,/id="pension-teaser"/);
  assert.match(html,/id="economic-teaser"/);
  assert.match(html,/id="country-context-teaser"/);
@@ -36,6 +37,8 @@ test('Dynamic insight cards expose the fact first and reveal methodological evid
 test('Dynamic previews reflect selected official year, and missing observations are never invented',()=>{
  assert.match(app,/result\.publicShare/);
  assert.match(app,/el\('pension-teaser'\)\.textContent=result/);
+ assert.match(app,/toggle\('local-debate-topics',!!pensionReview\)/);
+ assert.match(app,/reviewedTopic\(activeCountry,Number\(year\),'old-age-and-survivors'\)/);
  assert.match(app,/economicGrowth\(entry\?\.disposableIncomeIndex,prior\?\.disposableIncomeIndex\)/);
  assert.match(app,/if\(Number\.isFinite\(entry\?\.inflation\)\)/);
  assert.match(app,/if\(Number\.isFinite\(incomeChangeForTeaser\)\)/);
