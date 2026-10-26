@@ -292,6 +292,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Retest:** Pending GitHub Actions run for this correction; **NOT RUN** locally. Browser keyboard/touch/privacy tests remain **NOT RUN** and must not be inferred from CI.
 - **Next:** Verify new GitHub Actions result; merge only on PASS and continue targeted V1 browser smoke testing.
 
+### 2026-10-26 — PR #30 green retest and top-card ordering correction
+
+- **Retest of heading failure:** [GitHub Actions #40300002747](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40300002747) **PASS**: 164/164 tests, 0 failed/skipped; fresh institutional Eurostat refresh and static build PASS. This verifies restored category disclosure heading and preceding feature code at commit `55ecd4b06ffc9e3850d0cb2c0915f27be910d26e`.
+- **Main-branch integration:** Non-force merge commit brought verified release-readiness PR #29 into feature PR #30, preserving both dated log histories; PR marked mergeable again.
+- **Final layout correction:** Move optional salary/payroll receipt below the interactive pie, ten category breakdowns and three-largest spending summary. This preserves the pie as the top infocard even when user enters personal salary. Expand the ordering regression accordingly.
+- **Final layout correction CI:** **NOT RUN at journal entry creation**. Real-device pointer/keyboard/screen-reader behavior, privacy and deployed-page review remain **NOT RUN**; automated DOM tests are not a substitute.
+- **Next:** Revalidate new branch head; merge only if CI green; verify Pages publication of merged commit and conduct real V1 smoke checks.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
