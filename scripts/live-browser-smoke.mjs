@@ -137,12 +137,21 @@ try {
     const page=await context.newPage();
     try{
       await loaded(page);
-      // SVG <circle> box centre is the transparent donut hole: tap a painted arc.
+      // A circle's bounding-box centre is the empty donut hole, not a hit target.
       const chart=page.locator('#donut');
+      await chart.scrollIntoViewIfNeeded();
       const box=await chart.boundingBox();
       assert.ok(box,'interactive chart must have visible bounds');
-      // First segment begins at 12 o'clock (SVG transform rotates it -90°).
-      await chart.tap({position:{x:box.width/2,y:box.height*(120-88)/240}});
+      // Tap the centre of the first visible arc, 40 degrees clockwise from top.
+      const theta=40*Math.PI/180;
+      const x=box.x+box.width*(120+88*Math.sin(theta))/240;
+      const y=box.y+box.height*(120-88*Math.cos(theta))/240;
+      const target=await page.evaluate(({x,y})=>({
+        tag:document.elementFromPoint(x,y)?.tagName,
+        cls:document.elementFromPoint(x,y)?.getAttribute('class')
+      }),{x,y});
+      assert.equal(target.cls,'donut-segment','touch hit test should target a painted pie slice: '+JSON.stringify(target));
+      await page.touchscreen.tap(x,y);
       assert.equal(await page.locator('#category-details').evaluate(el=>el.open),true);
     }finally{await context.close();}
   });
