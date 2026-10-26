@@ -325,6 +325,13 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Retest:** New CI **NOT RUN at journal write**. Do not treat previous runner failure as any proof of functionality.
 - **Next:** Review Playwright install and real browser results; independently classify UI failures versus network availability failures, preserving screenshots.
 
+### 2026-10-26 — First live published-site browser results and targeted retest
+
+- **Actual run:** [Live Chromium #40301669985](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301669985) reached the public website and executed **9 smoke checks: 7 PASS, 2 FAIL**. PASS: CZ 2024 / 10 COFOG slices + categories / three leaders, SVG keyboard activation, FR manual-tax switch and comparison, synthetic tax-input request/URL/storage inspection, and full expanded pages at 375, 390, 430 pixels. **FAIL:** at viewport 320 px the document scroll width was 355 px, causing a real 35 px horizontal overflow; Playwright's `circle.tap()` aimed at the centre of the donut-shaped SVG element (transparent hole), so the SVG parent intercepted the pointer event. The latter is an inaccurate test tap point, not yet evidence of a touch app failure.
+- **Artifacts:** Screenshots [artifact 12639559522](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301669985/artifacts/12639559522) preserved for desktop and passing phone widths; no 320 screenshot was generated before the failing assertion.
+- **Correction to diagnostics:** Always take mobile screenshots *before* asserting no overflow; log the elements whose boxes exceed viewport on overflow. Simulate the painted arc at its actual 12 o'clock coordinate rather than the SVG circle bounding-box centre. This changes the test harness only; no CSS/UI fix has been applied yet.
+- **Retest:** **NOT RUN on the corrected test harness at journal write**. Next: use 320 element diagnosis to apply the smallest source CSS fix; verify touch tap and rerun all nine checks. Do not mark mobile and touch accessibility PASS until then.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
