@@ -256,6 +256,16 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Known limitation:** The chapter code dictionary, full financial row dimensions and annual amount semantics still require official 2024 verification. A unique chapter code count cannot be equated with the 48 audited budget chapters or their values.
 - **Next:** Inspect actual official CI metadata, compare reported state chapter code set with the verified chapter-ledger list and investigate differences; do not promote any chapter-level monetary amount or manager claim from this step.
 
+### 2026-10-26 — Release scope bounded, Czech FIN forensic expansion paused (roadmap PR pending)
+
+- **Goal:** Prevent indefinite 27-country accounting reconstruction from blocking a useful EU-wide public release. Replace open-ended research requirements with three non-interchangeable evidence levels and M1–M4/V1 acceptance gates.
+- **Completed prerequisite — [PR #27](https://github.com/SnakiterWasTaken/taxpayer-receipt/pull/27):** [Actions #40248928986](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40248928986) PASS **162/162**, zero failures/skips; original four Czech archives downloaded and profiled, EU27 refresh and static build passed; merged via squash commit `19f9fbb7bfa13080926a558ffd709b98f02a978f`. These results validate code and metadata inventory, not monetary decision-authority claims.
+- **Scope decision:** M1 EU27 COFOG baseline required for V1; M2 supported national tax model only where verified (manual alternative elsewhere); M3 one bounded national institutional-source status assessment per country, with richer L2 ledger only where immediately verifiable; M4 core mobile/keyboard/browser checks required, all 24 languages deferred as non-blocking future expansion. L3 legal-budget-control audits are opt-in advanced research. The old all-country forensic audit is no longer a launch prerequisite.
+- **Change:** `ROADMAP.md` records explicit release acceptance criteria, research stop rule, supersession of legacy ambitious checklist and ordered V1 gap audit. No app code, amounts, payroll formulas or source data altered.
+- **Tests:** PR CI / static build **NOT RUN for this documentation change** at initial entry. Earlier PR #27 run must not be misreported as this roadmap update's validation. Human V1 release smoke checks **NOT RUN**.
+- **Known limitation:** V1 has not yet passed browser accessibility/privacy/link tests; the 27 source-status register and full translation coverage are not complete. Preserve review state honestly.
+- **Next:** Validate this PR and then create a focused V1 gap audit/checklist; stop expanding original Czech FIN aggregation until a separately justified scope decision.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
