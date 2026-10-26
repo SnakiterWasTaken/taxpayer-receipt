@@ -332,6 +332,13 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Correction to diagnostics:** Always take mobile screenshots *before* asserting no overflow; log the elements whose boxes exceed viewport on overflow. Simulate the painted arc at its actual 12 o'clock coordinate rather than the SVG circle bounding-box centre. This changes the test harness only; no CSS/UI fix has been applied yet.
 - **Retest:** **NOT RUN on the corrected test harness at journal write**. Next: use 320 element diagnosis to apply the smallest source CSS fix; verify touch tap and rerun all nine checks. Do not mark mobile and touch accessibility PASS until then.
 
+### 2026-10-26 — Source-targeted mobile fix and candidate/deployed smoke separation
+
+- **Root-cause confirmation:** [Live Chromium #40302040033](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302040033): 7/9 PASS, 2 FAIL. At 320px, `document.documentElement.scrollWidth=355`; overflow diagnostics identify an unbroken hero headline `SPAN` with right edge 355. The wide state budget table is internally scrollable, and is not by itself the page-overflow cause. GitHub screenshots [artifact 12640761508](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302040033/artifacts/12640761508) reproduce the headline overflow.
+- **Corrections:** On screens up to 350px, set the hero heading to 32px with shorter letter spacing and safe word wrapping. Change touch test to hit a visible coloured arc 40° clockwise from the top, verifying actual `elementFromPoint` class before issuing the touch (instead of tapping the SVG circle's transparent centre or arc endpoint).
+- **Acceptance isolation:** PR-triggered browser workflow now refreshes official snapshots, builds the proposed code and serves it on localhost:8765, ensuring CSS fixes are actually tested before merge. After a successful GitHub Pages production deployment, a separate `workflow_run` trigger checks the public URL. Manual workflow dispatch also tests the published URL. Normal JS/Python validation remains separate.
+- **Retest:** **NOT RUN at entry creation** for the new CSS, touch coordinate and candidate workflow. Other 7/9 observed browser checks remain the only demonstrated PASS at this stage. Do not claim V1 certification before the targeted retest.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
