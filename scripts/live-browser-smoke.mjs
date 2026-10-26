@@ -48,6 +48,39 @@ try {
     }finally{await page.close();}
   });
 
+  await test('Pie chart: selecting a new segment replaces the previous row highlight',async()=>{
+    const page=await browser.newPage({viewport:{width:1280,height:800}});
+    try{
+      await loaded(page);
+      const clickSegment=async(index)=>{
+        const chart=page.locator('#donut');
+        await chart.scrollIntoViewIfNeeded();
+        const box=await chart.boundingBox();
+        const segment=page.locator('#donut .donut-segment').nth(index);
+        const values=await segment.evaluate(circle=>{
+          const dash=circle.getAttribute('stroke-dasharray').trim().split(/[\\s,]+/).map(Number);
+          const circumference=2*Math.PI*88;
+          return {
+            code:circle.dataset.code,
+            theta:2*Math.PI*(-Number(circle.getAttribute('stroke-dashoffset'))/circumference+(dash[0]+.8)/circumference/2)
+          };
+        });
+        const x=box.x+box.width*(120+88*Math.sin(values.theta))/240;
+        const y=box.y+box.height*(120-88*Math.cos(values.theta))/240;
+        await page.mouse.click(x,y);
+        await page.waitForFunction(code=>document.querySelector('#breakdown .breakdown-selected')?.dataset.code===code,values.code);
+        assert.equal(await page.locator('#breakdown .breakdown-selected').count(),1,
+          'exactly one category row should be highlighted after each chart selection');
+        return values.code;
+      };
+      const first=await clickSegment(0);
+      const second=await clickSegment(1);
+      assert.notEqual(first,second,'the two test segments must represent different categories');
+      assert.equal(await page.locator('#breakdown .breakdown-selected').getAttribute('data-code'),second,
+        'the latest chart selection should be the only highlighted category');
+    }finally{await page.close();}
+  });
+
   await test('Neutrality: no default pension spotlight for CZ or FR',async()=>{
     const page=await browser.newPage({viewport:{width:1280,height:800}});
     try{
