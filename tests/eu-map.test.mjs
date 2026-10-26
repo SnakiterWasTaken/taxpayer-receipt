@@ -28,12 +28,13 @@ test('National flag artwork is bundled locally for all 27 states, with retained 
    assert.match(readFileSync(path,'utf8'),/<svg\b/);
  }
  assert.ok(existsSync(new URL('LICENSE',root)));
- assert.doesNotMatch(map,/flagcdn|https?:\/\//,'map must not request flag assets from a third party');
+ assert.match(map,/href:'\.\/assets\/flags\/'/,'flag requests must remain local');
+ assert.doesNotMatch(map,/flagcdn/,'no remote flag CDN calls are allowed');
 });
 
 test('Map is primary country selector; native dropdown remains an optional accessible fallback',()=>{
  const mapPosition=html.indexOf('id="eu-map"');
- const results=html.indexOf('class="results-panel"');
+ const results=html.indexOf('class="panel results-panel"');
  assert.ok(mapPosition>0&&mapPosition<results);
  assert.match(html,/<details class="eu-map-list-fallback">[\s\S]*?<select id="country"/);
  assert.doesNotMatch(html,/Set your view/);
