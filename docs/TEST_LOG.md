@@ -219,6 +219,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **2024 legal-version source found:** Official [e-Sbírka 2024–2025 version](https://e-sbirka.gov.cz/sb/2014/5/2024-01-01?odkazId=20404139) confirms distinct FIN OSS/SF/M reporting systems and monthly reporting by local authorities. Annex 2 states Prague/statutory cities report combined city accounts. This is a **legal-source verification PASS**, not extract-field mapping or duplication-resolution PASS; the precise 2024 column codebook remains unresolved. The finding is preserved in `docs/fin-institution-ingestion.md`.
 - **Next:** Obtain the archived 2024-effective official FIN and State Treasury export specifications; add schema-aware real archive read-only validation plus independent accounting reconciliation; inspect Actions test report and record actual failure/retest history before merging.
 
+### 2026-10-26 — Contemporary Ministry instructions confirm 2024 cumulative FIN reporting (PR pending)
+
+- **Goal:** Resolve whether 2024 local FIN statement's actual expenditure column has a period-to-date meaning before developing a raw ingestion parser.
+- **Attempt:** Read the Ministry of Finance's original [2024 published FIN 2-12 M guidance](https://mf.gov.cz/cs/rozpoctova-politika/uzemni-rozpocty/legislativa-a-metodicka-podpora-uzemnich-rozpoctu/2024/doporuceny-postup-pri-oprave-udaju-vykazanych-na-n-56625). **PASS for official statement terminology:** the Ministry explicitly names the actual column `Výsledek od počátku roku` (result since year's beginning), as distinct from approved/amended budget, and describes a hard validation in force for 2024 reporting. **NOT VERIFIED:** whether every `ZU_ROZKZ` machine column in downloaded extracts is that statement field; full December-year selection and state MIS-RIS semantics require independently verified dictionaries.
+- **Change:** Source note and caution only in `docs/fin-institution-ingestion.md`; no executable aggregation logic, published figures, or tax calculations changed.
+- **Tests:** CI / local code tests **NOT RUN for this documentation-only change** at entry creation. Prior [PR #23 final validation](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40246628568) **PASS: 157/157**, all data refresh and build stages PASS; PR #23 was subsequently squash-merged at `aa3ca239f8a9482829677c124bfa961d6feee5e7`. That earlier run is not a test of this new documentation commit.
+- **Next:** Verify the official original-extract 2024 dictionary for each source, full dimensional row key, January/December field origin and transfers before interpreting real monetary values.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).

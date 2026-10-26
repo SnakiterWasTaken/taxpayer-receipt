@@ -8,6 +8,12 @@
 
 **What this does *not* verify:** The legal annex names reporting systems and sections; it does not by itself prove the extract-specific SAP/BW column semantics (especially `0FISCPER`, `0CI_TYPE`, `ZU_ROZKZ`), full row identity, official 2024 purpose-to-COFOG mapping, internal-transfer reconciliation or discretionary decision power. Those remain blocked for monetary publication. Do not read the **current**, post-2025 annex (with changed partner identifiers) as though it were the 2024 annex.
 
+## Verified contemporary 2024 FIN 2-12 M reporting semantics
+
+The Czech Ministry of Finance's **2024** [FIN 2-12 M correction instructions](https://mf.gov.cz/cs/rozpoctova-politika/uzemni-rozpocty/legislativa-a-metodicka-podpora-uzemnich-rozpoctu/2024/doporuceny-postup-pri-oprave-udaju-vykazanych-na-n-56625) explicitly distinguishes approved budget, budget after amendments and **`Výsledek od počátku roku` (result since the beginning of the year)**. They describe a hard check on impermissible classification items in the latter column, active for January–February 2024 submissions, and nonblocking notices for the two budget columns. This establishes the *reporting-field meaning* of the year-to-date actual **in the official FIN 2-12 M statement**, not a machine-field proof for `ZU_ROZKZ` in every CSV section, nor a reconciliation of original downloads.
+
+**Consequence:** Do not sum a January-to-December collection of cumulative observations; a December snapshot is a *candidate* year-end selection, not a validated standalone total without section, item type, entity and transfer checks. Classifications and validation rules can change between years: use the 2024 documentation rather than 2026 instructions.
+
 ## Official original sources and reproducible checks
 
 [GitHub Actions run 40244283048](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40244283048) retrieved both ZIP files (HTTP 200), computed SHA-256 checksums, streamed the nine CSV members in each archive and produced the `cz-fin-source-metadata` artifact. Reproduce with `python3 scripts/probe-fin-2024.py --only all`. Only metadata—not raw financial rows—is retained in the CI artifact.
