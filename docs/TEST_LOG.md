@@ -275,6 +275,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Limitations:** New country-specific debt and deficit figures, reviewed ministry attribution and fact-check cards are **NOT IMPLEMENTED**. Existing country-specific sourced institution disclosures remain, with unverified status elsewhere.
 - **Next:** Inspect CI, verify real browser/touch/keyboard behavior and user comprehension, and scope supported risk indicators before publishing new national claims.
 
+### 2026-10-26 — PR #30 red validation diagnosis and correction
+
+- **Observed failure:** [GitHub Actions #40250678309](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40250678309) **FAIL**: **164 tests, 162 passed, 2 failed, 0 skipped**. Source: downloaded `explained-test-results` artifact `12620810508`, `test-report.md` and `node-tests.log`.
+- **Failing checks:** `Each closed category card communicates a clear purpose without reading full body` (`tests/expandable-info-cards.test.mjs`) and `The first-screen short summary stays separate and untouched` (`tests/single-expand-categories.test.mjs`). Both explicitly require the accessible disclosure label `Explore all spending categories`, which PR #30 renamed to `Individual spending breakdowns`; the content still exists and its intended position after the donut is checked by the new overview-order test.
+- **Correction:** Restore the descriptive original category disclosure label, preserving new donut-first, categories-second, top-three-third reading order, interaction handlers and financial data unchanged. Keep old and new regression tests; do not mask failures by removing assertions.
+- **Retest:** Pending GitHub Actions run for this correction; **NOT RUN** locally. Browser keyboard/touch/privacy tests remain **NOT RUN** and must not be inferred from CI.
+- **Next:** Verify new GitHub Actions result; merge only on PASS and continue targeted V1 browser smoke testing.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
