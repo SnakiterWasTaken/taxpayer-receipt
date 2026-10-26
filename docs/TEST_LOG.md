@@ -368,6 +368,15 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Scope caveat:** One automated browser engine, emulated touch, synthetic sample values; human assistive technology, Safari/Firefox, hardware/mobile networks, detailed external-link crawl, complete privacy inspection and editorial user comprehension **NOT RUN**. Passing this release-focused slice is not proof of complete WCAG conformance or all-country tax models.
 - **Next:** Re-evaluate remaining actual V1 P0s using the live gate; target only genuine defects, and keep added financial risk/misinformation cards as sourced, bounded post-release work.
 
+### 2026-10-26 — Non-agenda financial-vulgarisation: no default pension spotlight (PR pending)
+
+- **Goal:** Remove the perception that high pension/old-age spending is presumptively a concern. The project explains all ten standard COFOG functions neutrally, not a permanent editorial spotlight on one special subject.
+- **Source and layout:** Preserve official Eurostat GF1002/GF1003 detail and `docs/pension-transparency.html` in the repository, but hide the formerly unconditional pension card inside a country-specific `Dive deeper` section. The section remains `hidden` unless an explicitly **reviewed country + selected year + topical** entry includes a credible local-debate source, an independent data source, review date and neutral explanation. The current registry is deliberately empty. The data alone do not establish local public relevance.
+- **Other UI corrections:** Remove unconditional `old-age-share` insertion from `At a glance`; remove the non-standard old-age/survivors row from cross-country COFOG comparison; rename the general observations heading to `More context` rather than imply the same financial pressure question everywhere. Standard spending categories, top three, household context, tax estimates and financial totals are unchanged.
+- **Tests:** Add source registry gating unit cases, replace old unconditional-pension test with a non-promotion assertion, update disclosure checks and add a real-browser test for no topical spotlight upon switching CZ/FR. **NOT RUN at entry creation**; no browser/CI success claimed. Direct pension accounting consistency tests continue to run unchanged.
+- **Limits:** No local-debate topic is yet source-qualified or published; this is deliberate, not evidence that pensions are never debated. No full regional media studies or user interviews have been completed.
+- **Next:** Verify unit, source, build and actual browser candidate tests; merge only if they pass; check live Pages after deployment.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
