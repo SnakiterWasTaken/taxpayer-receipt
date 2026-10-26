@@ -79,6 +79,10 @@ function donut(data){
       if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('breakdown-selected');}
     };
     circle.addEventListener('click',openBreakdown);
+    // On touch, a hover-induced SVG stroke change can retarget the later
+    // synthetic click to <svg>. Pointerup still targets the painted segment.
+    // openBreakdown is idempotent, so a subsequent click is harmless.
+    circle.addEventListener('pointerup',event=>{if(event.pointerType==='touch')openBreakdown()});
     circle.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openBreakdown()}});
     svg.append(circle);offset+=item.share;
   }
