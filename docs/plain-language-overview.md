@@ -10,6 +10,23 @@ The site answers **where public money typically goes, how that compares internat
 4. **Financial pressure context**: an approachable, clearly separate row of sourced national indicators, with periods and interpretation limits. Candidate indicators: debt-to-GDP, annual deficit/surplus as a share of GDP, interest expenditure as a share of revenue, inflation and purchasing-power trend. Each card must say what the number can and **cannot** demonstrate. Inflation and income data already exist; **do not invent** debt, deficit or interest data without verified cross-country sources.
 5. **Popular claims, checked**: country-specific *fact-check cards* added only where evidence and a precise claim exist. Empty countries should show an honest unavailable/research-pending state or omit the card—not a generic accusation that the country's public believes a claim.
 
+## Non-agenda editorial selection
+
+No COFOG subcategory, ministry, demographic group or budget line receives a permanent topical spotlight simply because its share is large, trending upward or available in Eurostat. The standard ten divisions and three largest spending categories remain neutral and consistent EU-wide.
+
+**At a glance** may show the same universal, verifiable indicators for every country (for example, inflation and household purchasing power), but must not automatically single out old-age benefits, immigration, fraud or any other politically disputed topic.
+
+**Dive deeper** can feature a country-specific subject only after a human review documents:
+
+- the **exact country and expenditure year**;
+- a dated, credible source demonstrating that the subject is part of a substantive local public debate (not mere online popularity or editorial speculation);
+- an independent statistical/public-finance source establishing the numbers and accounting basis;
+- a brief, plain-language explanation that describes what can and cannot be concluded, with an explicit review date.
+
+Eligibility is **fail-closed** in `src/local-debate-topics.js`: the reviewed registry is empty until qualifying evidence has been collected. Absent a verified entry, the entire country-specific Dive deeper section is hidden. One country's debate must not bleed into another country or reporting year. Data *availability* does not confer prominence, and there are no hard-coded topical thresholds or assumed negative implications.
+
+Previously public **“Where do pensions fit?”** detail is no longer a universal card, automatic at-a-glance observation or cross-country comparison row. Verified Eurostat GF1002/GF1003 data and their [independent methodology](pension-transparency.html) remain intact for future evidence-gated explanations. Their shares are subsets of Social protection, never extra money or proof that spending is excessive. Do not selectively spotlight a different special topic as its replacement.
+
 ## Fact-check card contract
 
 Each claim requires: `country`, `claim`, `claimPeriod`, `explanation` (one to three plain-language sentences), `verdict` (supported / unsupported / misleading / uncertain), `evidence` (official audit/statistics and independent fact-check where available), `sourceDates`, `metricScope`, `reviewedAt` and `limitations`. Never equate 'not measured' with zero.
