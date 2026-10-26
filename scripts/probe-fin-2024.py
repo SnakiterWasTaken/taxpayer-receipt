@@ -87,8 +87,9 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
             period_col=col("0FISCPER")
             type_col=col("0CI_TYPE")
             purpose_col=col("0FUNC_AREA")
+            chapter_col=next((i for i,name in enumerate(header) if name.strip().rsplit(":",1)[-1].strip()=="0FM_AREA"),None)
             amount_col=col("ZU_ROZKZ")
-            organisations=set(); periods=set(); period_counts={}; types={}; purpose_codes=set()
+            organisations=set(); periods=set(); period_counts={}; types={}; purpose_codes=set(); chapter_counts={}
             count=0; bad_columns=0; null_actuals=0; amount_shapes={}
             for row in reader:
                 count+=1
@@ -104,6 +105,9 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
                 if type_col is not None and len(row)>type_col:
                     label=row[type_col].strip()
                     types[label]=types.get(label,0)+1
+                if chapter_col is not None and len(row)>chapter_col and period_col is not None and len(row)>period_col and row[period_col].strip()=="2024012":
+                    chapter=row[chapter_col].strip()
+                    if chapter: chapter_counts[chapter]=chapter_counts.get(chapter,0)+1
                 if purpose_col is not None and len(row)>purpose_col:
                     val=row[purpose_col].strip()
                     if val:purpose_codes.add(val)
@@ -118,6 +122,7 @@ def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimite
                 "malformedColumnRows":bad_columns,"uniqueOrganisationIds":len(organisations),
                 "periods":sorted(periods)[:24],
                 "periodRowCounts":{k:period_counts[k] for k in sorted(period_counts)},
+                "decemberChapterRowCounts":{k:chapter_counts[k] for k in sorted(chapter_counts)},
                 "budgetTypeDistribution":types,
                 "distinctPurposeCodes":len(purpose_codes),
                 "missingActualFields":null_actuals,
