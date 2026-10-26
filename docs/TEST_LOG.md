@@ -386,6 +386,13 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Verification:** Unit tests, V1 PR candidate browser and production deployment tests **NOT RUN at journal creation**. No verified browser/layout/privacy claims for the new map until CI returns; official spending/tax calculations unchanged.
 - **Next:** Run both GitHub Actions suites; inspect real screenshots and mobile overflow, adjust without weakening checks; merge only after passes and confirm Pages post-deployment.
 
+### 2026-10-26 — EU27 national-flag map: actual candidate acceptance
+
+- **CI results:** [Validate #40311010317](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40311010317) **PASS: 171/171 tests, zero failed or skipped**; official Eurostat refresh and static site build succeeded. New unit checks prove that the 27 map silhouettes match the 27 configured country codes, that all 27 MIT-licensed flag assets exist locally, and that fallback/keyboard/flag clip wiring is present.
+- **Real Chrome browser:** [Live acceptance #40311010256](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40311010256) **PASS: 12/12 browser checks** against the built PR candidate, including flag overlay on keyboard focus, Germany selected by Enter, Malta shortcut, France by pointer click, Germany by mobile touch, list fallback synchronisation, existing ten COFOG categories, Czech/French tax/context, four 320–430px responsive widths and synthetic sample tax-input privacy inspection. [Browser screenshots artifact 12644737288](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40311010256/artifacts/12644737288). Initial 169/171 static-test failure was caused by two incorrect test assertions (the SDK namespace URI contains `http://`, and the actual results class is `class="panel results-panel"`); assertions were corrected **without removing any verified UI constraints**, and rerun green.
+- **Reviewed appearance:** Desktop and 320px screenshot shows monochrome outlined Europe; the selected Czech flag remains clipped to the Czech silhouette; user-selected Malta remains identifiable in the side label and shortcut. The small-country shortcut is required for reliable touch selection of tiny polygons.
+- **Status:** Passes apply to candidate branch; production GitHub Pages deployment and post-publish browser run **NOT RUN for this PR yet**. External manual Safari/Firefox/screen-reader testing remains outstanding.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
