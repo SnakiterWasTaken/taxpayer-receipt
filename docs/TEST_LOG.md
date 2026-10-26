@@ -339,6 +339,12 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Acceptance isolation:** PR-triggered browser workflow now refreshes official snapshots, builds the proposed code and serves it on localhost:8765, ensuring CSS fixes are actually tested before merge. After a successful GitHub Pages production deployment, a separate `workflow_run` trigger checks the public URL. Manual workflow dispatch also tests the published URL. Normal JS/Python validation remains separate.
 - **Retest:** **NOT RUN at entry creation** for the new CSS, touch coordinate and candidate workflow. Other 7/9 observed browser checks remain the only demonstrated PASS at this stage. Do not claim V1 certification before the targeted retest.
 
+### 2026-10-26 — Candidate browser pass narrowed to touch interaction; faster runner
+
+- **Candidate build result:** [PR browser #40302522414](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302522414) **8/9 PASS** against locally built candidate, using actual 2024 refresh. **PASS:** required CZ/FR financial flows, keyboard pie activation, synthetic-input request/storage check, no overflow at 320, 375, 390 or 430 px. **FAIL:** direct touchscreen `tap` does not open the pie category despite `elementFromPoint` identifying `.donut-segment`. The earlier 320-pixel defect is corrected by the new `@media(max-width:350px)` CSS.
+- **Action:** Add event propagation diagnostics to distinguish missing `click` emulation from unhandled touch/pointer events; results pending. Switch workflow to hosted Chrome on supported Ubuntu 24.04 and lightweight `playwright-core` to avoid large browser downloads for each PR.
+- **Retest status:** new hosted Chrome driver **NOT RUN** at entry creation; touchscreen action remains a blocker until a passing real touch test. Prior 8 passing cases do not prove complete Safari/mobile compatibility.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
