@@ -1,0 +1,53 @@
+name: Live V1 browser acceptance
+on:
+  pull_request:
+    paths:
+      - 'scripts/live-browser-smoke.mjs'
+      - '.github/workflows/live-browser-smoke.yml'
+      - 'styles.css'
+      - 'index.html'
+      - 'src/**'
+  workflow_run:
+    workflows: ['Test, refresh Eurostat data, publish Pages']
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-site:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install lightweight browser driver (hosted Chrome)
+        run: |
+          command -v google-chrome
+          npm install --no-save --ignore-scripts playwright-core@1.56.1
+      - name: Browser acceptance (PR candidate or successfully published site)
+        env:
+          V1_SITE_URL: ${{ github.event_name == 'pull_request' && 'http://127.0.0.1:8765/' || 'https://snakiterwastaken.github.io/taxpayer-receipt/' }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run data:refresh
+            npm run institutional:refresh
+            npm run context:refresh
+            npm run build
+            python3 -m http.server 8765 --directory dist >/tmp/v1-browser-server.log 2>&1 &
+            server_pid=$!
+            trap 'kill "$server_pid" || true' EXIT
+            sleep 2
+            curl --fail --silent --show-error http://127.0.0.1:8765/ >/dev/null
+          fi
+          node scripts/live-browser-smoke.mjs
+      - name: Preserve evidence and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v1-live-browser-evidence
+          path: test-results/live-browser/
+          if-no-files-found: warn
+          retention-days: 30

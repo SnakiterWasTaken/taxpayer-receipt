@@ -486,3 +486,8 @@
 .donut-segment:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .breakdown-row.breakdown-selected{outline:2px solid var(--teal);outline-offset:5px;border-radius:5px}
 @media(prefers-reduced-motion:reduce){.donut-segment{transition:none}}
+
+/* V1 mobile acceptance: the hero's long word must fit a 320 px viewport. */
+@media (max-width: 350px) {
+  .hero h1 { font-size: 32px; letter-spacing: -1.4px; overflow-wrap: anywhere; }
+}

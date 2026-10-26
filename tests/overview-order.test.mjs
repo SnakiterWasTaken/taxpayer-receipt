@@ -15,6 +15,8 @@ test('overview order: pie, category explanations, then three largest areas',()=>
 test('every pie slice can be selected with pointer and keyboard',()=>{
  assert.match(app,/circle\.addEventListener\('click',openBreakdown\)/);
  assert.match(app,/circle\.addEventListener\('keydown'/);
+ assert.match(app,/circle\.addEventListener\('pointerup'/);
+ assert.match(app,/event\.pointerType==='touch'/);
  assert.match(app,/circle\.setAttribute\('aria-label'/);
  assert.match(app,/details\.open=true/);
  assert.match(html,/id="donut-selection" role="status"/);

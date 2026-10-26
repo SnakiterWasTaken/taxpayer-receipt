@@ -310,6 +310,56 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Tests for this documentation update:** PR workflow **NOT RUN** at journal entry creation; public live navigation, screen reader, mobile/responsive, browser network/storage privacy and independent client fetch **NOT RUN**. Those remain V1 certification blockers, not proof that the Pages deployment failed.
 - **Next:** Confirm current Pages deployment for merged redesign; execute actual browser/phone/keyboard/privacy smoke tests and log outcomes before certifying V1.
 
+### 2026-10-26 — Live browser acceptance: launch-gate instrumentation (PR pending)
+
+- **Goal:** Replace V1 mobile, navigation and privacy **NOT RUN** statuses with reproducible real browser evidence, without repeating financial forensic research.
+- **Change:** `scripts/live-browser-smoke.mjs` runs actual headless Chromium against `https://snakiterwastaken.github.io/taxpayer-receipt/` using Playwright. Covers official CZ 2024 ten-category/three-leader rendering, focus+Enter SVG segment activation, FR country switch and comparison, non-Czech manual estimator, browser URL/local/session storage plus outbound request-body checks with **synthetic** tax amounts, 320/375/390/430-pixel expanded cards and touch segment tap. Screenshots are uploaded for inspection. New separate `live-browser-smoke.yml` runs on related PR changes or manual dispatch.
+- **Evidence status:** At the moment of authoring, **NOT RUN** in GitHub CI or live browser. Prior JavaScript/Python **164/164 pass** and GitHub Pages successful deployment [#40300864868](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40300864868) establish deployment, not live browser accessibility or privacy.
+- **Interpretation limit:** Browser request tests can detect obvious leakage of the synthetic marker but do not prove absence of all telemetry or data transfers. Chromium smoke checks are not equivalently Safari, Firefox, a complete WCAG audit or human screen-reader usage. Any failed live-data access is a genuine V1 availability finding to investigate, not to conceal.
+- **Next:** Review actual workflow result and artifacts, correct reproducible faults or environment issues and update [release gates](v1-release-readiness.md) with specific PASS/FAIL/BLOCKED evidence.
+
+### 2026-10-26 — First real-browser workflow attempt: unsupported runner fixed
+
+- **Attempt:** [Live V1 browser workflow #40301543414](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301543414) **FAIL before browser tests**. The Playwright 1.56 Chromium installer reports `ERROR: Playwright does not support chromium on ubuntu26.04-x64` on GitHub's current `ubuntu-latest` image. No page, privacy, keyboard or responsive tests ran on that job.
+- **Correction:** Pin live-browser runner explicitly to `ubuntu-24.04`, supported by the specified Playwright version. Preserve actual launch failure as an environment issue rather than a website failure.
+- **Retest:** New CI **NOT RUN at journal write**. Do not treat previous runner failure as any proof of functionality.
+- **Next:** Review Playwright install and real browser results; independently classify UI failures versus network availability failures, preserving screenshots.
+
+### 2026-10-26 — First live published-site browser results and targeted retest
+
+- **Actual run:** [Live Chromium #40301669985](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301669985) reached the public website and executed **9 smoke checks: 7 PASS, 2 FAIL**. PASS: CZ 2024 / 10 COFOG slices + categories / three leaders, SVG keyboard activation, FR manual-tax switch and comparison, synthetic tax-input request/URL/storage inspection, and full expanded pages at 375, 390, 430 pixels. **FAIL:** at viewport 320 px the document scroll width was 355 px, causing a real 35 px horizontal overflow; Playwright's `circle.tap()` aimed at the centre of the donut-shaped SVG element (transparent hole), so the SVG parent intercepted the pointer event. The latter is an inaccurate test tap point, not yet evidence of a touch app failure.
+- **Artifacts:** Screenshots [artifact 12639559522](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301669985/artifacts/12639559522) preserved for desktop and passing phone widths; no 320 screenshot was generated before the failing assertion.
+- **Correction to diagnostics:** Always take mobile screenshots *before* asserting no overflow; log the elements whose boxes exceed viewport on overflow. Simulate the painted arc at its actual 12 o'clock coordinate rather than the SVG circle bounding-box centre. This changes the test harness only; no CSS/UI fix has been applied yet.
+- **Retest:** **NOT RUN on the corrected test harness at journal write**. Next: use 320 element diagnosis to apply the smallest source CSS fix; verify touch tap and rerun all nine checks. Do not mark mobile and touch accessibility PASS until then.
+
+### 2026-10-26 — Source-targeted mobile fix and candidate/deployed smoke separation
+
+- **Root-cause confirmation:** [Live Chromium #40302040033](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302040033): 7/9 PASS, 2 FAIL. At 320px, `document.documentElement.scrollWidth=355`; overflow diagnostics identify an unbroken hero headline `SPAN` with right edge 355. The wide state budget table is internally scrollable, and is not by itself the page-overflow cause. GitHub screenshots [artifact 12640761508](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302040033/artifacts/12640761508) reproduce the headline overflow.
+- **Corrections:** On screens up to 350px, set the hero heading to 32px with shorter letter spacing and safe word wrapping. Change touch test to hit a visible coloured arc 40° clockwise from the top, verifying actual `elementFromPoint` class before issuing the touch (instead of tapping the SVG circle's transparent centre or arc endpoint).
+- **Acceptance isolation:** PR-triggered browser workflow now refreshes official snapshots, builds the proposed code and serves it on localhost:8765, ensuring CSS fixes are actually tested before merge. After a successful GitHub Pages production deployment, a separate `workflow_run` trigger checks the public URL. Manual workflow dispatch also tests the published URL. Normal JS/Python validation remains separate.
+- **Retest:** **NOT RUN at entry creation** for the new CSS, touch coordinate and candidate workflow. Other 7/9 observed browser checks remain the only demonstrated PASS at this stage. Do not claim V1 certification before the targeted retest.
+
+### 2026-10-26 — Candidate browser pass narrowed to touch interaction; faster runner
+
+- **Candidate build result:** [PR browser #40302522414](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40302522414) **8/9 PASS** against locally built candidate, using actual 2024 refresh. **PASS:** required CZ/FR financial flows, keyboard pie activation, synthetic-input request/storage check, no overflow at 320, 375, 390 or 430 px. **FAIL:** direct touchscreen `tap` does not open the pie category despite `elementFromPoint` identifying `.donut-segment`. The earlier 320-pixel defect is corrected by the new `@media(max-width:350px)` CSS.
+- **Action:** Add event propagation diagnostics to distinguish missing `click` emulation from unhandled touch/pointer events; results pending. Switch workflow to hosted Chrome on supported Ubuntu 24.04 and lightweight `playwright-core` to avoid large browser downloads for each PR.
+- **Retest status:** new hosted Chrome driver **NOT RUN** at entry creation; touchscreen action remains a blocker until a passing real touch test. Prior 8 passing cases do not prove complete Safari/mobile compatibility.
+
+### 2026-10-26 — Confirmed Chromium touch click-retargeting bug and interaction fix
+
+- **Actual browser trace:** [PR workflow #40303300876](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303300876) testing the candidate build achieved **8/9 PASS**. At a painted SVG pie arc, `elementFromPoint` and `pointerdown`, `touchstart`, `pointerup`, `touchend` all correctly identified the `circle.donut-segment`, but the subsequent browser-synthesised `click` was dispatched to the parent `svg`. The click-only category activation therefore failed; no page JavaScript exception occurred. This is a **real touch interaction defect**, not an inaccurate coordinate or Playwright setup.
+- **Correction:** Add a `pointerup` listener for `event.pointerType === 'touch'` directly on each SVG segment, invoking existing idempotent breakdown activation; preserve regular `click` for mouse and `keydown` for keyboard. Add static regression assertions for touch listener. No financial figures or tax logic are changed.
+- **Build/run mechanism:** Hosted `/usr/bin/google-chrome` + `playwright-core` works on Ubuntu 24.04 and runs the same candidate smoke suite without downloading browser binaries. PR test is separate from post-Pages `workflow_run` public-site check.
+- **Retest:** New source change and browser acceptance **NOT RUN yet** at journal write; release accessibility remains conditional on observed green CI and actual published-version retest.
+
+### 2026-10-26 — Nine of nine real Chromium candidate-browser checks PASS
+
+- **Verified fix:** [Live V1 Chromium acceptance #40303447554](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303447554) **PASS 9/9** against refreshed, built PR candidate on localhost:8765: CZ 2024 source-backed categories, donut keyboard activation, FR manual estimator and country comparison, synthetic marker URL/request/storage check, no horizontal document overflow with cards open at 320/375/390/430px, and *actual touch* painted-segment activation.
+- **Cause/resolution:** Browser event trace confirmed `pointerup` hits `circle.donut-segment` but synthesized `click` lands on `svg` (hover-induced geometry changes). Touch-specific `pointerup` handler opens the same disclosure reliably; the click and keyboard handlers remain. 320px issue corrected by small-screen hero typography.
+- **Existing test suite:** [Validate #40303447774](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303447774) **PASS 164/164**, zero failed/skipped; official refresh and static site build PASS. Static test now guards touch pointerup.
+- **Scope of evidence:** Tests were performed in **real hosted headless Chrome/Chromium** against candidate files, but with synthetic personal data and one browser engine. Not yet a production-site retest, full WCAG/assistive-technology audit, network privacy certification, cross-browser validation or manual external-link crawl. These remain marked NOT RUN or partial.
+- **Next:** Finish PR CI for the documentation updates, merge, confirm GitHub Pages publication of the exact merge, and inspect post-deployment `workflow_run` live acceptance before closing any V1 gate.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
