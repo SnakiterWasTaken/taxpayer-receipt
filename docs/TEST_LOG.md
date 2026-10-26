@@ -266,6 +266,15 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Known limitation:** V1 has not yet passed browser accessibility/privacy/link tests; the 27 source-status register and full translation coverage are not complete. Preserve review state honestly.
 - **Next:** Validate this PR and then create a focused V1 gap audit/checklist; stop expanding original Czech FIN aggregation until a separately justified scope decision.
 
+### 2026-10-26 — V1 release-readiness gap audit (PR pending)
+
+- **Goal:** Replace open-ended country-level research with explicit minimum browser, accessibility, privacy, country scope and deployment release gates.
+- **Prerequisite:** [PR #28](https://github.com/SnakiterWasTaken/taxpayer-receipt/pull/28) CI [#40249796160](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40249796160) **PASS 162/162**, official source refresh and static build PASS; squash merged at `6ae5ecc56fc043e97d243bc37d92fcc4e17fe164`. These are historic code tests, not deployed browser checks.
+- **Change:** New `docs/v1-release-readiness.md` with explicit M1–M4 requirements, user flows to test, P0/P1/P2 criteria, source references and per-gate PASS/NOT RUN evidence. No public application values, tax logic, source definitions or international data were modified.
+- **Review findings:** Legacy CI has verified source fetching/build but **not** live country switching, interactive mobile widths, assistive technology, network/storage privacy or public deployment. The actual supported translation coverage has **not** been certified. V1 cannot yet be marked ready.
+- **Tests for this change:** automated PR validation **NOT RUN yet** at initial entry; live website/phone/keyboard/traffic/links and accessibility **NOT RUN**. Earlier successful run is not claimed as a test of this document.
+- **Next:** Validate this PR, then execute actual browser smoke tests and create targeted P0/P1 fixes as needed. Defer original Czech FIN and L3 audits until separately scoped.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
