@@ -34,6 +34,8 @@ The project aims to make official government spending, tax contributions and eco
 
 **No blanket claim that V1, full accessibility, full translations, or 27 national tax calculators are already finished.** Record the actual release checklist results, including BLOCKED/NOT RUN. Future work (additional L2 ledgers, complete 24-language translations, specialist tax rules, deep COFOG crosswalks, L3 legal control) is explicitly **post-V1** unless needed to correct a factual defect.
 
+The [V1 release-readiness checklist](docs/v1-release-readiness.md) is the binding release evidence register. Do not treat a green unit-test workflow alone as launch approval.
+
 ### Immediate next actions (ordered)
 
 1. Preserve merged [PR #27](https://github.com/SnakiterWasTaken/taxpayer-receipt/pull/27) and its official source evidence; **pause new Czech original FIN transaction-level reconstruction** after that research checkpoint.
