@@ -360,6 +360,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Scope of evidence:** Tests were performed in **real hosted headless Chrome/Chromium** against candidate files, but with synthetic personal data and one browser engine. Not yet a production-site retest, full WCAG/assistive-technology audit, network privacy certification, cross-browser validation or manual external-link crawl. These remain marked NOT RUN or partial.
 - **Next:** Finish PR CI for the documentation updates, merge, confirm GitHub Pages publication of the exact merge, and inspect post-deployment `workflow_run` live acceptance before closing any V1 gate.
 
+### 2026-10-26 — Merged mobile/touch fixes verified on actual public GitHub Pages
+
+- **Merge:** [PR #32](https://github.com/SnakiterWasTaken/taxpayer-receipt/pull/32), squash commit `8af2ce80938473247b394399ec53def4b93ba2e2`. [Validate #40303722210](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303722210) **164/164 PASS**, zero failures/skips; [candidate Chromium #40303721910](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303721910) **9/9 PASS**.
+- **Production publication:** [Pages #40303850765](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303850765) **build PASS, deploy PASS**, reported URL `https://snakiterwastaken.github.io/taxpayer-receipt/`.
+- **Actual published-page acceptance:** Pages' successful completion triggered [Live Chromium #40303922060](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303922060), **9/9 PASS against the public URL**: Czech 2024 category counts and top three, chart keyboard focus+Enter, French switch/manual tax/comparison, synthetic salary request/URL/storage check, expanded content free of page-level overflow at 320/375/390/430 px, and touch SVG arc activation. Real-browser screenshots are retained as a CI artifact. These checks specifically validate the previously failing 320px/hover-retargeting cases.
+- **Scope caveat:** One automated browser engine, emulated touch, synthetic sample values; human assistive technology, Safari/Firefox, hardware/mobile networks, detailed external-link crawl, complete privacy inspection and editorial user comprehension **NOT RUN**. Passing this release-focused slice is not proof of complete WCAG conformance or all-country tax models.
+- **Next:** Re-evaluate remaining actual V1 P0s using the live gate; target only genuine defects, and keep added financial risk/misinformation cards as sourced, bounded post-release work.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
