@@ -238,6 +238,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Official original row distribution — PASS for counting only:** municipal FINM201: `2024012=1,367,957`, special `0000000=1`; Prague FINM201_MC: `2024012=14,622`, special `0000000=1`; state funds FINSF01: `2024012=1,456`, special `0000000=1`. State OSS main `MIS-RIS_2024012.csv` contains **all twelve reporting periods**: `2024001=140,889`; `2024002=140,191`; `2024003=146,526`; `2024004=147,249`; `2024005=141,364`; `2024006=141,562`; `2024007=152,547`; `2024008=137,939`; `2024009=137,279`; `2024010=137,292`; `2024011=137,268`; `2024012=137,388`; `0000000=1`. These reconcile to **1,697,495 rows**, but **do not** establish independent monthly transactions or safe December annual-outturn selection.
 - **Next:** Validate the official original CSV column dictionary and year-end selection rule, then independently reconcile entity and transfer accounting; no monetary or budget-manager claims are unlocked by these row counts.
 
+### 2026-10-26 — Original FIN exact machine-column inventory (PR pending)
+
+- **Goal:** Record which exact export-machine fields appear in each official 2024 CSV section, keeping machine field presence distinct from validated accounting definitions.
+- **Change:** Original ZIP probe now produces an exact final-token field inventory with column positions and explicit UNIQUE/MISSING/AMBIGUOUS status for fiscal period, organisation, state chapter, paragraph, budget type, item and reported actual. Quoted Czech captions do not create substring matches. No financial sums, document mappings or public statistics change.
+- **Synthetic checks:** Three new Python tests exercise unique, ambiguous and substring-only headers; **NOT RUN yet** at initial journal creation. Original ZIP metadata extraction, GitHub Actions tests, Eurostat refresh and build are **NOT RUN pending PR CI**.
+- **Limitation:** A matching machine code is **not** proof of its fiscal meaning, whether a field is year-to-date, safe row uniqueness, intergovernmental consolidation or a COFOG mapping. Actual 2024 ledger reconciliation remains BLOCKED until source rules and a reconciled comparison are established.
+- **Next:** Inspect original CI metadata for the exact state `MIS-RIS` columns and identify official archived extraction dictionary; compare source totals against independently audited 48-chapter actuals only after validating those fields.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
