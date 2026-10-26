@@ -1,5 +1,7 @@
 # Where Do My Taxes Go? — EU public spending explorer
 
+**Public website:** [Explore EU public spending](https://snakiterwastaken.github.io/taxpayer-receipt/) (hosted via GitHub Pages). This is a public, evolving release; see [V1 readiness status](docs/v1-release-readiness.md) for outstanding accessibility, privacy and browser checks.
+
 See [ROADMAP.md](ROADMAP.md) for national accounting transparency, validated tax models, economic outcomes, and **full localisation into all 24 EU official languages** (with additional national/regional languages planned). Country and interface language will be independently selectable.
 
 An open-source, privacy-respecting, source-verifiable **public spending explorer**. The default view highlights the three largest spending functions; each official category has keyboard-, mouse- and touch-accessible plain-language examples. Country-specific decisions and agencies are reserved for evidence-linked national explanations. It shows how the governments of EU countries allocate expenditure across ten comparable COFOG categories. Visitors may enter an **illustrative annual tax amount** in their local currency to see a proportional allocation. Czechia also has a **source-audited 2024–2026 employee estimator with optional full-year household tax reliefs**; other countries remain manual-only.
