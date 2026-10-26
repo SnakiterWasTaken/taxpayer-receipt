@@ -55,6 +55,24 @@ def sniff_first_csv_rows(sample: bytes) -> dict:
             "sampleColumnCounts": [len(row) for row in rows[:4]],
             "sampleLinesInspected": min(len(rows), 4)}
 
+# Exact machine-field detection is separate from the historical accounting meaning.
+# Never silently choose the first substring match when a column name is ambiguous.
+CRITICAL_FIN_FIELDS = ("0FISCPER", "ZC_ICO", "0FM_AREA", "0FUNC_AREA",
+                       "0CI_TYPE", "ZCMMT_ITM", "ZU_ROZKZ")
+
+def machine_field_inventory(header: list[str]) -> dict:
+    """Report candidate column positions without attributing financial semantics."""
+    inventory = {}
+    for code in CRITICAL_FIN_FIELDS:
+        matches = [i for i, label in enumerate(header)
+                   if label.strip().rsplit(":", 1)[-1].strip() == code]
+        inventory[code] = {
+            "positions": matches,
+            "status": "UNIQUE" if len(matches) == 1 else
+                      "MISSING" if not matches else "AMBIGUOUS",
+        }
+    return inventory
+
 MAX_PROFILE_ROWS_PER_MEMBER = 2_000_000
 
 def profile_csv_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, delimiter: str) -> dict:
@@ -117,6 +135,7 @@ def inspect_zip(path: Path) -> list[dict]:
             item = {"file": info.filename, "uncompressedBytes": info.file_size,
                     "compressedBytes": info.compress_size, "crc32": format(info.CRC, "08x")}
             item.update(sniff_first_csv_rows(sample))
+            item["machineFieldInventory"]=machine_field_inventory(item["header"])
             item["profile"]=profile_csv_member(archive,info,item["delimiter"])
             result.append(item)
         return result
