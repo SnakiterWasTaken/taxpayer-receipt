@@ -4,7 +4,7 @@
  * Does not attest to privacy of the browser/extensions/hosting infrastructure.
  * Uses synthetic numbers only. Run via .github/workflows/live-browser-smoke.yml.
  */
-import {chromium} from 'playwright';
+import {chromium} from 'playwright-core';
 import assert from 'node:assert/strict';
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -32,7 +32,7 @@ function expectNoOverflow({width,scroll}) {
 }
 
 await mkdir(OUT,{recursive:true});
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
 try {
   await test('Live public page: CZ 2024 overview and source-backed functions',async()=>{
     const page=await browser.newPage({viewport:{width:1280,height:800}});
