@@ -117,9 +117,17 @@ try {
           const panel=page.locator(selector);
           if(await panel.count())await panel.evaluate(el=>el.open=true);
         }
-        const measure=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
-        expectNoOverflow(measure);
+        const measure=await page.evaluate(()=>({
+          width:document.documentElement.clientWidth,
+          scroll:document.documentElement.scrollWidth,
+          overflowing:Array.from(document.querySelectorAll('body *'))
+            .map(el=>({el,rect:el.getBoundingClientRect()}))
+            .filter(({rect})=>rect.width>0 && rect.right>document.documentElement.clientWidth+1)
+            .slice(0,12).map(({el,rect})=>({tag:el.tagName,id:el.id,class:el.className?.baseVal||String(el.className||'').slice(0,70),right:Math.round(rect.right)}))
+        }));
         await screenshot(page,'mobile-'+width+'.png');
+        if(measure.scroll>measure.width+1)console.log('MOBILE_OVERFLOW_DIAGNOSTIC',JSON.stringify(measure));
+        expectNoOverflow(measure);
       }finally{await context.close();}
     });
   }
@@ -129,7 +137,12 @@ try {
     const page=await context.newPage();
     try{
       await loaded(page);
-      await page.locator('#donut .donut-segment').first().tap();
+      // SVG <circle> box centre is the transparent donut hole: tap a painted arc.
+      const chart=page.locator('#donut');
+      const box=await chart.boundingBox();
+      assert.ok(box,'interactive chart must have visible bounds');
+      // First segment begins at 12 o'clock (SVG transform rotates it -90°).
+      await chart.tap({position:{x:box.width/2,y:box.height*(120-88)/240}});
       assert.equal(await page.locator('#category-details').evaluate(el=>el.open),true);
     }finally{await context.close();}
   });
