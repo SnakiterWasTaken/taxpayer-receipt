@@ -2,6 +2,49 @@
 
 The project aims to make official government spending, tax contributions and economic outcomes understandable, reproducible and internationally comparable. **No ranking or individual accounting claim may override source evidence, denominators, years or caveats.**
 
+## Release scope and stopping rules — decision 26 October 2026
+
+**Product goal:** A trustworthy, accessible EU-27 public-spending explorer, not an exhaustive forensic investigation of all national government transactions. Release the verified common view even where deeper national sources or tax calculators are not yet available.
+
+### Three evidence levels (never conflate them)
+
+1. **L1 — Official spending functions (release baseline).** Eurostat S13 / ten COFOG functions, year, country, denominators, revisions, source links and missing-data handling. This has been implemented across EU-27, subject to final release checks.
+2. **L2 — Identified spending administrators (optional country detail).** Name institution/chapter, year, accounting perimeter, official *actual* expenditure and reconciliation to that **specific** ledger when feasible. The 48 verified 2024 Czech chapters are an example; not a claim about entire-government COFOG shares or discretion.
+3. **L3 — Legal decision authority (optional advanced research).** Verify rulemaking, budget approval, allocation, execution, restrictions and transfer recipient autonomy separately. Rank no institution as a largest *decision-maker* without a comparable reconciled denominator and effective legal evidence.
+
+**Unavailable / unreviewed / unverified are different states.** Never infer a ministry from a COFOG title, turn missing values into zeros, or call recorded expenditure a share controlled. Each country can remain L1-only without blocking V1.
+
+### Bounded rollout, not 27 forensic audits
+
+- For each country, perform **one bounded official-source assessment**: identify source/release, 2024 actual accounting scope, whether a usable institution-level outturn is directly published, basic completeness and comparable classification. Register findings and unknowns.
+- If a trustworthy L2 ledger is available in a manageable published form, add it through reusable extraction and reconciliation checks. Otherwise explicitly stop at L1 and record the reason. Do **not** reconstruct transaction-level ledgers or map all transfers solely to fill a country card.
+- Pilot the repeatable L2 workflow against Czechia plus **two structurally different EU countries** before any broader rollout; revise the shared method based on those pilots. Further countries are incremental, not V1 blockers.
+- L3 investigations start only for a named user-facing question, source-supported opportunity or separately approved scope, never by default for every country × COFOG category.
+- **Stop rule:** Once the source register says L1 available and L2 not verified/feasible in the current bounded assessment, the country is complete for the V1 institutional-disclosure requirement. Do not repeat the investigation without a new official source or a separately selected milestone.
+
+### Explicit release milestones
+
+| Milestone | Acceptance criteria | Release dependency |
+|---|---|---|
+| **M1: Public spending baseline** | 27 EU countries × ten official functions, tested source/provenance and consistency, accessible basic explanations, no invented missing values | **Required; implemented, verify before shipping** |
+| **M2: Tax estimates** | A model is enabled only for supported country/policy year with independently checked assumptions, examples, model limitations and provenance; all others offer manual illustrative tax entry | **Country-specific calculators are NOT required for V1** |
+| **M3: Institutional source register** | All 27 countries have a reviewed/not-reviewed/source-verified status, with L2 data shown only where independently verified; no invented budget control | **Status clarity required; exhaustive institutional mapping NOT required** |
+| **M4: Usability and localisation** | Browser/keyboard/touch/mobile smoke checks; truthful translation coverage and fallback; numeric invariance across available languages | **Core usability required; all 24 EU languages are a post-V1 completion goal unless separately prioritised** |
+| **V1: Public release** | M1 and M3 disclosure gates, essential M4 browser/privacy/accessibility checks, no known critical numerical or misleading fiscal claims, build/deployment/links checked, caveats visible | **Ship and stop expanding initial scope** |
+
+**No blanket claim that V1, full accessibility, full translations, or 27 national tax calculators are already finished.** Record the actual release checklist results, including BLOCKED/NOT RUN. Future work (additional L2 ledgers, complete 24-language translations, specialist tax rules, deep COFOG crosswalks, L3 legal control) is explicitly **post-V1** unless needed to correct a factual defect.
+
+### Immediate next actions (ordered)
+
+1. Preserve merged [PR #27](https://github.com/SnakiterWasTaken/taxpayer-receipt/pull/27) and its official source evidence; **pause new Czech original FIN transaction-level reconstruction** after that research checkpoint.
+2. Perform a concrete V1 gap audit: deployed pages/browser interactions, responsive widths, keyboard controls, privacy and links, official-data refresh/build, disclaimers and known translation coverage. Add a short, testable release checklist.
+3. Complete a bounded EU27 national-source *status* register; do not equate undiscovered portals with publicly unavailable data.
+4. Prioritise direct release blockers over deeper institutional detail. Resume Czech or EU26 forensic reconciliation only with a separate scope decision.
+
+**Legacy sections below preserve previous ambitions and outstanding issues as a backlog, not V1 acceptance criteria.** References to an obligatory all-country manager audit or comprehensive national calculators in legacy priorities are superseded by these rules.
+
+## Legacy research and enhancement backlog
+
 ## Priority 0 — Understand spending, then investigate responsibility
 
 - [x] **Understand at a glance:** identify the largest three spending categories, with a percentage of all public spending and up to two source-backed observations. No individual tax calculation is required. Tax inputs and more detailed tables are optional (issue #8).
