@@ -65,6 +65,19 @@ Additional state-organisational extract sections: `ZU-MIS-RIS` **186,471 rows**,
 
 The 2024 state fund `FINSF01` contains budget type codes `2` (196 rows), `3` (1,260 rows), and `0` (one row), along with function paragraphs and `ZU_ROZKZ` amounts. Their 2024 meanings need official codebook validation. Again, **download/profiling is not a verified COFOG attribution or discretionary budget authority**. No amounts or managers have been inferred from names.
 
+## Measured 2024 original-extract period distribution (26 October 2026)
+
+The updated source profiler completed in [Actions #40247441179](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40247441179) with **158/158 tests PASS** and four Ministry ZIPs inspected. The downloaded [source metadata artifact](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40247441179/artifacts/12618854314) provides actual `periodRowCounts`, not synthetic estimates.
+
+| Primary original source section | 2024 December period `2024012` | Other recorded periods | Special `0000000` |
+|---|---:|---|---:|
+| FINM201 municipalities/regions | 1,367,957 | None | 1 |
+| FINM201_MC Prague | 14,622 | None | 1 |
+| MIS-RIS state organisations | 137,388 | 2024001–2024011, 1,560,106 combined | 1 |
+| FINSF01 state funds | 1,456 | None | 1 |
+
+**State MIS-RIS monthly period counts:** January 140,889; February 140,191; March 146,526; April 147,249; May 141,364; June 141,562; July 152,547; August 137,939; September 137,279; October 137,292; November 137,268; December 137,388. Thus the state file comprises 1,697,495 records, but only 137,388 are **December-coded**. These are row counts, **not** monetary amounts. The December-coded slice is not yet certified as annual outturn: a 2024 extract-field codebook, full dimensional row identity and budget execution/transfer reconciliation remain prerequisites. No named institution expenditure or ranking is inferred.
+
 ## Decision authority: what remains unresolved
 
 **Do not rank a named budget manager yet.** Prague's separate extract must be checked for overlap with other reporting entities. The Czech Ministry of Finance [changed FIN 2-12 M effective 1 January 2026](https://mf.gov.cz/cs/rozpoctova-politika/uzemni-rozpocty/legislativa-a-metodicka-podpora-uzemnich-rozpoctu/2026/nova-struktura-financniho-vykazu-fin-2-12-m-od-1-l-62745), adding counterparty identifiers for many transfers. This new 2026 partner information must **not** be presumed present in the 2024 extract. Official [2024 public-budget function/transfer totals](cz-2024-cash-reconciliation.md) and the [2024 state-budget chapter outturns](countries/cz-budget-chapters-2024.md) remain separate accounting sources until a reconciliation is demonstrated.

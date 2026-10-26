@@ -227,6 +227,17 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Tests:** CI / local code tests **NOT RUN for this documentation-only change** at entry creation. Prior [PR #23 final validation](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40246628568) **PASS: 157/157**, all data refresh and build stages PASS; PR #23 was subsequently squash-merged at `aa3ca239f8a9482829677c124bfa961d6feee5e7`. That earlier run is not a test of this new documentation commit.
 - **Next:** Verify the official original-extract 2024 dictionary for each source, full dimensional row key, January/December field origin and transfers before interpreting real monetary values.
 
+### 2026-10-26 — Per-period counts for original 2024 Czech FIN ZIP profiles (PR pending)
+
+- **Goal:** Expose exactly how many original CSV rows belong to each reported fiscal period, especially the multi-month state `MIS-RIS_2024012.csv`, without converting observations into monetary sums.
+- **Change:** `scripts/probe-fin-2024.py` now includes `periodRowCounts` for each member, retaining the existing original period list, archive bounds, source SHA-256 and nonmonetary-only status. Existing output remains metadata only.
+- **Test added:** `tests/test_fin_period_distribution.py` uses a four-row synthetic ZIP containing periods `2024001`, `2024012` (twice), and special `0000000`; checks exact period distribution and absence of monetary aggregation. This is synthetic data, not original Ministry ledger proof.
+- **Attempts:** Local test **NOT RUN** as part of this GitHub-side authoring. GitHub PR tests, official four-ZIP downloads, Eurostat refresh and build **NOT RUN pending CI** at this entry. Never call an attempted-but-unrun test PASS.
+- **Limitations:** Per-period row counts cannot establish which month captures annual outturn, year-to-date export semantics, line identity or final authority. No accounting totals, COFOG mapping, or public budget-manager figures are produced.
+- **PR #25 actual CI — [Actions #40247441179](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40247441179): PASS.** Automated report **158/158**, zero failures/skips; all four Ministry ZIPs profiled, EU27 institutional refresh and static build PASS. Source metadata artifact [12618854314](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40247441179/artifacts/12618854314) inspected directly on 26 October 2026.
+- **Official original row distribution — PASS for counting only:** municipal FINM201: `2024012=1,367,957`, special `0000000=1`; Prague FINM201_MC: `2024012=14,622`, special `0000000=1`; state funds FINSF01: `2024012=1,456`, special `0000000=1`. State OSS main `MIS-RIS_2024012.csv` contains **all twelve reporting periods**: `2024001=140,889`; `2024002=140,191`; `2024003=146,526`; `2024004=147,249`; `2024005=141,364`; `2024006=141,562`; `2024007=152,547`; `2024008=137,939`; `2024009=137,279`; `2024010=137,292`; `2024011=137,268`; `2024012=137,388`; `0000000=1`. These reconcile to **1,697,495 rows**, but **do not** establish independent monthly transactions or safe December annual-outturn selection.
+- **Next:** Validate the official original CSV column dictionary and year-end selection rule, then independently reconcile entity and transfer accounting; no monetary or budget-manager claims are unlocked by these row counts.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
