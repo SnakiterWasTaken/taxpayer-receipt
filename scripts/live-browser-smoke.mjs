@@ -58,7 +58,7 @@ try {
         const box=await chart.boundingBox();
         const segment=page.locator('#donut .donut-segment').nth(index);
         const values=await segment.evaluate(circle=>{
-          const dash=circle.getAttribute('stroke-dasharray').trim().split(/[\\s,]+/).map(Number);
+          const dash=circle.getAttribute('stroke-dasharray').trim().split(/[\s,]+/).map(Number);
           const circumference=2*Math.PI*88;
           return {
             code:circle.dataset.code,
