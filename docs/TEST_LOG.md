@@ -352,6 +352,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Build/run mechanism:** Hosted `/usr/bin/google-chrome` + `playwright-core` works on Ubuntu 24.04 and runs the same candidate smoke suite without downloading browser binaries. PR test is separate from post-Pages `workflow_run` public-site check.
 - **Retest:** New source change and browser acceptance **NOT RUN yet** at journal write; release accessibility remains conditional on observed green CI and actual published-version retest.
 
+### 2026-10-26 — Nine of nine real Chromium candidate-browser checks PASS
+
+- **Verified fix:** [Live V1 Chromium acceptance #40303447554](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303447554) **PASS 9/9** against refreshed, built PR candidate on localhost:8765: CZ 2024 source-backed categories, donut keyboard activation, FR manual estimator and country comparison, synthetic marker URL/request/storage check, no horizontal document overflow with cards open at 320/375/390/430px, and *actual touch* painted-segment activation.
+- **Cause/resolution:** Browser event trace confirmed `pointerup` hits `circle.donut-segment` but synthesized `click` lands on `svg` (hover-induced geometry changes). Touch-specific `pointerup` handler opens the same disclosure reliably; the click and keyboard handlers remain. 320px issue corrected by small-screen hero typography.
+- **Existing test suite:** [Validate #40303447774](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40303447774) **PASS 164/164**, zero failed/skipped; official refresh and static site build PASS. Static test now guards touch pointerup.
+- **Scope of evidence:** Tests were performed in **real hosted headless Chrome/Chromium** against candidate files, but with synthetic personal data and one browser engine. Not yet a production-site retest, full WCAG/assistive-technology audit, network privacy certification, cross-browser validation or manual external-link crawl. These remain marked NOT RUN or partial.
+- **Next:** Finish PR CI for the documentation updates, merge, confirm GitHub Pages publication of the exact merge, and inspect post-deployment `workflow_run` live acceptance before closing any V1 gate.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
