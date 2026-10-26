@@ -19,16 +19,6 @@ export function spendingLeaders(entry,limit=3){
 export function observationsForCountry(entry,economic,previousEconomic,notes=[]){
   if(!entry)return [];
   const observations=[];
-  const pension=entry.pensionDetail;
-  if(pension&&Number.isFinite(pension.publicShare)&&pension.publicShare>=0&&pension.publicShare<=1){
-    observations.push({
-      id:'old-age-share',type:'context',title:'Old age and survivors',
-      text:'Old age and survivors’ services and benefits represent '+(100*pension.publicShare).toFixed(1)+
-           '% of total public spending.',
-      qualifier:'These functions are already inside Social protection. They include more than cash retirement pensions.',
-      year:entry.year,source:'Eurostat COFOG · GF1002 + GF1003',
-    });
-  }
   const growth=economicGrowth(economic?.disposableIncomeIndex,previousEconomic?.disposableIncomeIndex);
   const inflation=economic?.inflation;
   if(Number.isFinite(growth)){
