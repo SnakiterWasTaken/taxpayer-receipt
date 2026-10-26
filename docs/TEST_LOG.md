@@ -399,7 +399,8 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Changes:** Simplify the existing Natural Earth SVG contours with a 2-unit Douglas–Peucker tolerance. All 27 countries and 207 polygon rings remain; coordinate vertices are reduced from 4,416 to 2,024 (about 54% fewer). When a new pie segment is activated, clear any previous `breakdown-selected` row before highlighting the matching category. Add a country-code attribute to chart segments for reliable assertions.
 - **Regression coverage:** Static tests assert that selection clears the previous highlight; real-Chromium acceptance clicks two different pie segments and checks exactly one, matching row remains highlighted. Existing EU map geometry, flag, keyboard, touch, and responsive checks remain enabled.
 - **Financial scope:** No spending values, data sources, allocations, or tax calculations changed.
-- **Status at entry:** Candidate CI and published-site browser acceptance pending. Results will be appended after the runs complete.
+- **Candidate validation:** [Validate run #40313307967](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40313307967) passed **171/171 tests**. Candidate real-Chromium acceptance [#40313307969](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40313307969) passed all 13 browser checks, including the new exclusive-highlight regression.
+- **Production verification:** [Build and Pages deployment #40313467106](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40313467106) succeeded with **171/171 tests**. Post-deployment real-Chromium acceptance [#40313602006](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40313602006) passed all **13/13 browser checks** against the published site, including the chart selection regression, EU-27 flag overlays, touch/keyboard selection, privacy check and 320–430px responsive layouts.
 
 ## Current handover
 
