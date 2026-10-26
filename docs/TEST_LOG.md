@@ -310,6 +310,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Tests for this documentation update:** PR workflow **NOT RUN** at journal entry creation; public live navigation, screen reader, mobile/responsive, browser network/storage privacy and independent client fetch **NOT RUN**. Those remain V1 certification blockers, not proof that the Pages deployment failed.
 - **Next:** Confirm current Pages deployment for merged redesign; execute actual browser/phone/keyboard/privacy smoke tests and log outcomes before certifying V1.
 
+### 2026-10-26 — Live browser acceptance: launch-gate instrumentation (PR pending)
+
+- **Goal:** Replace V1 mobile, navigation and privacy **NOT RUN** statuses with reproducible real browser evidence, without repeating financial forensic research.
+- **Change:** `scripts/live-browser-smoke.mjs` runs actual headless Chromium against `https://snakiterwastaken.github.io/taxpayer-receipt/` using Playwright. Covers official CZ 2024 ten-category/three-leader rendering, focus+Enter SVG segment activation, FR country switch and comparison, non-Czech manual estimator, browser URL/local/session storage plus outbound request-body checks with **synthetic** tax amounts, 320/375/390/430-pixel expanded cards and touch segment tap. Screenshots are uploaded for inspection. New separate `live-browser-smoke.yml` runs on related PR changes or manual dispatch.
+- **Evidence status:** At the moment of authoring, **NOT RUN** in GitHub CI or live browser. Prior JavaScript/Python **164/164 pass** and GitHub Pages successful deployment [#40300864868](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40300864868) establish deployment, not live browser accessibility or privacy.
+- **Interpretation limit:** Browser request tests can detect obvious leakage of the synthetic marker but do not prove absence of all telemetry or data transfers. Chromium smoke checks are not equivalently Safari, Firefox, a complete WCAG audit or human screen-reader usage. Any failed live-data access is a genuine V1 availability finding to investigate, not to conceal.
+- **Next:** Review actual workflow result and artifacts, correct reproducible faults or environment issues and update [release gates](v1-release-readiness.md) with specific PASS/FAIL/BLOCKED evidence.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
