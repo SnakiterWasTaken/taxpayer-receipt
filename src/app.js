@@ -62,7 +62,25 @@ function donut(data){
   let offset=0;
   for(const item of data){
     const circle=document.createElementNS(ns,'circle');circle.setAttribute('cx','120');circle.setAttribute('cy','120');circle.setAttribute('r',radius);circle.setAttribute('fill','none');circle.setAttribute('stroke',item.color);circle.setAttribute('stroke-width','21');circle.setAttribute('transform','rotate(-90 120 120)');circle.setAttribute('stroke-dasharray',`${Math.max(0,circumference*item.share-.8)} ${circumference}`);circle.setAttribute('stroke-dashoffset',String(-offset*circumference));
-    const title=document.createElementNS(ns,'title');title.textContent=`${item.label}: ${formatPct(item.share)}`;circle.append(title);svg.append(circle);offset+=item.share;
+    const title=document.createElementNS(ns,'title');title.textContent=`${item.label}: ${formatPct(item.share)}`;
+    circle.append(title);
+    circle.classList.add('donut-segment');
+    circle.setAttribute('role','button');
+    circle.setAttribute('tabindex','0');
+    circle.setAttribute('aria-label',`${item.label}, ${formatPct(item.share)} of spending. Show breakdown.`);
+    const selection=el('donut-selection');
+    const describe=()=>{selection.textContent=`${item.label}: ${formatPct(item.share)} of government spending.`};
+    circle.addEventListener('pointerenter',describe);
+    circle.addEventListener('focus',describe);
+    const openBreakdown=()=>{
+      describe();
+      const details=el('category-details');details.open=true;
+      const row=Array.from(el('breakdown').children).find(node=>node.dataset.code===item.code);
+      if(row){row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('breakdown-selected');}
+    };
+    circle.addEventListener('click',openBreakdown);
+    circle.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openBreakdown()}});
+    svg.append(circle);offset+=item.share;
   }
 }
 
@@ -219,7 +237,7 @@ function authorityDetails(code){
  return card;
 }
 function breakdownRow(item,amount,curr){
- const row=document.createElement('div');row.className='breakdown-row';
+ const row=document.createElement('div');row.className='breakdown-row';row.dataset.code=item.code;
  const square=document.createElement('span');square.className='square';square.style.background=item.color;square.setAttribute('aria-hidden','true');
  const main=document.createElement('div'),labelNode=document.createElement('div');labelNode.className='breakdown-label';
  const title=document.createElement('b');title.textContent=item.label;labelNode.append(title);

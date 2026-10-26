@@ -275,6 +275,31 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Tests for this change:** automated PR validation **NOT RUN yet** at initial entry; live website/phone/keyboard/traffic/links and accessibility **NOT RUN**. Earlier successful run is not claimed as a test of this document.
 - **Next:** Validate this PR, then execute actual browser smoke tests and create targeted P0/P1 fixes as needed. Defer original Czech FIN and L3 audits until separately scoped.
 
+### 2026-10-26 — Overview-first interactive spending chart (PR pending)
+
+- **Goal:** Match the layperson-first goal: pie chart first, ten category explanations second, top three expenditure cards third, then historical context. Avoid turning the landing page into a financial audit.
+- **Changes:** Reorder rendered HTML without changing Eurostat values; chart SVG segments now carry labels, pointer hover description, click/touch and keyboard Enter/Space activation to expand the matching category breakdown. Add focus and selection styling and a two-case regression test. Existing source-backed `Who decides?` details remain attached to breakdown rows; no generic ministry is invented.
+- **Editorial:** `docs/plain-language-overview.md` defines separate, small financial-pressure context and country-specific misinformation fact-check cards with mandatory evidence, dates, scope and caveats. No invented claims, inflation-to-debt conflation, VAT-gap-as-fraud or unsupported migration-deficit estimates are published.
+- **Tests:** Local runtime/browser evaluation, real touch and screen reader **NOT RUN**; GitHub Actions/Eurostat refresh/build **NOT RUN pending CI** at entry time. Added static DOM-order and event-hook regression checks are not yet reported as passing.
+- **Limitations:** New country-specific debt and deficit figures, reviewed ministry attribution and fact-check cards are **NOT IMPLEMENTED**. Existing country-specific sourced institution disclosures remain, with unverified status elsewhere.
+- **Next:** Inspect CI, verify real browser/touch/keyboard behavior and user comprehension, and scope supported risk indicators before publishing new national claims.
+
+### 2026-10-26 — PR #30 red validation diagnosis and correction
+
+- **Observed failure:** [GitHub Actions #40250678309](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40250678309) **FAIL**: **164 tests, 162 passed, 2 failed, 0 skipped**. Source: downloaded `explained-test-results` artifact `12620810508`, `test-report.md` and `node-tests.log`.
+- **Failing checks:** `Each closed category card communicates a clear purpose without reading full body` (`tests/expandable-info-cards.test.mjs`) and `The first-screen short summary stays separate and untouched` (`tests/single-expand-categories.test.mjs`). Both explicitly require the accessible disclosure label `Explore all spending categories`, which PR #30 renamed to `Individual spending breakdowns`; the content still exists and its intended position after the donut is checked by the new overview-order test.
+- **Correction:** Restore the descriptive original category disclosure label, preserving new donut-first, categories-second, top-three-third reading order, interaction handlers and financial data unchanged. Keep old and new regression tests; do not mask failures by removing assertions.
+- **Retest:** Pending GitHub Actions run for this correction; **NOT RUN** locally. Browser keyboard/touch/privacy tests remain **NOT RUN** and must not be inferred from CI.
+- **Next:** Verify new GitHub Actions result; merge only on PASS and continue targeted V1 browser smoke testing.
+
+### 2026-10-26 — PR #30 green retest and top-card ordering correction
+
+- **Retest of heading failure:** [GitHub Actions #40300002747](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40300002747) **PASS**: 164/164 tests, 0 failed/skipped; fresh institutional Eurostat refresh and static build PASS. This verifies restored category disclosure heading and preceding feature code at commit `55ecd4b06ffc9e3850d0cb2c0915f27be910d26e`.
+- **Main-branch integration:** Non-force merge commit brought verified release-readiness PR #29 into feature PR #30, preserving both dated log histories; PR marked mergeable again.
+- **Final layout correction:** Move optional salary/payroll receipt below the interactive pie, ten category breakdowns and three-largest spending summary. This preserves the pie as the top infocard even when user enters personal salary. Expand the ordering regression accordingly.
+- **Final layout correction CI:** **NOT RUN at journal entry creation**. Real-device pointer/keyboard/screen-reader behavior, privacy and deployed-page review remain **NOT RUN**; automated DOM tests are not a substitute.
+- **Next:** Revalidate new branch head; merge only if CI green; verify Pages publication of merged commit and conduct real V1 smoke checks.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).

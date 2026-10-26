@@ -475,3 +475,14 @@
 .cz-cash-rows dd{margin:0;text-align:right;font-size:11px;color:#f0f5f3;white-space:nowrap;font-variant-numeric:tabular-nums}
 .cz-cash-reconciliation>a{display:block;margin-top:9px;color:#a8e2de;font-size:11px;overflow-wrap:anywhere}
 @media(max-width:420px){.cz-cash-rows{grid-template-columns:minmax(0,1fr)}.cz-cash-rows dd{text-align:left;margin-bottom:5px}}
+
+/* Overview-first interactive public-spending chart */
+.visual-intro{margin:22px 0 0}
+.visual-intro h3{font-size:19px;margin:0 0 5px}
+.visual-intro p{color:var(--muted);font-size:12px;margin:4px 0}
+#donut-selection{color:var(--teal);font-weight:650;min-height:1.4em}
+.donut-segment{cursor:pointer;outline:none;transition:stroke-width .12s ease,filter .12s ease}
+.donut-segment:hover,.donut-segment:focus-visible{stroke-width:27;filter:brightness(1.15)}
+.donut-segment:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.breakdown-row.breakdown-selected{outline:2px solid var(--teal);outline-offset:5px;border-radius:5px}
+@media(prefers-reduced-motion:reduce){.donut-segment{transition:none}}
