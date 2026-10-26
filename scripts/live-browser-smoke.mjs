@@ -151,8 +151,21 @@ try {
         cls:document.elementFromPoint(x,y)?.getAttribute('class')
       }),{x,y});
       assert.equal(target.cls,'donut-segment','touch hit test should target a painted pie slice: '+JSON.stringify(target));
+      await page.evaluate(()=>{
+        window.__pieTouchEvents=[];
+        for(const type of ['pointerdown','pointerup','touchstart','touchend','click']){
+          document.addEventListener(type,ev=>{
+            window.__pieTouchEvents.push({type,tag:ev.target?.tagName,cls:ev.target?.getAttribute('class'),pointerType:ev.pointerType||null});
+          },{capture:true});
+        }
+      });
+      const pageErrors=[];
+      page.on('pageerror',err=>pageErrors.push(err.message));
       await page.touchscreen.tap(x,y);
-      assert.equal(await page.locator('#category-details').evaluate(el=>el.open),true);
+      await page.waitForTimeout(250);
+      const touchDebug=await page.evaluate(()=>({events:window.__pieTouchEvents,open:document.getElementById('category-details').open,selected:document.getElementById('donut-selection').textContent}));
+      console.log('TOUCH_EVENT_DIAGNOSTIC',JSON.stringify({target,touchDebug,pageErrors}));
+      assert.equal(touchDebug.open,true,'SVG touch did not open the matching category details');
     }finally{await context.close();}
   });
 } finally {await browser.close();}
