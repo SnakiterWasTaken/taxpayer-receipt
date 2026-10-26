@@ -266,6 +266,15 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Known limitation:** V1 has not yet passed browser accessibility/privacy/link tests; the 27 source-status register and full translation coverage are not complete. Preserve review state honestly.
 - **Next:** Validate this PR and then create a focused V1 gap audit/checklist; stop expanding original Czech FIN aggregation until a separately justified scope decision.
 
+### 2026-10-26 — Overview-first interactive spending chart (PR pending)
+
+- **Goal:** Match the layperson-first goal: pie chart first, ten category explanations second, top three expenditure cards third, then historical context. Avoid turning the landing page into a financial audit.
+- **Changes:** Reorder rendered HTML without changing Eurostat values; chart SVG segments now carry labels, pointer hover description, click/touch and keyboard Enter/Space activation to expand the matching category breakdown. Add focus and selection styling and a two-case regression test. Existing source-backed `Who decides?` details remain attached to breakdown rows; no generic ministry is invented.
+- **Editorial:** `docs/plain-language-overview.md` defines separate, small financial-pressure context and country-specific misinformation fact-check cards with mandatory evidence, dates, scope and caveats. No invented claims, inflation-to-debt conflation, VAT-gap-as-fraud or unsupported migration-deficit estimates are published.
+- **Tests:** Local runtime/browser evaluation, real touch and screen reader **NOT RUN**; GitHub Actions/Eurostat refresh/build **NOT RUN pending CI** at entry time. Added static DOM-order and event-hook regression checks are not yet reported as passing.
+- **Limitations:** New country-specific debt and deficit figures, reviewed ministry attribution and fact-check cards are **NOT IMPLEMENTED**. Existing country-specific sourced institution disclosures remain, with unverified status elsewhere.
+- **Next:** Inspect CI, verify real browser/touch/keyboard behavior and user comprehension, and scope supported risk indicators before publishing new national claims.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
