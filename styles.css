@@ -491,3 +491,38 @@
 @media (max-width: 350px) {
   .hero h1 { font-size: 32px; letter-spacing: -1.4px; overflow-wrap: anywhere; }
 }
+
+/* EU27 geographic selector — monochrome contours, national colours only on
+   hovered/focused and selected country silhouettes. */
+.eu-map-panel{margin:14px 0 18px;padding:24px;scroll-margin-top:24px}
+.eu-map-head h2{font-size:22px;letter-spacing:-.6px;margin:4px 0}
+.eu-map-head p{margin:0 0 12px;font-size:12px;color:var(--muted);max-width:710px}
+.eu-map-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;align-items:start;gap:18px}
+.eu-map-visual{min-width:0}
+.eu-map-svg{width:100%;height:auto;max-height:510px;display:block;overflow:visible}
+.eu-map-country{cursor:pointer;outline:none}
+.eu-map-land{fill:#263443;stroke:#e9edf2;stroke-width:1.05;vector-effect:non-scaling-stroke}
+.eu-map-flag{opacity:0;transition:opacity .16s ease}
+.eu-map-outline{fill:none;stroke:#e9edf2;stroke-width:1.05;vector-effect:non-scaling-stroke;pointer-events:none}
+.eu-map-country.is-hovered .eu-map-flag,.eu-map-country.is-selected .eu-map-flag{opacity:1}
+.eu-map-country.is-selected .eu-map-outline{stroke:var(--teal);stroke-width:2.6}
+.eu-map-country.is-hovered .eu-map-outline,.eu-map-country:focus-visible .eu-map-outline{stroke:#fff;stroke-width:2.7}
+.eu-map-country:focus-visible .eu-map-outline{stroke-dasharray:4 2}
+.eu-map-caption{color:var(--muted);font-size:10px;margin:0 0 8px;max-width:600px}
+.eu-map-tools{min-width:0;padding:7px 0}
+.eu-map-picked{border:1px solid #40566a;background:#102339;border-radius:11px;padding:12px 14px}
+.eu-map-picked small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}
+.eu-map-picked strong{display:block;font-size:20px;color:#f1f7fb;margin-top:5px;line-height:1.25}
+.eu-map-preview{font-size:12px;color:var(--teal);min-height:39px;margin:12px 0 16px}
+.eu-map-shortcuts{margin-top:5px}
+.eu-map-shortcuts>strong{font-size:11px;color:#cbd9e5}
+.eu-map-shortcut-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.eu-map-chip{border:1px solid #526879;border-radius:7px;padding:6px 8px;background:#1b3042;color:var(--text);cursor:pointer;font-size:11px}
+.eu-map-chip:hover,.eu-map-chip:focus-visible,.eu-map-chip.is-selected{border-color:var(--teal);background:#284c51;outline-offset:2px}
+.eu-map-list-fallback{margin-top:14px;border-top:1px solid #34465a;padding-top:12px}
+.eu-map-list-fallback summary{font-size:12px;cursor:pointer;color:#bbdce1}
+.eu-map-list-fallback .field{margin:13px 0 0}
+@media(max-width:850px){.eu-map-layout{grid-template-columns:minmax(0,1fr) 205px}.eu-map-panel{padding:17px}.eu-map-picked strong{font-size:17px}}
+@media(max-width:700px){.eu-map-layout{grid-template-columns:minmax(0,1fr)}.eu-map-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start}.eu-map-preview{grid-column:1/-1;min-height:0;margin:0}.eu-map-list-fallback{grid-column:1/-1}.eu-map-shortcuts{grid-column:1/-1}.eu-map-picked strong{font-size:16px}.eu-map-svg{max-height:none}}
+@media(max-width:350px){.eu-map-tools{grid-template-columns:1fr}.eu-map-picked,.eu-map-preview,.eu-map-shortcuts,.eu-map-list-fallback{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){.eu-map-flag{transition:none}}

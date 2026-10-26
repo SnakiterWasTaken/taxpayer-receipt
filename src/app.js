@@ -2,6 +2,7 @@ import {COUNTRIES,FUNCTIONS,EUROSTAT_PAGE,countryFlag,sourceUrl} from './config.
 import {normalizeEurostat,validateSnapshot,availableYears,allocate} from './eurostat.js';
 import {calculateCzechEmployee,CZ_RULES} from './tax/cz.js';
 import {pensionTransparency} from './pensions.js';
+import {createEuCountryMap} from './eu-map.js';
 import {reviewedTopic} from './local-debate-topics.js';
 import {countryNotesFor,notePeriodDescription} from './country-notes.js';
 import {helpForCategory} from './category-help.js';
@@ -26,6 +27,7 @@ let economicError=null;
 let institutionalSnapshot=null;
 let institutionalError=null;
 let activeCountry='CZ';
+let syncEuMapSelection=()=>{};
 let year=null;
 let compare='';
 let contributionMode='salary';
@@ -624,7 +626,15 @@ function renderCompare(){
   }
 
 }
-function chooseCountry(code){activeCountry=code;contributionMode=code==='CZ'?'salary':'manual';selectYear(year);refreshCountry();updateUrl()}
+function chooseCountry(code){
+  if(!COUNTRIES.some(country=>country.code===code))return;
+  activeCountry=code;
+  countryEl.value=code;
+  syncEuMapSelection(code);
+  contributionMode=code==='CZ'?'salary':'manual';
+  if(snapshot){selectYear(year);refreshCountry();}
+  updateUrl();
+}
 /** A direct link to an explanation opens every containing native disclosure first. */
 function revealLinkedSection(){
  const hash=window.location.hash;
@@ -647,6 +657,7 @@ function init(){
   renderOptions(countryEl,COUNTRIES.map(c=>({code:c.code,name:`${countryFlag(c.code)}  ${c.name}`})),activeCountry);
   renderOptions(compareEl,[{code:'',name:'No comparison'},...COUNTRIES.map(c=>({code:c.code,name:`${countryFlag(c.code)}  ${c.name}`}))],compare);
   countryEl.addEventListener('change',()=>chooseCountry(countryEl.value));
+  syncEuMapSelection=createEuCountryMap(el('eu-map'),{onSelect:chooseCountry,selectedCountry:activeCountry});
   contributionMode=activeCountry==='CZ'?'salary':'manual';
   taxYearEl.value=CZ_RULES[Number(q.get('taxYear'))]?q.get('taxYear'):'2024';
   modeEl.addEventListener('change',()=>{contributionMode=modeEl.value;updateContributionControls();if(snapshot)refreshCountry()});

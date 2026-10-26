@@ -28,11 +28,29 @@
       <p>See where public money goes. Open the details when something catches your attention.</p>
       <div class="hero-facts"><span><strong>27</strong> EU countries</span><span><strong>10</strong> spending functions</span><span><strong>1</strong> official source</span></div>
     </section>
-    <section id="explore" class="explorer" aria-label="Public spending explorer">
+    <section id="explore" class="eu-map-panel panel" aria-labelledby="eu-map-heading">
+      <div class="eu-map-head">
+        <div><div class="kicker">EU-27 COUNTRY SELECTOR</div><h2 id="eu-map-heading">Choose a country on the map</h2><p>Hover or select a country to see its flag within the border. The spending figures update when you choose it.</p></div>
+      </div>
+      <div class="eu-map-layout">
+        <div class="eu-map-visual">
+          <div id="eu-map" aria-label="Interactive map of the 27 EU member states"></div>
+          <p class="eu-map-caption">Simplified European outlines. Overseas territories are not drawn; expenditure data still follows Eurostat's reporting scope.</p>
+        </div>
+        <div class="eu-map-tools">
+          <div class="eu-map-picked"><small>CURRENTLY SHOWING</small><strong id="eu-map-selected">Loading selected country…</strong></div>
+          <p id="eu-map-preview" class="eu-map-preview" role="status" aria-live="polite">Select a country to view its spending.</p>
+          <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
+          <div class="eu-map-shortcuts"><strong>Smaller countries</strong><div id="eu-map-small-countries" class="eu-map-shortcut-buttons"></div></div>
+          <details class="eu-map-list-fallback"><summary>Choose from a country list instead</summary>
+            <div class="field"><label for="country">EU country</label><select id="country" aria-label="Country"><option>Loading countries…</option></select></div>
+          </details>
+        </div>
+      </div>
+    </section>
+    <section class="explorer" aria-label="Public spending explorer">
       <aside class="controls panel">
-        <div class="panel-head"><span class="step">01</span><div><h2>Set your view</h2><p>Choose a country and year</p></div></div>
-        <div class="field"><label for="country">Country</label><select id="country" aria-label="Country"><option>Loading countries…</option></select></div>
-        <div class="field"><label for="year">Government spending year</label><select id="year" aria-label="Government spending year" disabled><option>Loading…</option></select><p class="field-hint">Reporting year, not your income-tax year.</p></div>
+        <div class="panel-head"><span class="step">02</span><div><h2>Explore further</h2><p>Optional tax estimate and country comparison</p></div></div>
         <details class="sidebar-details" id="personalize-details">
           <summary>Estimate my personal share <small>Optional — no personal data required</small></summary>
           <div class="personalize-content">
