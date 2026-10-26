@@ -248,6 +248,14 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Actual field positions (zero-based):** local `FINM201` and Prague `FINM201_MC`: `0FISCPER=2`, `ZC_ICO=4`, `0FUNC_AREA=8`, `0CI_TYPE=7`, `ZCMMT_ITM=9`, `ZU_ROZKZ=12`; `0FM_AREA` missing. State `MIS-RIS`: `0FISCPER=0`, `ZC_ICO=2`, `0FM_AREA=3`, `0FUNC_AREA=6`, `ZCMMT_ITM=5`, `ZU_ROZKZ=19`, `0CI_TYPE` missing. State funds `FINSF01`: `0FISCPER=2`, `ZC_ICO=4`, `0FM_AREA=5`, `0CI_TYPE=6`, `0FUNC_AREA=7`, `ZCMMT_ITM=8`, `ZU_ROZKZ=13`. All listed present fields were UNIQUE in those original source members. These are machine-header facts, not verified year-end account totals.
 - **Next:** Independently verify the historical export dictionary, column accounting basis, full-dimensional identities and transfers before reconciling the 48-chapter state-budget actuals.
 
+### 2026-10-26 — December 2024 state budget chapter code coverage probe (PR pending)
+
+- **Goal:** Count reporting rows per state chapter code in the original December 2024 state extract without calculating monetary sums or treating chapter membership as spending control.
+- **Change:** The bounded source profiler reports `decemberChapterRowCounts` using the exact machine field `0FM_AREA` only for `2024012`. It ignores other months and special period `0000000`; empty chapter labels are not silently assigned to a real institution. This is a **coverage diagnostic**, not an expenditure reconciliation.
+- **Test:** One synthetic ZIP fixture checks that only December chapter labels are counted and no total is calculated. **NOT RUN** locally or in CI when this entry was created; official ZIP ingestion is also **NOT RUN pending CI**.
+- **Known limitation:** The chapter code dictionary, full financial row dimensions and annual amount semantics still require official 2024 verification. A unique chapter code count cannot be equated with the 48 audited budget chapters or their values.
+- **Next:** Inspect actual official CI metadata, compare reported state chapter code set with the verified chapter-ledger list and investigate differences; do not promote any chapter-level monetary amount or manager claim from this step.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
