@@ -52,6 +52,7 @@ try {
     const page=await browser.newPage({viewport:{width:1280,height:800}});
     try{
       await loaded(page);
+      await page.locator('.eu-map-list-fallback > summary').click();
       for(const code of ['CZ','FR']){
         await page.locator('#country').selectOption(code);
         assert.equal(await page.locator('#local-debate-topics').isVisible(),false,
@@ -59,6 +60,28 @@ try {
         const headline=await page.locator('#glance-observations').innerText();
         assert.doesNotMatch(headline,/Old age and survivors|pension-related share/i);
       }
+    }finally{await page.close();}
+  });
+
+  await test('EU27 map: flag overlays, country keyboard choice and microstate shortcut',async()=>{
+    const page=await browser.newPage({viewport:{width:1280,height:800}});
+    try{
+      await loaded(page);
+      const map=page.locator('#eu-map .eu-map-country');
+      assert.equal(await map.count(),27);
+      assert.equal(await page.locator('#eu-map .eu-map-country.is-selected').getAttribute('data-country'),'CZ');
+      const german=page.locator('#eu-map .eu-map-country[data-country="DE"]');
+      await german.focus();
+      assert.ok((await page.locator('#eu-map-preview').textContent()).includes('Germany'));
+      await page.waitForTimeout(250);
+      assert.equal(await german.locator('.eu-map-flag').evaluate(el=>getComputedStyle(el).opacity),'1');
+      await page.keyboard.press('Enter');
+      assert.equal(await page.locator('#country').inputValue(),'DE');
+      assert.equal(await page.locator('#eu-map .eu-map-country.is-selected').getAttribute('data-country'),'DE');
+      await page.locator('#eu-map-small-countries [data-country="MT"]').click();
+      assert.equal(await page.locator('#country').inputValue(),'MT');
+      assert.ok((await page.locator('#eu-map-selected').textContent()).includes('Malta'));
+      await screenshot(page,'eu-map-malta.png');
     }finally{await page.close();}
   });
 
@@ -82,6 +105,7 @@ try {
     const page=await browser.newPage({viewport:{width:1280,height:800}});
     try{
       await loaded(page);
+      await page.locator('.eu-map-list-fallback > summary').click();
       await page.locator('#country').selectOption('FR');
       assert.equal(await page.locator('#country').inputValue(),'FR');
       assert.ok(await page.locator('#salary-fields').evaluate(el=>el.classList.contains('hidden')),'Czech salary model must be hidden in France');
@@ -108,6 +132,7 @@ try {
       await loaded(page);
       await page.locator('#personalize-details > summary').click();
       await page.locator('#gross-salary').fill(marker);
+      await page.locator('.eu-map-list-fallback > summary').click();
       await page.locator('#country').selectOption('FR');
       await page.locator('#amount').fill(marker);
       await page.waitForTimeout(1000);
