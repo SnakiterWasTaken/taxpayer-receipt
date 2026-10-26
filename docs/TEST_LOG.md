@@ -318,6 +318,13 @@ The entries below were reconstructed from project work and available GitHub runs
 - **Interpretation limit:** Browser request tests can detect obvious leakage of the synthetic marker but do not prove absence of all telemetry or data transfers. Chromium smoke checks are not equivalently Safari, Firefox, a complete WCAG audit or human screen-reader usage. Any failed live-data access is a genuine V1 availability finding to investigate, not to conceal.
 - **Next:** Review actual workflow result and artifacts, correct reproducible faults or environment issues and update [release gates](v1-release-readiness.md) with specific PASS/FAIL/BLOCKED evidence.
 
+### 2026-10-26 — First real-browser workflow attempt: unsupported runner fixed
+
+- **Attempt:** [Live V1 browser workflow #40301543414](https://github.com/SnakiterWasTaken/taxpayer-receipt/actions/runs/40301543414) **FAIL before browser tests**. The Playwright 1.56 Chromium installer reports `ERROR: Playwright does not support chromium on ubuntu26.04-x64` on GitHub's current `ubuntu-latest` image. No page, privacy, keyboard or responsive tests ran on that job.
+- **Correction:** Pin live-browser runner explicitly to `ubuntu-24.04`, supported by the specified Playwright version. Preserve actual launch failure as an environment issue rather than a website failure.
+- **Retest:** New CI **NOT RUN at journal write**. Do not treat previous runner failure as any proof of functionality.
+- **Next:** Review Playwright install and real browser results; independently classify UI failures versus network availability failures, preserving screenshots.
+
 ## Current handover
 
 - **Authoritative repo:** [SnakiterWasTaken/taxpayer-receipt](https://github.com/SnakiterWasTaken/taxpayer-receipt).
