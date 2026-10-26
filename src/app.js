@@ -387,6 +387,7 @@ function refreshCountry(){
   // the selected country's debate for this exact reporting year.
   const pensionReview=reviewedTopic(activeCountry,Number(year),'old-age-and-survivors');
   toggle('local-debate-topics',!!pensionReview);
+  el('local-debate-country').textContent=name;
   if(pensionReview){
     el('pension-relevance').textContent=pensionReview.explanation+' Reviewed '+pensionReview.reviewedAt+'.';
     renderPensions(entry,withAmount?amount:null,curr);
